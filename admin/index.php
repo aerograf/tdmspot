@@ -10,15 +10,15 @@
  */
 
 /**
- * @copyright    XOOPS Project (https://xoops.org)
- * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
  * @since
+ * @author       TDM   - TEAM DEV MODULE FOR XOOPS
  * @author       XOOPS Development Team
- * @version      $Id $
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 // Display Admin header
 xoops_cp_header();
 
@@ -27,4 +27,4 @@ $indexAdmin = new ModuleAdmin();
 echo $indexAdmin->addNavigation('index.php');
 echo $indexAdmin->renderIndex();
 
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

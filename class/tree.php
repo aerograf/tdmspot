@@ -1,34 +1,45 @@
 <?php
-/* ****************************************************************************
- * TDMMoney - MODULE FOR XOOPS
- * Copyright (c) G. Mage (www.tdmxoops.net)
- *
+/*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
  * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- *
- * @copyright       G. Mage (www.tdmxoops.net)
- * @license         ???
- * @package         TDMMoney
- * @author          G. Mage (www.tdmxoops.net)
- *
- * ***************************************************************************/
+ */
 
-defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
+/**
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
+ * @since
+ * @author       TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author       XOOPS Development Team
+ */
 
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-class TDMObjectTree extends XoopsObjectTree
+require_once XOOPS_ROOT_PATH . '/class/tree.php';
+
+/**
+ * Class TdmObjectTree
+ */
+class TdmObjectTree extends XoopsObjectTree
 {
     //function __constrcut(){
     //}
+    /**
+     * @param        $fieldName
+     * @param        $key
+     * @param        $ret
+     * @param        $prefix_orig
+     * @param string $prefix_curr
+     */
     public function _makeArrayTreeOptions($fieldName, $key, &$ret, $prefix_orig, $prefix_curr = '')
     {
         if ($key > 0) {
-            $value       = $this->_tree[$key]['obj']->getVar($this->_myId);
+            $value = $this->_tree[$key]['obj']->getVar($this->_myId);
             $ret[$value] = $prefix_curr . $this->_tree[$key]['obj']->getVar($fieldName);
             $prefix_curr .= $prefix_orig;
         }
@@ -40,6 +51,12 @@ class TDMObjectTree extends XoopsObjectTree
         }
     }
 
+    /**
+     * @param        $fieldName
+     * @param string $prefix
+     * @param int    $key
+     * @return array
+     */
     public function makeArrayTree($fieldName, $prefix = '-', $key = 0)
     {
         $ret = array();
@@ -48,26 +65,37 @@ class TDMObjectTree extends XoopsObjectTree
         return $ret;
     }
 
-    public function _makeCatBoxOptions($item_handler, $fieldName, $selected, $key, &$ret, &$ret2, $prefix_orig, $prefix_curr = '', $chcount)
+    /**
+     * @param        $itemHandler
+     * @param        $fieldName
+     * @param        $selected
+     * @param        $key
+     * @param        $ret
+     * @param        $ret2
+     * @param        $prefix_orig
+     * @param string $prefix_curr
+     * @param        $chcount
+     */
+    public function _makeCatBoxOptions($itemHandler, $fieldName, $selected, $key, &$ret, &$ret2, $prefix_orig, $prefix_curr = '', $chcount)
     {
         global $xoopsModule, $xoopsModuleConfig, $cat_display, $cat_cel, $groups, $start, $limit, $tris;
 
-        $gperm_handler =& xoops_gethandler('groupperm');
-        $parent        = "";
+        $gpermHandler = xoops_getHandler('groupperm');
+        $parent = '';
 
-        if ($key > 0 && $gperm_handler->checkRight('tdmspot_catview', $this->_tree[$key]['obj']->getVar('id'), $groups, $xoopsModule->getVar('mid'))) {
+        if ($key > 0 && $gpermHandler->checkRight('tdmspot_catview', $this->_tree[$key]['obj']->getVar('id'), $groups, $xoopsModule->getVar('mid'))) {
             $value = $this->_tree[$key]['obj']->getVar($this->_myId);
 
             $criteria = new CriteriaCompo();
             $criteria->add(new Criteria('cat', $this->_tree[$key]['obj']->getVar('id')));
             $criteria->add(new Criteria('display', 1));
-            $count = $item_handler->getCount($criteria);
+            $count = $itemHandler->getCount($criteria);
 
-            $cat_link = tdmspot_seo_genUrl($xoopsModuleConfig['tdmspot_seo_cat'], $this->_tree[$key]['obj']->getVar('id'), $this->_tree[$key]['obj']->getVar('title'), $start, $limit, $tris);
+            $cat_link = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_cat'], $this->_tree[$key]['obj']->getVar('id'), $this->_tree[$key]['obj']->getVar('title'), $start, $limit, $tris);
 
             //recherche image
             $imgpath = TDM_CAT_PATH . '/' . $this->_tree[$key]['obj']->getVar('img');
-            if (file_exists($imgpath) && $this->_tree[$key]['obj']->getVar('img') !== "blank.gif") {
+            if (file_exists($imgpath) && $this->_tree[$key]['obj']->getVar('img') !== 'blank.gif') {
                 $picture = '<a href ="' . $cat_link . '" title="' . $this->_tree[$key]['obj']->getVar('title') . '"><img src="' . TDM_CAT_URL . '/' . $this->_tree[$key]['obj']->getVar('img') . '" class="img" width="' . $xoopsModuleConfig['tdmspot_cat_width'] . '"  height="' . $xoopsModuleConfig['tdmspot_cat_height'] . '"></a>';
             } else {
                 $picture = '<a href ="' . $cat_link . '" title="' . $this->_tree[$key]['obj']->getVar('title') . '"><img src="' . TDM_CAT_URL . '/no_picture.png" class="img" width="' . $xoopsModuleConfig['tdmspot_cat_width'] . '"  height="' . $xoopsModuleConfig['tdmspot_cat_height'] . '"></a>';
@@ -76,17 +104,18 @@ class TDMObjectTree extends XoopsObjectTree
             //echo $selected;
             if (isset($selected) && $value == $selected) {
                 if (isset($this->_tree[$this->_tree[$key]['parent']]['obj'])) {
-                    $parent_link = tdmspot_seo_genUrl($xoopsModuleConfig['tdmspot_seo_cat'], $this->_tree[$this->_tree[$key]['parent']]['obj']->getVar('id'), $this->_tree[$this->_tree[$key]['parent']]['obj']->getVar('title'), $start, $limit, $tris);
-                    $parent      = '<div align="right"><a href ="' . $parent_link . '" title="' . $this->_tree[$this->_tree[$key]['parent']]['obj']->getVar('title') . '">' . $this->_tree[$this->_tree[$key]['parent']]['obj']->getVar('title') . '</a></div>';
+                    $parent_link = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_cat'], $this->_tree[$this->_tree[$key]['parent']]['obj']->getVar('id'),
+                        $this->_tree[$this->_tree[$key]['parent']]['obj']->getVar('title'), $start, $limit, $tris);
+                    $parent = '<div align="right"><a href ="' . $parent_link . '" title="' . $this->_tree[$this->_tree[$key]['parent']]['obj']->getVar('title') . '">' . $this->_tree[$this->_tree[$key]['parent']]['obj']->getVar('title') . '</a></div>';
                 }
 
-                $ret2 = '<br />' . $parent . '
+                $ret2 = '<br>' . $parent . '
         <table cellpadding="0" class="outer tdmcat" cellspacing="0"><tr><tr><td>
         <ul>' . $picture . '<a href ="' . $cat_link . '" title="' . $this->_tree[$key]['obj']->getVar('title') . '">' . $this->_tree[$key]['obj']->getVar($fieldName) . '</a> (' . $count . ')
-        <br style="clear: both;" /></ul></td></tr></table><br />';
+        <br style="clear: both;"></ul></td></tr></table><br>';
             }
 
-            if ($cat_display === "sub" || $cat_display === "subimg") {
+            if ($cat_display === 'sub' || $cat_display === 'subimg') {
                 $cat_sub = true;
             } else {
                 $cat_sub = false;
@@ -95,24 +124,24 @@ class TDMObjectTree extends XoopsObjectTree
             if ((!$prefix_curr && $cat_sub) || (!$cat_sub && $this->_tree[$key]['obj']->getVar('pid') == $selected)) {
                 switch ($cat_display) {
 
-                    case "text":
+                    case 'text':
                         $ret .= '<td><ul><a href ="' . $cat_link . '" title="' . $this->_tree[$key]['obj']->getVar('title') . '">' . $this->_tree[$key]['obj']->getVar($fieldName) . '</a> (' . $count . ')';
                         break;
 
-                    case "textimg":
-                        $ret .= '<td><ul>' . $picture . '<br /><a href ="' . $cat_link . '" title="' . $this->_tree[$key]['obj']->getVar('title') . '">' . $this->_tree[$key]['obj']->getVar($fieldName) . '</a> (' . $count . ')';
+                    case 'textimg':
+                        $ret .= '<td><ul>' . $picture . '<br><a href ="' . $cat_link . '" title="' . $this->_tree[$key]['obj']->getVar('title') . '">' . $this->_tree[$key]['obj']->getVar($fieldName) . '</a> (' . $count . ')';
                         break;
 
-                    case "sub":
+                    case 'sub':
                         $ret .= '<td><ul><a href ="' . $cat_link . '" title="' . $this->_tree[$key]['obj']->getVar('title') . '">' . $this->_tree[$key]['obj']->getVar($fieldName) . '</a> (' . $count . ')';
                         break;
 
-                    case "subimg":
+                    case 'subimg':
                         $ret .= '<td><ul>' . $picture . '<a href ="' . $cat_link . '" title="' . $this->_tree[$key]['obj']->getVar('title') . '">' . $this->_tree[$key]['obj']->getVar($fieldName) . '</a> (' . $count . ')';
 
                         break;
 
-                    case "img":
+                    case 'img':
                         $ret .= '<td><ul>' . $picture;
                         break;
 
@@ -130,9 +159,9 @@ class TDMObjectTree extends XoopsObjectTree
         }
         if (isset($this->_tree[$key]['child']) && !empty($this->_tree[$key]['child'])) {
             foreach ($this->_tree[$key]['child'] as $childkey) {
-                $this->_makeCatBoxOptions($item_handler, $fieldName, $selected, $childkey, $ret, $ret2, $prefix_orig, $prefix_curr, $chcount);
+                $this->_makeCatBoxOptions($itemHandler, $fieldName, $selected, $childkey, $ret, $ret2, $prefix_orig, $prefix_curr, $chcount);
                 if (!$prefix_curr) {
-                    $ret .= '<br style="clear: both; visibility: hidden;" /></ul></td>';
+                    $ret .= '<br style="clear: both; visibility: hidden;"></ul></td>';
 
                     if ($chcount == $cat_cel) {
                         $ret .= '</tr><tr>';
@@ -145,16 +174,25 @@ class TDMObjectTree extends XoopsObjectTree
         }
     }
 
-    public function _makeSelBoxOptions($fieldName, $selected, $key, &$ret, $perm, $prefix_orig, $prefix_curr = '')
+    /**
+     * @param        $fieldName
+     * @param        $selected
+     * @param        $key
+     * @param        $ret
+     * @param        $prefix_orig
+     * @param string $prefix_curr
+     * @param        $perm
+     */
+    public function _makeSelBoxOptions($fieldName, $selected, $key, &$ret, $prefix_orig, $prefix_curr = '', $perm)
     {
         global $start, $tris, $limit, $groups, $xoopsUser, $xoopsModule, $xoopsModuleConfig;
 
-        $gperm_handler =& xoops_gethandler('groupperm');
+        $gpermHandler = xoops_getHandler('groupperm');
         if ($key > 0) {
             //$value = $this->_tree[$key]['obj']->getVar( $this->_myId );
-            $value = tdmspot_seo_genUrl($xoopsModuleConfig['tdmspot_seo_cat'], $this->_tree[$key]['obj']->getVar('id'), $this->_tree[$key]['obj']->getVar('title'), $start, $limit, $tris);
+            $value = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_cat'], $this->_tree[$key]['obj']->getVar('id'), $this->_tree[$key]['obj']->getVar('title'), $start, $limit, $tris);
 
-            if (!empty($perm) && $gperm_handler->checkRight($perm, $this->_tree[$key]['obj']->getVar('id'), $groups, $xoopsModule->getVar('mid'))) {
+            if (!empty($perm) && $gpermHandler->checkRight($perm, $this->_tree[$key]['obj']->getVar('id'), $groups, $xoopsModule->getVar('mid'))) {
                 $ret .= '<option value="' . $value . '"';
 
                 if ($value == $selected) {
@@ -166,33 +204,53 @@ class TDMObjectTree extends XoopsObjectTree
         }
         if (isset($this->_tree[$key]['child']) && !empty($this->_tree[$key]['child'])) {
             foreach ($this->_tree[$key]['child'] as $childkey) {
-                $this->_makeSelBoxOptions($fieldName, $selected, $childkey, $ret, $perm, $prefix_orig, $prefix_curr);
+                $this->_makeSelBoxOptions($fieldName, $selected, $childkey, $ret, $prefix_orig, $prefix_curr, $perm);
             }
         }
     }
 
-    //makeCatBox($item_handler,name cat, )
-    public function makeCatBox($item_handler, $fieldName, $prefix = '-', $selected = '', $key = 0)
+    //makeCatBox($itemHandler,name cat, )
+
+    /**
+     * @param        $itemHandler
+     * @param        $fieldName
+     * @param string $prefix
+     * @param string $selected
+     * @param int    $key
+     * @return string
+     */
+    public function makeCatBox($itemHandler, $fieldName, $prefix = '-', $selected = '', $key = 0)
     {
         global $cat_display;
-        if ($cat_display !== "none") {
-            $ret     = '<div style="text-align:right"><a href="javascript:;" onclick="masque(\'1\')" >+-</a></div><table cellpadding="0" id="masque_1" class="outer tdmcat_' . $cat_display . '" cellspacing="0"><tr>';
+        if ($cat_display !== 'none') {
+            $ret = '<div style="text-align:right"><a href="javascript:;" onclick="masque(\'1\')" >+-</a></div><table cellpadding="0" id="masque_1" class="outer tdmcat_' . $cat_display . '" cellspacing="0"><tr>';
             $chcount = 1;
-            $this->_makeCatBoxOptions($item_handler, $fieldName, $selected, $key, $ret, $ret2, $prefix, '', $chcount);
-            $ret .= '</tr></table><br />';
+            $this->_makeCatBoxOptions($itemHandler, $fieldName, $selected, $key, $ret, $ret2, $prefix, '', $chcount);
+            $ret .= '</tr></table><br>';
 
             return $ret . $ret2;
         }
         return '';
     }
 
+    /**
+     * @param string $name
+     * @param string $fieldName
+     * @param string $prefix
+     * @param string $selected
+     * @param bool   $addEmptyOption
+     * @param int    $key
+     * @param string $extra
+     * @param bool   $perm
+     * @return string
+     */
     public function makeSelBox($name, $fieldName, $prefix = '-', $selected = '', $addEmptyOption = false, $key = 0, $extra = '', $perm = false)
     {
         $ret = '<select name="' . $name . '" id="' . $name . '" ' . $extra . '>';
         if (false != $addEmptyOption) {
             $ret .= '<option value="0">' . $addEmptyOption . '</option>';
         }
-        $this->_makeSelBoxOptions($fieldName, $selected, $key, $ret, $perm, $prefix);
+        $this->_makeSelBoxOptions($fieldName, $selected, $key, $ret, $prefix, $prefix, $perm);
 
         return $ret . '</select>';
     }

@@ -1,76 +1,87 @@
 <?php
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
 /**
- * ****************************************************************************
- *  - TDMSpot By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.)
- *
- * Cette licence, contient des limitations
- *
- * 1. Vous devez posséder une permission d'exécuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' étudier ni l'adapter à vos besoins,
- * 3. Vous ne devez le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la liberté de l'améliorer ni de rendre publiques les modifications
- *
- * @license     TDMFR GNU public license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
+ * @since
+ * @author       TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author       XOOPS Development Team
  */
 
 $moduleDirName = basename(dirname(__DIR__));
 
 $moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname($moduleDirName);
-$pathIcon32    = '../../' . $module->getInfo('icons32');
+$module = $moduleHandler->getByDirname($moduleDirName);
+$pathIcon32 = '../../' . $module->getInfo('icons32');
 xoops_loadLanguage('modinfo', $module->dirname());
 
 $xoopsModuleAdminPath = XOOPS_ROOT_PATH . '/' . $module->getInfo('dirmoduleadmin');
 if (!file_exists($fileinc = $xoopsModuleAdminPath . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/' . 'main.php')) {
     $fileinc = $xoopsModuleAdminPath . '/language/english/main.php';
 }
-include_once $fileinc;
+require_once $fileinc;
 
 $adminmenu[] = array(
     'title' => _AM_MODULEADMIN_HOME,
-    'link'  => 'admin/index.php',
-    'icon'  => $pathIcon32 . '/home.png'
+    'link' => 'admin/index.php',
+    'icon' => $pathIcon32 . '/home.png'
 );
 
 $adminmenu[] = array(
     'title' => _MI_TDMSPOT_INDEX,
-    'link'  => 'admin/main.php',
-    'icon'  => $pathIcon32 . '/manage.png'
+    'link' => 'admin/main.php',
+    'icon' => $pathIcon32 . '/manage.png'
 );
 
 $adminmenu[] = array(
     'title' => _MI_TDMSPOT_CAT,
-    'link'  => 'admin/cat.php',
-    'icon'  => $pathIcon32 . '/manage.png'
+    'link' => 'admin/cat.php',
+    'icon' => $pathIcon32 . '/category.png'
 );
 $adminmenu[] = array(
     'title' => _MI_TDMSPOT_ITEM,
-    'link'  => 'admin/item.php',
-    'icon'  => $pathIcon32 . '/manage.png'
+    'link' => 'admin/item.php',
+    'icon' => $pathIcon32 . '/content.png'
 );
 $adminmenu[] = array(
     'title' => _MI_TDMSPOT_PAGE,
-    'link'  => 'admin/page.php',
-    'icon'  => $pathIcon32 . '/manage.png'
+    'link' => 'admin/page.php',
+    'icon' => $pathIcon32 . '/index.png'
 );
 $adminmenu[] = array(
     'title' => _MI_TDMSPOT_BLOCK,
-    'link'  => 'admin/block.php',
-    'icon'  => $pathIcon32 . '/manage.png'
+    'link' => 'admin/block.php',
+    'icon' => $pathIcon32 . '/block.png'
+);
+$adminmenu[] = array(
+    'title' => _MI_TDMSPOT_PLUGINS,
+    'link' => 'admin/plug.php',
+    'icon' => $pathIcon32 . '/add.png'
+);
+$adminmenu[] = array(
+    'title' => _MI_TDMSPOT_IMPORT,
+    'link' => 'admin/import.php',
+    'icon' => $pathIcon32 . '/compfile.png'
 );
 
 $adminmenu[] = array(
     'title' => _MI_TDMSPOT_PERMISSIONS,
-    'link'  => 'admin/permissions.php',
-    'icon'  => $pathIcon32 . '/permissions.png'
+    'link' => 'admin/permissions.php',
+    'icon' => $pathIcon32 . '/permissions.png'
 );
 
 $adminmenu[] = array(
     'title' => _AM_MODULEADMIN_ABOUT,
-    'link'  => 'admin/about.php',
-    'icon'  => $pathIcon32 . '/about.png'
+    'link' => 'admin/about.php',
+    'icon' => $pathIcon32 . '/about.png'
 );

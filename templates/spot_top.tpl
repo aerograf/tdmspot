@@ -45,7 +45,7 @@
             <td width="50%"></td>
             <{/if}>
             </tr>
-            </table><br />
+            </table><br>
 
         <!-- End center top blocks loop -->
 

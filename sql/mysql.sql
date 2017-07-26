@@ -1,58 +1,63 @@
 CREATE TABLE `tdmspot_newblocks` (
-  `id` mediumint(8) unsigned NOT NULL auto_increment,
-  `bid` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `pid` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `options` varchar(255) NOT NULL DEFAULT '',
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `side` varchar(255) NOT NULL DEFAULT '',
-  `weight` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `visible` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `id`      MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `bid`     MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT '0',
+  `pid`     SMALLINT(5) UNSIGNED  NOT NULL DEFAULT '0',
+  `options` VARCHAR(255)          NOT NULL DEFAULT '',
+  `title`   VARCHAR(255)          NOT NULL DEFAULT '',
+  `side`    VARCHAR(255)          NOT NULL DEFAULT '',
+  `weight`  SMALLINT(5) UNSIGNED  NOT NULL DEFAULT '0',
+  `visible` TINYINT(1) UNSIGNED   NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM;
+)
+  ENGINE = MyISAM;
 
 CREATE TABLE `tdmspot_page` (
-  `id` mediumint(8) unsigned NOT NULL auto_increment,
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `weight` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `visible` tinyint(1) unsigned NOT NULL DEFAULT '0',  
-  `cat` text, 
-  `limit` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `id`      MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title`   VARCHAR(255)          NOT NULL DEFAULT '',
+  `weight`  SMALLINT(5) UNSIGNED  NOT NULL DEFAULT '0',
+  `visible` TINYINT(1) UNSIGNED   NOT NULL DEFAULT '0',
+  `cat`     TEXT,
+  `limit`   SMALLINT(5) UNSIGNED  NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM;
+)
+  ENGINE = MyISAM;
 
 CREATE TABLE `tdmspot_cat` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `pid` int(11) unsigned NOT NULL default '0',
-  `title` varchar(50) NOT NULL default '',
-  `date` int(11) NOT NULL default '0',
-  `text` text,
-  `img` varchar(100) default NULL,
-  `weight` int(11) unsigned NOT NULL default '0',
-  `display` int(1) NOT NULL default '0',
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM;
+  `id`      INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `pid`     INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  `title`   VARCHAR(50)      NOT NULL DEFAULT '',
+  `date`    INT(11)          NOT NULL DEFAULT '0',
+  `text`    TEXT,
+  `img`     VARCHAR(100)              DEFAULT NULL,
+  `weight`  INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  `display` INT(1)           NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+)
+  ENGINE = MyISAM;
 
 CREATE TABLE `tdmspot_item` (
-  `id` mediumint(8) unsigned NOT NULL auto_increment,
-  `cat` int(10) unsigned NOT NULL default '0',
-  `title` varchar(50) NOT NULL default '',
-  `text` text,
-  `display` int(1) NOT NULL default '0',
-  `file` text,
-  `indate` int(10) unsigned NOT NULL default '0',
-  `hits` int(10) unsigned NOT NULL default '0',
-  `votes` int(10) unsigned NOT NULL default '0',
-  `counts` int(10) unsigned NOT NULL default '0',
-  `comments` int(11) unsigned NOT NULL default '0',
-  `poster` int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM;
+  `id`       MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `cat`      INT(10) UNSIGNED      NOT NULL DEFAULT '0',
+  `title`    VARCHAR(50)           NOT NULL DEFAULT '',
+  `text`     TEXT,
+  `display`  INT(1)                NOT NULL DEFAULT '0',
+  `file`     TEXT,
+  `indate`   INT(10) UNSIGNED      NOT NULL DEFAULT '0',
+  `hits`     INT(10) UNSIGNED      NOT NULL DEFAULT '0',
+  `votes`    INT(10) UNSIGNED      NOT NULL DEFAULT '0',
+  `counts`   INT(10) UNSIGNED      NOT NULL DEFAULT '0',
+  `comments` INT(11) UNSIGNED      NOT NULL DEFAULT '0',
+  `poster`   INT(10) UNSIGNED      NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+)
+  ENGINE = MyISAM;
 
 CREATE TABLE `tdmspot_vote` (
-  `vote_id` int(8) unsigned NOT NULL auto_increment,
-  `vote_file` int(10) unsigned NOT NULL default '0',
-  `vote_album` int(10) unsigned NOT NULL default '0',
-  `vote_artiste` int(10) unsigned NOT NULL default '0',
-  `vote_ip` varchar(20) default NULL,
-  PRIMARY KEY  (`vote_id`)
-) ENGINE=MyISAM;
+  `vote_id`      INT(8) UNSIGNED  NOT NULL AUTO_INCREMENT,
+  `vote_file`    INT(10) UNSIGNED NOT NULL DEFAULT '0',
+  `vote_album`   INT(10) UNSIGNED NOT NULL DEFAULT '0',
+  `vote_artiste` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+  `vote_ip`      VARCHAR(20)               DEFAULT NULL,
+  PRIMARY KEY (`vote_id`)
+)
+  ENGINE = MyISAM;

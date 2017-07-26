@@ -1,60 +1,62 @@
 <?php
-/**
- * ****************************************************************************
- *  - TDMPicture By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.tdmxoops.net)
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
  *
- * Cette licence, contient des limitations!!!
- *
- * 1. Vous devez posséder une permission d'exécuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' étudier,
- * 3. Vous ne devez pas le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la liberté de l'améliorer et de rendre publiques les modifications
- *
- * @license     TDMFR PRO license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-include '../../../include/cp_header.php';
-include_once(XOOPS_ROOT_PATH . "/class/xoopsformloader.php");
-include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar("dirname") . '/include/common.php';
-include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar("dirname") . "/class/tree.php";
-include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+/**
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
+ * @since
+ * @author       TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author       XOOPS Development Team
+ */
 
-$cat_handler =& xoops_getModuleHandler('tdmspot_cat', 'TDMSpot');
+require_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/../../../include/cp_header.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/common.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/tree.php';
+require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 
-$myts  = MyTextSanitizer::getInstance();
-$op    = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'list';
+$catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
+
+$myts = MyTextSanitizer::getInstance();
+$op = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'list';
 $order = isset($_REQUEST['order']) ? $_REQUEST['order'] : 'desc';
-$sort  = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'weight';
+$sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'weight';
 
 switch ($op) {
 
     //sauv
-    case "save_cat":
+    case 'save_cat':
 
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('cat.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($_REQUEST['id'])) {
-            $obj =& $cat_handler->get($_REQUEST['id']);
+            $obj =& $catHandler->get($_REQUEST['id']);
         } else {
-            $obj =& $cat_handler->create();
+            $obj = $catHandler->create();
         }
 
         //upload
-        include_once XOOPS_ROOT_PATH . '/class/uploader.php';
-        $uploaddir = XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/upload/cat/";
-        $mimetype  = explode('|', $xoopsModuleConfig['tdmspot_mimetype']);
-        $uploader  = new XoopsMediaUploader($uploaddir, $mimetype, $xoopsModuleConfig['tdmspot_mimemax']);
+        require_once XOOPS_ROOT_PATH . '/class/uploader.php';
+        $uploaddir = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/cat/';
+        $mimetype = explode('|', $xoopsModuleConfig['tdmspot_mimetype']);
+        $uploader = new XoopsMediaUploader($uploaddir, $mimetype, $xoopsModuleConfig['tdmspot_mimemax']);
 
         if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
             if (!$uploader->upload()) {
                 $errors = $uploader->getErrors();
-                redirect_header("javascript:history.go(-1)", 3, $errors);
+                redirect_header('javascript:history.go(-1)', 3, $errors);
             } else {
                 $obj->setVar('img', $uploader->getSavedFileName());
             }
@@ -68,53 +70,57 @@ switch ($op) {
         $obj->setVar('weight', $_REQUEST['weight']);
         $obj->setVar('display', $_REQUEST['display']);
 
-        if ($cat_handler->insert($obj)) {
+        if ($catHandler->insert($obj)) {
 
             //permission
-            $perm_id       = isset($_REQUEST['id']) ? $_REQUEST['id'] : $obj->getVar('id');
-            $gperm_handler = &xoops_gethandler('groupperm');
-            $criteria      = new CriteriaCompo();
+            $perm_id = isset($_REQUEST['id']) ? $_REQUEST['id'] : $obj->getVar('id');
+            $gpermHandler = xoops_getHandler('groupperm');
+            $criteria = new CriteriaCompo();
             $criteria->add(new Criteria('gperm_itemid', $perm_id, '='));
             $criteria->add(new Criteria('gperm_modid', $xoopsModule->getVar('mid'), '='));
             $criteria->add(new Criteria('gperm_name', 'tdmspot_catview', '='));
-            $gperm_handler->deleteAll($criteria);
+            $gpermHandler->deleteAll($criteria);
 
             if (isset($_POST['groups_view'])) {
                 foreach ($_POST['groups_view'] as $onegroup_id) {
-                    $gperm_handler->addRight('tdmspot_catview', $perm_id, $onegroup_id, $xoopsModule->getVar('mid'));
+                    $gpermHandler->addRight('tdmspot_catview', $perm_id, $onegroup_id, $xoopsModule->getVar('mid'));
                 }
             }
 
             redirect_header('cat.php', 2, _AM_TDMSPOT_BASEOK);
         }
-        //include_once('../include/forms.php');
+        //require_once('../include/forms.php');
         echo $obj->getHtmlErrors();
         $form =& $obj->getForm();
         $form->display();
         break;
 
-    case "edit":
+    case 'edit':
         xoops_cp_header();
         //if ( !is_readable(XOOPS_ROOT_PATH . "/Frameworks/art/functions.admin.php")) {
         //TDMSpot_adminmenu(1, _AM_TDMSPOT_MANAGE_CAT);
         //} else {
-        //include_once XOOPS_ROOT_PATH.'/Frameworks/art/functions.admin.php';
+        //require_once XOOPS_ROOT_PATH.'/Frameworks/art/functions.admin.php';
         //loadModuleAdminMenu (1, _AM_TDMSPOT_MANAGE_CAT);
         //}
 
         //menu
-        echo '<div class="CPbigTitle" style="background-image: url(../assets/images/decos/cat.png); background-repeat: no-repeat; background-position: left; padding-left: 60px; padding-top:20px; padding-bottom:15px;"><h3><strong>' . _AM_TDMSPOT_MANAGE_CAT . '</strong></h3>';
-        echo '</div><br />';
+        //        echo '<div class="CPbigTitle" style="background-image: url(../assets/images/decos/cat.png); background-repeat: no-repeat; background-position: left; padding-left: 60px; padding-top:20px; padding-bottom:15px;"><h3><strong>' . _AM_TDMSPOT_MANAGE_CAT . '</strong></h3>';
+        //        echo '</div><br>';
 
-        $obj  = $cat_handler->get($_REQUEST['id']);
+        $currentFile = basename(__FILE__);
+        $indexAdmin = new ModuleAdmin();
+        echo $indexAdmin->addNavigation($currentFile);
+
+        $obj = $catHandler->get($_REQUEST['id']);
         $form = $obj->getForm();
         $form->display();
         break;
 
         break;
 
-    case "del":
-        $obj =& $cat_handler->get($_REQUEST['id']);
+    case 'del':
+        $obj =& $catHandler->get($_REQUEST['id']);
 
         if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -122,16 +128,16 @@ switch ($op) {
             }
 
             //supprimer les enfant de la base et leur dossier
-            $arr       = $cat_handler->getall();
-            $mytree    = new XoopsObjectTree($arr, 'id', 'pid');
+            $arr = $catHandler->getall();
+            $mytree = new XoopsObjectTree($arr, 'id', 'pid');
             $treechild = $mytree->getAllChild($obj->getVar('id'));
             foreach ($treechild as $child) {
-                $ret =& $cat_handler->get($child->getVar('id'));
-                $cat_handler->delete($ret);
+                $ret =& $catHandler->get($child->getVar('id'));
+                $catHandler->delete($ret);
             }
 
             //supprime le cat
-            if ($cat_handler->delete($obj)) {
+            if ($catHandler->delete($obj)) {
                 redirect_header('cat.php', 2, _AM_TDMSPOT_BASEOK);
             } else {
                 echo $obj->getHtmlErrors();
@@ -142,7 +148,7 @@ switch ($op) {
         }
         break;
 
-    case _DELETE :
+    case _DELETE:
 
         if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -150,22 +156,22 @@ switch ($op) {
             }
 
             $_POST['id'] = unserialize($_REQUEST['id']);
-            $size        = count($_POST['id']);
-            $obj         = $_POST['id'];
+            $size = count($_POST['id']);
+            $obj = $_POST['id'];
             for ($i = 0; $i < $size; ++$i) {
-                $obj2 =& $cat_handler->get($obj[$i]);
+                $obj2 =& $catHandler->get($obj[$i]);
                 //trouve les enfants
-                $arr       = $cat_handler->getall();
-                $mytree    = new XoopsObjectTree($arr, 'id', 'pid');
+                $arr = $catHandler->getall();
+                $mytree = new XoopsObjectTree($arr, 'id', 'pid');
                 $treechild = $mytree->getAllChild($obj2->getVar('id'));
                 foreach ($treechild as $child) {
-                    $ret =& $cat_handler->get($child->getVar('id'));
+                    $ret =& $catHandler->get($child->getVar('id'));
                     //supprime les enfants
-                    $cat_handler->delete($ret);
+                    $catHandler->delete($ret);
                 }
 
                 //supprime la cat
-                if ($cat_handler->delete($obj2)) {
+                if ($catHandler->delete($obj2)) {
                     $erreur = true;
                 } else {
                     echo $obj->getHtmlErrors();
@@ -180,52 +186,57 @@ switch ($op) {
         } else {
             xoops_cp_header();
             $title = print_r($_REQUEST['id'], true);
-            xoops_confirm(array('ok' => 1, 'deletes' => 1, 'op' => $_REQUEST['op'], 'id' => serialize(array_map("intval", $_REQUEST['id']))), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMSPOT_BASESUREDELCAT, $title));
+            xoops_confirm(array('ok' => 1, 'deletes' => 1, 'op' => $_REQUEST['op'], 'id' => serialize(array_map('intval', $_REQUEST['id']))), $_SERVER['REQUEST_URI'],
+                sprintf(_AM_TDMSPOT_BASESUREDELCAT, $title));
         }
         break;
 
-    case "update":
-        $obj = $cat_handler->get($_REQUEST['id']);
+    case 'update':
+        $obj = $catHandler->get($_REQUEST['id']);
         $obj->setVar('display', 1);
-        if ($cat_handler->insert($obj)) {
+        if ($catHandler->insert($obj)) {
             redirect_header('cat.php', 2, _AM_TDMSPOT_BASEOK);
         }
         break;
 
-    case "list":
+    case 'list':
     default:
         xoops_cp_header();
         //if ( !is_readable(XOOPS_ROOT_PATH . "/Frameworks/art/functions.admin.php")) {
         //TDMSpot_adminmenu(1, _AM_TDMSPOT_MANAGE_CAT);
         //} else {
-        //include_once XOOPS_ROOT_PATH.'/Frameworks/art/functions.admin.php';
+        //require_once XOOPS_ROOT_PATH.'/Frameworks/art/functions.admin.php';
         //loadModuleAdminMenu (1, _AM_TDMSPOT_MANAGE_CAT);
         //}
 
-        include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->getVar("dirname") . "/class/tree.php";
+        require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/tree.php';
         //compte les cats
-        $numcat = $cat_handler->getCount();
+        $numcat = $catHandler->getCount();
         //invisible //
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('display', 0));
-        $waiting = $cat_handler->getCount($criteria);
+        $waiting = $catHandler->getCount($criteria);
 
         //menu
-        echo '<div class="CPbigTitle" style="background-image: url(../assets/images/decos/cat.png); background-repeat: no-repeat; background-position: left; padding-left: 60px; padding-top:20px; padding-bottom:15px;"><h3><strong>' . _AM_TDMSPOT_MANAGE_CAT . '</strong></h3>';
-        echo '</div><br /><div class="head" align="center">';
+        //        echo '<div class="CPbigTitle" style="background-image: url(../assets/images/decos/cat.png); background-repeat: no-repeat; background-position: left; padding-left: 60px; padding-top:20px; padding-bottom:15px;"><h3><strong>' . _AM_TDMSPOT_MANAGE_CAT . '</strong></h3>';
+        $currentFile = basename(__FILE__);
+        $indexAdmin = new ModuleAdmin();
+        echo $indexAdmin->addNavigation($currentFile);
+
+        echo '</div><br><div class="head" align="center">';
         echo sprintf(_AM_TDMSPOT_THEREARE_CAT, $numcat) . ' | ' . sprintf(_AM_TDMSPOT_THEREARE_CAT_WAITING, $waiting);
         echo '</div><br>';
         //Parameters
         $criteria = new CriteriaCompo();
-        $limit    = 20;
-        $start    = 0;
+        $limit = 20;
+        $start = 0;
 
         $criteria->setLimit($limit);
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        $assoc_cat = $cat_handler->getAll($criteria);
+        $assoc_cat = $catHandler->getAll($criteria);
         //
-        $numrows = $cat_handler->getCount();
+        $numrows = $catHandler->getCount();
 
         //nav
         //if ($numrows > $limit) {
@@ -238,37 +249,37 @@ switch ($op) {
         if ($numrows > 0) {
             echo '<form name="form" id="form" action="cat.php" method="post"><table width="100%" cellspacing="1" class="outer">';
             echo '<tr>';
-            echo '<th align="center" width="5%"><input name="allbox" id="allbox" onclick="xoopsCheckAll(\'form\', \'allbox\');" type="checkbox" value="Check All" /></th>';
+            echo '<th align="center" width="5%"><input name="allbox" id="allbox" onclick="xoopsCheckAll(\'form\', \'allbox\');" type="checkbox" value="Check All"></th>';
             echo '<th align="center" width="55%">' . tdm_switchselect(_AM_TDMSPOT_TITLE, 'title', TDMSPOT_IMAGES_URL) . '</th>';
             echo '<th align="center" width="10%">' . _AM_TDMSPOT_IMG . '</th>';
             echo '<th align="center" width="10%">' . tdm_switchselect(_AM_TDMSPOT_WEIGHT, 'weight', TDMSPOT_IMAGES_URL) . '</th>';
             echo '<th align="center" width="10%">' . tdm_switchselect(_AM_TDMSPOT_VISIBLE, 'display', TDMSPOT_IMAGES_URL) . '</th>';
             echo '<th align="center" width="10%">' . _AM_TDMSPOT_ACTION . '</th>';
             echo '</tr>';
-            $class              = 'odd';
-            $mytree             = new TDMObjectTree($assoc_cat, 'id', 'pid');
+            $class = 'odd';
+            $mytree = new TdmObjectTree($assoc_cat, 'id', 'pid');
             $category_ArrayTree = $mytree->makeArrayTree('title', '<img src="' . TDMSPOT_IMAGES_URL . '/decos/arrow.gif">');
 
             foreach (array_keys($category_ArrayTree) as $i) {
                 //foreach ($arr as $c) {
-                $class     = ($class === 'even') ? 'odd' : 'even';
-                $cat_id    = $assoc_cat[$i]->getVar('id');
-                $cat_pid   = $assoc_cat[$i]->getVar('pid');
+                $class = ($class === 'even') ? 'odd' : 'even';
+                $cat_id = $assoc_cat[$i]->getVar('id');
+                $cat_pid = $assoc_cat[$i]->getVar('pid');
                 $cat_title = $assoc_cat[$i]->getVar('title');
 
                 $display = $assoc_cat[$i]->getVar('display') == 1 ? "<img src='" . TDMSPOT_IMAGES_URL . "/on.gif' border='0'>" : "<a href='cat.php?op=update&id=" . $cat_id . "'><img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . "' src='" . TDMSPOT_IMAGES_URL . "/off.gif' border='0'></a>";
 
                 //on test l'existance de l'image
-                $img     = $assoc_cat[$i]->getVar("img") ? : 'blank.gif';
-                $imgpath = TDMSPOT_UPLOAD_PATH . "/cat/" . $img;
+                $img = $assoc_cat[$i]->getVar('img') ?: 'blank.gif';
+                $imgpath = TDMSPOT_UPLOAD_PATH . '/cat/' . $img;
                 if (file_exists($imgpath)) {
-                    $cat_img = TDMSPOT_UPLOAD_URL . "/cat/" . $assoc_cat[$i]->getVar("img");
+                    $cat_img = TDMSPOT_UPLOAD_URL . '/cat/' . $assoc_cat[$i]->getVar('img');
                 } else {
-                    $cat_img = TDMSPOT_UPLOAD_URL . "/cat/blank.gif";
+                    $cat_img = TDMSPOT_UPLOAD_URL . '/cat/blank.gif';
                 }
 
                 echo '<tr class="' . $class . '">';
-                echo '<td align="center"><input type="checkbox" name="id[]" id="id[]" value="' . $assoc_cat[$i]->getVar('id') . '" /></td>';
+                echo '<td align="center"><input type="checkbox" name="id[]" id="id[]" value="' . $assoc_cat[$i]->getVar('id') . '"></td>';
                 echo '<td align="left">' . $category_ArrayTree[$i] . '</td>';
                 echo '<td align="center"><img src="' . $cat_img . '" alt="" title="" height="60"></td>';
                 echo '<td align="center">' . $assoc_cat[$i]->getVar('weight') . '</td>';
@@ -279,14 +290,14 @@ switch ($op) {
                 echo '</td>';
                 echo '</tr>';
             }
-            echo '</table><input type="submit" name="op" value="' . _DELETE . '" /></form><br /><br />';
-            echo '<div align=right>' . $pagenav . '</div><br />';
+            echo '</table><input type="submit" name="op" value="' . _DELETE . '"></form><br><br>';
+            echo '<div align=right>' . $pagenav . '</div><br>';
         }
         // Affichage du formulaire de cr?ation de cat?gories
-        $obj  =& $cat_handler->create();
+        $obj = $catHandler->create();
         $form = $obj->getForm();
         $form->display();
         break;
 
 }
-xoops_cp_footer();
+require_once __DIR__ . '/admin_footer.php';

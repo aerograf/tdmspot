@@ -1,24 +1,30 @@
 <?php
-/**
- * ****************************************************************************
- *  - TDMSpot By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.)
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
  *
- * Cette licence, contient des limitations
- *
- * 1. Vous devez poss�der une permission d'ex�cuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' �tudier ni l'adapter � vos besoins,
- * 3. Vous ne devez le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la libert� de l'am�liorer ni de rendre publiques les modifications
- *
- * @license     TDMFR GNU public license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
+/**
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
+ * @since
+ * @author       TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author       XOOPS Development Team
+ */
 
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+
+/**
+ * @param string $title
+ * @param bool   $withExt
+ * @return mixed|string
+ */
 function tdmspot_seo_title($title = '', $withExt = true)
 {
     /**
@@ -36,43 +42,43 @@ function tdmspot_seo_title($title = '', $withExt = true)
     // Transformation des ponctuations
     //                 Tab     Space      !        "        #        %        &        '        (        )        ,        /        :        ;        <        =        >        ?        @        [        \        ]        ^        {        |        }        ~       .
     $pattern = array(
-        "/%09/",
-        "/%20/",
-        "/%21/",
-        "/%22/",
-        "/%23/",
-        "/%25/",
-        "/%26/",
-        "/%27/",
-        "/%28/",
-        "/%29/",
-        "/%2C/",
-        "/%2F/",
-        "/%3A/",
-        "/%3B/",
-        "/%3C/",
-        "/%3D/",
-        "/%3E/",
-        "/%3F/",
-        "/%40/",
-        "/%5B/",
-        "/%5C/",
-        "/%5D/",
-        "/%5E/",
-        "/%7B/",
-        "/%7C/",
-        "/%7D/",
-        "/%7E/",
+        '/%09/',
+        '/%20/',
+        '/%21/',
+        '/%22/',
+        '/%23/',
+        '/%25/',
+        '/%26/',
+        '/%27/',
+        '/%28/',
+        '/%29/',
+        '/%2C/',
+        '/%2F/',
+        '/%3A/',
+        '/%3B/',
+        '/%3C/',
+        '/%3D/',
+        '/%3E/',
+        '/%3F/',
+        '/%40/',
+        '/%5B/',
+        '/%5C/',
+        '/%5D/',
+        '/%5E/',
+        '/%7B/',
+        '/%7C/',
+        '/%7D/',
+        '/%7E/',
         "/\./"
     );
-    $rep_pat = array("-", "-", "", "", "", "-100", "", "-", "", "", "", "-", "", "", "", "-", "", "", "-at-", "", "-", "", "-", "", "-", "", "-", "");
-    $title   = preg_replace($pattern, $rep_pat, $title);
+    $rep_pat = array('-', '-', '', '', '', '-100', '', '-', '', '', '', '-', '', '', '', '-', '', '', '-at-', '', '-', '', '-', '', '-', '', '-', '');
+    $title = preg_replace($pattern, $rep_pat, $title);
 
     // Transformation des caract�res accentu�s
     //                  °        è        é        ê        ë        ç        à        â        ä        î        ï        ù        ü        û        ô        ö
-    $pattern = array("/%B0/", "/%E8/", "/%E9/", "/%EA/", "/%EB/", "/%E7/", "/%E0/", "/%E2/", "/%E4/", "/%EE/", "/%EF/", "/%F9/", "/%FC/", "/%FB/", "/%F4/", "/%F6/");
-    $rep_pat = array("-", "e", "e", "e", "e", "c", "a", "a", "a", "i", "i", "u", "u", "u", "o", "o");
-    $title   = preg_replace($pattern, $rep_pat, $title);
+    $pattern = array('/%B0/', '/%E8/', '/%E9/', '/%EA/', '/%EB/', '/%E7/', '/%E0/', '/%E2/', '/%E4/', '/%EE/', '/%EF/', '/%F9/', '/%FC/', '/%FB/', '/%F4/', '/%F6/');
+    $rep_pat = array('-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o');
+    $title = preg_replace($pattern, $rep_pat, $title);
 
     if (count($title) > 0) {
         return $title;
@@ -81,16 +87,25 @@ function tdmspot_seo_title($title = '', $withExt = true)
     return '';
 }
 
-function tdmspot_seo_genUrl($op, $id, $short_url = "", $start = null, $limit = false, $tris = false)
+/**
+ * @param        $op
+ * @param        $id
+ * @param string $short_url
+ * @param null   $start
+ * @param bool   $limit
+ * @param bool   $tris
+ * @return string
+ */
+function tdmspot_generateSeoUrl($op, $id, $short_url = '', $start = null, $limit = false, $tris = false)
 {
-    //$publisher = PublisherPublisher::getInstance();
+    //$publisher =& PublisherPublisher::getInstance();
 
-    $module_handler =& xoops_gethandler('module');
-    $xoopsModule    =& $module_handler->getByDirname('TDMSpot');
+    $moduleHandler = xoops_getHandler('module');
+    $xoopsModule = $moduleHandler->getByDirname('tdmspot');
 
     if (!isset($xoopsModuleConfig)) {
-        $config_handler    = &xoops_gethandler('config');
-        $xoopsModuleConfig = &$config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
+        $configHandler = xoops_getHandler('config');
+        $xoopsModuleConfig = &$configHandler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
     }
 
     if ($xoopsModuleConfig['tdmspot_seo'] == 1) {
@@ -104,7 +119,7 @@ function tdmspot_seo_genUrl($op, $id, $short_url = "", $start = null, $limit = f
             if (!empty($id)) {
                 $url .= "/${id}";
             }
-            if (null !== ($start)) {
+            if (null !== $start) {
                 $url .= "/${start}";
             }
             if (!empty($limit)) {
@@ -123,26 +138,26 @@ function tdmspot_seo_genUrl($op, $id, $short_url = "", $start = null, $limit = f
 
         //seo Map
         $seoMap = array(
-            $xoopsModuleConfig['tdmspot_seo_cat']  => 'viewcat.php',
+            $xoopsModuleConfig['tdmspot_seo_cat'] => 'viewcat.php',
             $xoopsModuleConfig['tdmspot_seo_item'] => 'item.php',
-            'print'                                => 'print.php',
-            'pdf'                                  => 'pdf.php',
-            'submit'                               => 'submit.php',
-            'rss'                                  => 'rss.php',
-            'download'                             => 'download.php',
-            'index'                                => 'index.php'
+            'print' => 'print.php',
+            'pdf' => 'pdf.php',
+            'submit' => 'submit.php',
+            'rss' => 'rss.php',
+            'download' => 'download.php',
+            'index' => 'index.php'
         );
 
-        $url     = '';
+        $url = '';
         $id_item = '';
-        $id_cat  = '';
+        $id_cat = '';
         if (!empty($id)) {
             $id_item = "itemid=${id}";
         }
         if (!empty($id)) {
             $id_cat = "LT=${id}";
         }
-        if (null !== ($start)) {
+        if (null !== $start) {
             $url .= "&start=${start}";
         }
         if (!empty($limit)) {
@@ -153,8 +168,8 @@ function tdmspot_seo_genUrl($op, $id, $short_url = "", $start = null, $limit = f
         }
 
         switch ($op) {
-            case $xoopsModuleConfig['tdmspot_seo_cat'] :
-                return XOOPS_URL . '/modules/' . $xoopsModule->getVar("dirname") . "/" . $seoMap[$op] . "?" . @$id_cat . "${url}";
+            case $xoopsModuleConfig['tdmspot_seo_cat']:
+                return XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . '/' . $seoMap[$op] . '?' . @$id_cat . "${url}";
             case $xoopsModuleConfig['tdmspot_seo_item']:
             case 'print':
             case 'pdf':
@@ -162,7 +177,7 @@ function tdmspot_seo_genUrl($op, $id, $short_url = "", $start = null, $limit = f
             case 'rss':
             case 'download':
             case 'index':
-                return XOOPS_URL . '/modules/' . $xoopsModule->getVar("dirname") . "/" . $seoMap[$op] . "?" . @$id_item;
+                return XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . '/' . $seoMap[$op] . '?' . @$id_item;
             default:
                 die('Unknown SEO operation.');
         }

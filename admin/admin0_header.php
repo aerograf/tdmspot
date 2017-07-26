@@ -18,5 +18,22 @@
  * @author       XOOPS Development Team
  */
 
-require_once __DIR__ . '/../../mainfile.php';
-require_once XOOPS_ROOT_PATH . '/include/comment_edit.php';
+require_once __DIR__ . '/../../../mainfile.php';
+require_once __DIR__ . '/../../../include/cp_header.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsmodule.php';
+
+if ($xoopsUser) {
+    $xoopsModule = XoopsModule::getByDirname('tdmspot');
+    if (!$xoopsUser->isAdmin($xoopsModule->mid())) {
+        redirect_header(XOOPS_URL . '/', 3, _NOPERM);
+        exit();
+    }
+} else {
+    redirect_header(XOOPS_URL . '/', 3, _NOPERM);
+    exit();
+}
+if (file_exists('../language/' . $xoopsConfig['language'] . '/admin.php')) {
+    require_once __DIR__ . '/../language/' . $xoopsConfig['language'] . '/admin.php';
+} else {
+    require_once __DIR__ . '/../language/english/admin.php';
+}

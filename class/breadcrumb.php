@@ -1,28 +1,32 @@
 <?php
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 
 /**
- * ****************************************************************************
- *  - TDMSpot By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.)
- *
- * Cette licence, contient des limitations
- *
- * 1. Vous devez poss�der une permission d'ex�cuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' �tudier ni l'adapter � vos besoins,
- * 3. Vous ne devez le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la libert� de l'am�liorer ni de rendre publiques les modifications
- *
- * @license     TDMFR GNU public license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
+ * @since
+ * @author       TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author       XOOPS Development Team
  */
+
 class SystemBreadcrumb
 {
     /* Variables */
     public $_bread = array();
     public $_tips;
 
+    /**
+     * SystemBreadcrumb constructor.
+     */
     public function __construct()
     {
     }
@@ -56,7 +60,7 @@ class SystemBreadcrumb
     </style>';
 
         if ($this->_tips) {
-            $out .= '<div class="tips">' . $this->_tips . '</div><br />';
+            $out .= '<div class="tips">' . $this->_tips . '</div><br>';
         }
         echo $out;
     }

@@ -1,63 +1,65 @@
 <?php
-/**
- * ****************************************************************************
- *  - TDMSpot By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.)
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
  *
- * Cette licence, contient des limitations
- *
- * 1. Vous devez poss�der une permission d'ex�cuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' �tudier ni l'adapter � vos besoins,
- * 3. Vous ne devez le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la libert� de l'am�liorer ni de rendre publiques les modifications
- *
- * @license     TDMFR GNU public license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-include '../../../include/cp_header.php';
-include_once(XOOPS_ROOT_PATH . "/class/xoopsformloader.php");
-include_once(XOOPS_ROOT_PATH . "/class/tree.php");
-include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-include_once '../include/functions.php';
+/**
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
+ * @since
+ * @author       TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author       XOOPS Development Team
+ */
+
+require_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/../../../include/cp_header.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+require_once XOOPS_ROOT_PATH . '/class/tree.php';
+require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+require_once __DIR__ . '/../include/functions.php';
 
 xoops_cp_header();
 //apelle du menu admin
 //if ( !is_readable(XOOPS_ROOT_PATH . "/Frameworks/art/functions.admin.php")) {
 //Adminmenu(0, _AM_TDMSPOT_MANAGE_INDEX);
 //} else {
-//include_once XOOPS_ROOT_PATH.'/Frameworks/art/functions.admin.php';
+//require_once XOOPS_ROOT_PATH.'/Frameworks/art/functions.admin.php';
 //loadModuleAdminMenu (0, _AM_TDMSPOT_MANAGE_INDEX);
 //}
 
 //load class
-$item_handler  =& xoops_getModuleHandler('tdmspot_item', 'TDMSpot');
-$cat_handler   =& xoops_getModuleHandler('tdmspot_cat', 'TDMSpot');
-$page_handler  =& xoops_getModuleHandler('tdmspot_page', 'TDMSpot');
-$block_handler =& xoops_getModuleHandler('tdmspot_newblocks', 'TDMSpot');
+$itemHandler = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
+$catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
+$pageHandler = xoops_getModuleHandler('tdmspot_page', 'tdmspot');
+$blockHandler = xoops_getModuleHandler('tdmspot_newblocks', 'tdmspot');
 
 //compte les items
-$numitem = $item_handler->getCount();
+$numitem = $itemHandler->getCount();
 //compte les items en attente
 $criteria = new CriteriaCompo();
 $criteria->add(new Criteria('display', 0));
-$item_waiting = $item_handler->getCount($criteria);
+$item_waiting = $itemHandler->getCount($criteria);
 //compte les item en attente
 $criteria = new CriteriaCompo();
 $criteria->add(new Criteria('indate', time()), '>');
-$item_time = $item_handler->getCount($criteria);
+$item_time = $itemHandler->getCount($criteria);
 //compte les categorie
-$numcat = $cat_handler->getCount();
+$numcat = $catHandler->getCount();
 //compte les categorie en attente
 $criteria = new CriteriaCompo();
 $criteria->add(new Criteria('display', 0));
-$cat_waiting = $cat_handler->getCount($criteria);
+$cat_waiting = $catHandler->getCount($criteria);
 //compte les pages
-$numpage = $page_handler->getCount();
+$numpage = $pageHandler->getCount();
 //compte les blocks
-$numblock = $block_handler->getCount();
+$numblock = $blockHandler->getCount();
 
 if (!in_array('mod_rewrite', @apache_get_modules())) {
     $veriffile = '<span style="color: red;"><img src="./../assets/images/off.gif">mod_rewrite ERROR</a></span>';
@@ -65,8 +67,8 @@ if (!in_array('mod_rewrite', @apache_get_modules())) {
     $veriffile = '<span style="color: green;"><img src="./../assets/images/on.gif" >mod_rewrite OK</span>';
 }
 
-if (phpversion() >= 5) {
-    include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/class/menu.php';
+if (PHP_VERSION >= 5) {
+    require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/class/menu.php';
 
     //showIndex();
     $menu = new TDMSoundMenu();
@@ -83,9 +85,9 @@ if (phpversion() >= 5) {
 }
 echo '<div class="CPbigTitle" style="background-image: url(../assets/images/decos/index.png); background-repeat: no-repeat; background-position: left; padding-left: 60px; padding-top:20px; padding-bottom:15px;">
         <h3><strong>' . _AM_TDMSPOT_MANAGE_INDEX . '</strong></h3>
-    </div><br /><table width="100%" border="0" cellspacing="10" cellpadding="4">
+    </div><br><table width="100%" border="0" cellspacing="10" cellpadding="4">
   <tr>';
-if (phpversion() >= 5) {
+if (PHP_VERSION >= 5) {
     echo '<td valign="top">
   ' . $menu->render() . '</td>';
 } else {
@@ -94,42 +96,42 @@ if (phpversion() >= 5) {
 echo '<td valign="top" width="60%">
 
    <fieldset><legend class="CPmediumTitle">' . _AM_TDMSPOT_MANAGE_ITEM . '</legend>
-        <br/>';
+        <br>';
 printf(_AM_TDMSPOT_THEREARE_ITEM, $numitem);
-echo '<br /><br/>';
+echo '<br><br>';
 printf(_AM_TDMSPOT_THEREARE_ITEM_WAITING, $item_waiting);
-echo '<br /><br />';
+echo '<br><br>';
 printf(_AM_TDMSPOT_THEREARE_ITEM_TIME, $item_time);
-echo '<br /><br />
-    </fieldset><br /><br />
+echo '<br><br>
+    </fieldset><br><br>
 
        <fieldset><legend class="CPmediumTitle">' . _AM_TDMSPOT_MANAGE_CAT . '</legend>
-        <br/>';
+        <br>';
 printf(_AM_TDMSPOT_THEREARE_CAT, $numcat);
-echo '<br /><br />';
+echo '<br><br>';
 printf(_AM_TDMSPOT_THEREARE_CAT_WAITING, $cat_waiting);
-echo '<br /><br />
-    </fieldset><br /><br />
+echo '<br><br>
+    </fieldset><br><br>
 
 
 
  <fieldset><legend class="CPmediumTitle">' . _AM_TDMSPOT_MANAGE_PAGE . '</legend>
-        <br/>';
+        <br>';
 printf(_AM_TDMSPOT_THEREARE_PAGE, $numpage);
-echo '<br /><br />
-    </fieldset><br /><br />
+echo '<br><br>
+    </fieldset><br><br>
 
      <fieldset><legend class="CPmediumTitle">' . _AM_TDMSPOT_MANAGE_BLOCK . '</legend>
-        <br/>';
+        <br>';
 printf(_AM_TDMSPOT_THEREARE_BLOCK, $numblock);
-echo '<br /><br />
-    </fieldset><br /> <br />
+echo '<br><br>
+    </fieldset><br> <br>
 
      <fieldset><legend class="CPmediumTitle">Appache</legend>
-        <br/>';
+        <br>';
 echo $veriffile;
-echo '<br /><br />
-    </fieldset><br /> <br />
+echo '<br><br>
+    </fieldset><br> <br>
 
     </td></tr></table>';
-xoops_cp_footer();
+require_once __DIR__ . '/admin_footer.php';

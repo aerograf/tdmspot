@@ -1,5 +1,5 @@
 <!--affichage des articles-->
-<br />
+<br>
 
 <div id="content">
 
@@ -31,15 +31,15 @@ padding: 5px;">
         })
     </script>
 
-<br style="clear: both;"/>  <br />
+<br style="clear: both;">  <br>
 <{if $tdmspot_somaire}>
 <div id="nav4" style="border: 1px solid #CCC;
     float: right;
     padding: 20px;
     padding-left: 30px;
     margin-left: 10px;
-    margin-right: 10px;"><{$smarty.const._MD_TDMSPOT_SOMAIRE}>: <br /></div>
-<br style="clear: both;"/>  <br />
+    margin-right: 10px;"><{$smarty.const._MD_TDMSPOT_SOMAIRE}>: <br></div>
+<br style="clear: both;">  <br>
 <{/if}>
 
 <{foreach item=tpitem from=$tpitem}>
@@ -50,20 +50,20 @@ padding: 5px;">
 <img src="<{$tpitem.user_avatarurl}>" style="padding: 5px; background: #000;">
 </td><td style="padding-left:30px" valign="top">
 <div style="float: right; top: 1px;">
-<{$tpitem.user_rankimage}><br />
+<{$tpitem.user_rankimage}><br>
 <{$tpitem.user_ranktitle}>
 </div>
 
 <h4><{$smarty.const._MD_TDMSPOT_POSTEDBY}><a href="<{$smarty.const.XOOPS_URL}>/userinfo.php?uid=<{$tpitem.uid}>"><{$tpitem.user_name}> <{$tpitem.user_uname}></a></h4>
-<{$smarty.const._MD_TDMSPOT_MEM_REGISTER}><{$tpitem.user_joindate}><br />
+<{$smarty.const._MD_TDMSPOT_MEM_REGISTER}><{$tpitem.user_joindate}><br>
 <{if $tpitem.user_websiteurl}>
-<{$smarty.const._MD_TDMSPOT_MEM_URL}> <{$tpitem.user_websiteurl}><br /><{/if}>
-<{$tpitem.user_extrainfo}><br /><br />
+<{$smarty.const._MD_TDMSPOT_MEM_URL}> <{$tpitem.user_websiteurl}><br><{/if}>
+<{$tpitem.user_extrainfo}><br><br>
 <{$tpitem.user_signature}>
 
 </td></tr></table>
 </div>
-<br style="clear: both;"/>  <br />
+<br style="clear: both;">  <br>
 <{/if}>
 
 
@@ -97,7 +97,7 @@ padding: 5px;">
 
               <p class="itemText"><{$tpitem.text}></p>
 
-             <br style="clear: both;"/> <br />
+             <br style="clear: both;"> <br>
               </div>
 
 
@@ -121,7 +121,7 @@ padding: 5px;">
             </div>
 
             </div>
-            <br />
+            <br>
                 <{/foreach}>
 
         <!-- Display navigation  -->
@@ -133,7 +133,7 @@ padding: 5px;">
     </td></tr></table>
     <{/if}>
 
-    <br /><br />
+    <br><br>
 
 
     <!-- Start resume -->
@@ -142,7 +142,7 @@ padding: 5px;">
     <tr>
     <{if $tpitem_blsimil != ""}>
     <td width="50%" align="left" valign="top">
-        <div align="center"><span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/simil.png) no-repeat left; padding-left: 15px;" />&nbsp;<b><{$smarty.const._MI_TDMSPOT_BLSIMIL}></b></span></div>
+        <div align="center"><span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/simil.png) no-repeat left; padding-left: 15px;">&nbsp;<b><{$smarty.const._MI_TDMSPOT_BLSIMIL}></b></span></div>
         <ul>
             <{foreach item=tpitem_blsimil from=$tpitem_blsimil}>
             <li><a href="<{$tpitem_blsimil.link}>"><{$tpitem_blsimil.title}></a> (<{$tpitem_blsimil.indate}>)</li>
@@ -152,7 +152,7 @@ padding: 5px;">
     <{/if}>
     <{if $tpitem_blposter != ""}>
     <td width="50%" align="left" valign="top">
-        <div align="center"><span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/poster.png) no-repeat left; padding-left: 15px;" />&nbsp;<b><{$smarty.const._MI_TDMSPOT_BLPOSTER}></b></span></div>
+        <div align="center"><span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/poster.png) no-repeat left; padding-left: 15px;">&nbsp;<b><{$smarty.const._MI_TDMSPOT_BLPOSTER}></b></span></div>
         <ul>
             <{foreach item=tpitem_blposter from=$tpitem_blposter}>
             <li><a href="<{$tpitem_blposter.link}>"><{$tpitem_blposter.title}></a> (<{$tpitem_blposter.indate}>)</li>
@@ -162,21 +162,21 @@ padding: 5px;">
     <{/if}>
     </tr>
 </table>
-<br />
+<br>
 <{/if}>
 
-<br /><br />
+<br><br>
 <{if $perm_social}>
 <!-- AddThis Button BEGIN -->
-<div style="float:left;"><a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;pub=xa-4ac5feea790b0936"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=xa-4ac5feea790b0936"></script></div>
+<div style="float:left;"><a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;pub=xa-4ac5feea790b0936"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"></a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=xa-4ac5feea790b0936"></script></div>
 <!-- AddThis Button END -->
 <{/if}>
 <{if $perm_rss}>
 <div style="float:right;"><{$perm_rss}></div>
 <{/if}>
-<br style="clear: both;"/>
+<br style="clear: both;">
 
-<br />
+<br>
 
     <!--affichage des commentaires-->
 <div style="text-align: center; padding: 3px; margin: 3px;">
@@ -186,11 +186,11 @@ padding: 5px;">
 <!-- start comments loop -->
 <div style="margin: 3px; padding: 3px;">
 <{if $comment_mode == "flat"}>
-  <{include file="db:system_comments_flat.html"}>
+  <{include file="db:system_comments_flat.tpl"}>
 <{elseif $comment_mode == "thread"}>
-  <{include file="db:system_comments_thread.html"}>
+  <{include file="db:system_comments_thread.tpl"}>
 <{elseif $comment_mode == "nest"}>
-  <{include file="db:system_comments_nest.html"}>
+  <{include file="db:system_comments_nest.tpl"}>
 <{/if}>
 </div>
 <!-- end comments loop -->

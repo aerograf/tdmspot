@@ -10,17 +10,18 @@
  */
 
 /**
- * @copyright    XOOPS Project (https://xoops.org)
- * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
  * @since
+ * @author       TDM   - TEAM DEV MODULE FOR XOOPS
  * @author       XOOPS Development Team
- * @version      $Id $
  */
 
 global $xoopsModule;
 //$pathIcon32      = '../' . $xoopsModule->getInfo('icons32');
+$pathIcon32 = '../../../' . $xoopsModule->getInfo('icons32');
 
-echo "<div class='adminfooter'>\n" . "  <div style='text-align: center;'>\n" . "    <a href='http://www.xoops.org' rel='external'><img src='{$pathIcon32}/xoopsmicrobutton.gif' alt='XOOPS' title='XOOPS'></a>\n" . "  </div>\n" . "  " . _AM_MODULEADMIN_ADMIN_FOOTER . "\n" . "</div>";
+echo "<div class='adminfooter'>\n" . "  <div style='text-align: center;'>\n" . "    <a href='http://www.xoops.org' rel='external'><img src='{$pathIcon32}/xoopsmicrobutton.gif' alt='XOOPS' title='XOOPS'></a>\n" . "  </div>\n" . '  ' . _AM_MODULEADMIN_ADMIN_FOOTER . "\n" . '</div>';
 
 xoops_cp_footer();

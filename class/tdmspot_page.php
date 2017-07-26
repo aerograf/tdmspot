@@ -1,47 +1,58 @@
 <?php
-/**
- * ****************************************************************************
- *  - TDMSpot By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.)
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
  *
- * Cette licence, contient des limitations
- *
- * 1. Vous devez poss�der une permission d'ex�cuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' �tudier ni l'adapter � vos besoins,
- * 3. Vous ne devez le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la libert� de l'am�liorer ni de rendre publiques les modifications
- *
- * @license     TDMFR GNU public license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
+/**
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
+ * @since
+ * @author       TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author       XOOPS Development Team
+ */
+
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 if (!class_exists('XoopsPersistableObjectHandler')) {
-    include_once XOOPS_ROOT_PATH . '/modules/TDMSpot/class/object.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tdmspot/class/object.php';
 }
 
+/**
+ * Class TDMSpot_page
+ */
 class TDMSpot_page extends XoopsObject
 {
     // constructor
+    /**
+     * TDMSpot_page constructor.
+     */
     public function __construct()
     {
         parent::__construct();
-        $this->initVar("id", XOBJ_DTYPE_INT, null, false, 8);
-        $this->initVar("title", XOBJ_DTYPE_TXTBOX, null, false);
-        $this->initVar("weight", XOBJ_DTYPE_INT, null, false, 5);
-        $this->initVar("visible", XOBJ_DTYPE_INT, null, false, 1);
-        $this->initVar("cat", XOBJ_DTYPE_TXTBOX, null, false);
-        $this->initVar("limit", XOBJ_DTYPE_INT, null, false, 5);
+        $this->initVar('id', XOBJ_DTYPE_INT, null, false, 8);
+        $this->initVar('title', XOBJ_DTYPE_TXTBOX, null, false);
+        $this->initVar('weight', XOBJ_DTYPE_INT, null, false, 5);
+        $this->initVar('visible', XOBJ_DTYPE_INT, null, false, 1);
+        $this->initVar('cat', XOBJ_DTYPE_TXTBOX, null, false);
+        $this->initVar('limit', XOBJ_DTYPE_INT, null, false, 5);
     }
 
-//    public function TDMSpot_page()
-//    {
-//        $this->__construct();
-//    }
+    //    public function TDMSpot_page()
+    //    {
+    //        $this->__construct();
+    //    }
 
+    /**
+     * @param bool $action
+     * @return XoopsThemeForm
+     */
     public function getForm($action = false)
     {
         global $xoopsDB, $xoopsModule, $xoopsModuleConfig;
@@ -50,7 +61,7 @@ class TDMSpot_page extends XoopsObject
         }
         $title = $this->isNew() ? sprintf(_AM_TDMSPOT_ADD) : sprintf(_AM_TDMSPOT_EDITER);
 
-        include_once(XOOPS_ROOT_PATH . "/class/xoopsformloader.php");
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         $form = new XoopsThemeForm($title, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
@@ -61,23 +72,23 @@ class TDMSpot_page extends XoopsObject
         }
 
         //genre
-        $cat_handler =& xoops_getModuleHandler('tdmspot_cat', 'TDMSpot');
-        $var_cat     = explode(",", $this->getVar('cat'));
-        $cat_select  = new XoopsFormSelect(_AM_TDMSPOT_CATEGORY, 'cat', $var_cat, 5, true);
-        $cat_select->addOptionArray($cat_handler->getList());
+        $catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
+        $var_cat = explode(',', $this->getVar('cat'));
+        $cat_select = new XoopsFormSelect(_AM_TDMSPOT_CATEGORY, 'cat', $var_cat, 5, true);
+        $cat_select->addOptionArray($catHandler->getList());
         $cat_select->addOption(0, 'ALL');
         $form->addElement($cat_select);
 
         $form->addElement(new XoopsFormText(_AM_TDMSPOT_LIMIT, 'limit', 5, 5, $this->getVar('limit')), false);
         // Permissions
-        $member_handler = &xoops_gethandler('member');
-        $group_list     = &$member_handler->getGroupList();
-        $gperm_handler  = &xoops_gethandler('groupperm');
-        $full_list      = array_keys($group_list);
+        $memberHandler = xoops_getHandler('member');
+        $group_list = $memberHandler->getGroupList();
+        $gpermHandler = xoops_getHandler('groupperm');
+        $full_list = array_keys($group_list);
 
         if (!$this->isNew()) {      // Edit mode
-            $groups_ids                    = $gperm_handler->getGroupIds('spot_pageview', $this->getVar('id'), $xoopsModule->getVar('mid'));
-            $groups_ids                    = array_values($groups_ids);
+            $groups_ids = $gpermHandler->getGroupIds('spot_pageview', $this->getVar('id'), $xoopsModule->getVar('mid'));
+            $groups_ids = array_values($groups_ids);
             $groups_news_can_view_checkbox = new XoopsFormCheckBox(_AM_TDMSPOT_PERM_2, 'groups_view[]', $groups_ids);
         } else {    // Creation mode
             $groups_news_can_view_checkbox = new XoopsFormCheckBox(_AM_TDMSPOT_PERM_2, 'groups_view[]', $full_list);
@@ -93,6 +104,10 @@ class TDMSpot_page extends XoopsObject
         return $form;
     }
 
+    /**
+     * @param bool $action
+     * @return XoopsThemeForm
+     */
     public function getPlug($action = false)
     {
         global $xoopsDB, $xoopsModule, $xoopsModuleConfig;
@@ -101,7 +116,7 @@ class TDMSpot_page extends XoopsObject
         }
         $title = $this->isNew() ? sprintf(_AM_TDMSPOT_ADD) : sprintf(_AM_TDMSPOT_EDITER);
 
-        include_once(XOOPS_ROOT_PATH . "/class/xoopsformloader.php");
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         $form = new XoopsThemeForm($title, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
@@ -111,21 +126,21 @@ class TDMSpot_page extends XoopsObject
         }
 
         //load page
-        $page_handler =& xoops_getModuleHandler('tdmspot_page', 'TDMSpot');
-        $page_select  = new XoopsFormSelect(_AM_TDMSPOT_PLUGDEF, 'default', '');
-        $page_select->addOptionArray($page_handler->getList());
+        $pageHandler = xoops_getModuleHandler('tdmspot_page', 'tdmspot');
+        $page_select = new XoopsFormSelect(_AM_TDMSPOT_PLUGDEF, 'default', '');
+        $page_select->addOptionArray($pageHandler->getList());
         $page_select->addOption(0, _AM_TDMSPOT_PLUGNONE);
         $form->addElement($page_select);
         //
         //load page
         $page2_select = new XoopsFormSelect(_AM_TDMSPOT_PLUGPAGE, 'page', '', '5', true);
-        $page2_select->addOptionArray($page_handler->getList());
+        $page2_select->addOptionArray($pageHandler->getList());
         $page2_select->addOption(0, _AM_TDMSPOT_PLUGALL);
         $form->addElement($page2_select, true);
         //
 
         //display
-        $channel        = array(1 => _AM_TDMSPOT_PLUGTABS, 2 => _AM_TDMSPOT_PLUGSELECT, 3 => _AM_TDMSPOT_PLUGTEXT, 4 => 'Accordion', 5 => 'wslide', 0 => _AM_TDMSPOT_PLUGNONE);
+        $channel = array(1 => _AM_TDMSPOT_PLUGTABS, 2 => _AM_TDMSPOT_PLUGSELECT, 3 => _AM_TDMSPOT_PLUGTEXT, 4 => 'Accordion', 5 => 'wslide', 0 => _AM_TDMSPOT_PLUGNONE);
         $channel_select = new XoopsFormSelect(_AM_TDMSPOT_PLUGDISPLAY, 'display', 0);
         //$channel_select->setDescription(_AM_TDMSPOT_PLUGSTYLE_DESC);
         $channel_select->addOptionArray($channel);
@@ -133,18 +148,18 @@ class TDMSpot_page extends XoopsObject
 
         // style display
         $tagchannel = array(
-            'cupertino'  => 'cupertino',
-            'lightness'  => 'lightness',
-            'darkness'   => 'darkness',
+            'cupertino' => 'cupertino',
+            'lightness' => 'lightness',
+            'darkness' => 'darkness',
             'smoothness' => 'smoothness',
-            'start'      => 'start',
-            'redmond'    => 'redmond',
-            'sunny'      => 'sunny',
-            'pepper'     => 'pepper',
-            'eggplant'   => 'eggplant',
-            'dark-hive'  => 'dark-hive',
-            'excite'     => 'excite',
-            'vader'      => 'vader',
+            'start' => 'start',
+            'redmond' => 'redmond',
+            'sunny' => 'sunny',
+            'pepper' => 'pepper',
+            'eggplant' => 'eggplant',
+            'dark-hive' => 'dark-hive',
+            'excite' => 'excite',
+            'vader' => 'vader',
             'trontastic' => 'trontastic'
         );
 
@@ -165,10 +180,17 @@ class TDMSpot_page extends XoopsObject
     }
 }
 
+/**
+ * Class TDMSpottdmspot_pageHandler
+ */
 class TDMSpottdmspot_pageHandler extends XoopsPersistableObjectHandler
 {
-    public function __construct(&$db)
+    /**
+     * TDMSpottdmspot_pageHandler constructor.
+     * @param null|object|XoopsDatabase $db
+     */
+    public function __construct($db)
     {
-        parent::__construct($db, "tdmspot_page", 'TDMSpot_page', 'id', 'title');
+        parent::__construct($db, 'tdmspot_page', 'TDMSpot_page', 'id', 'title');
     }
 }

@@ -1,21 +1,4 @@
 <?php
-/**
- * ****************************************************************************
- *  - TDMSpot By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.)
- *
- * Cette licence, contient des limitations
- *
- * 1. Vous devez posséder une permission d'exécuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' étudier ni l'adapter à vos besoins,
- * 3. Vous ne devez le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la liberté de l'améliorer ni de rendre publiques les modifications
- *
- * @license     TDMFR GNU public license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
- */
 
 //formulaire
 define('_AM_TDMSPOT_ADD', 'Add');
@@ -27,27 +10,29 @@ define('_AM_TDMSPOT_EDITER', 'Edit');
 define('_AM_TDMSPOT_DELETE', 'Delete');
 define('_AM_TDMSPOT_BASESURE', 'WARNING: Are you sure you want to delete?');
 define('_AM_TDMSPOT_BASESUREDEL', "WARNING: Are you sure you want to delete: <b><span style='color : Red'> %s </span></b> ?");
-define('_AM_TDMSPOT_BASESUREDELCAT', "WARNING: Are you sure you want to delete: <b><span style='color : Red'> %s </span></b>, the children of the category will be deleted but the files will not be deleted");
+define('_AM_TDMSPOT_BASESUREDELCAT',
+    "WARNING: Are you sure you want to delete: <b><span style='color : Red'> %s </span></b>, the children of the category will be deleted but the files will not be deleted");
 define('_AM_TDMSPOT_BASEOK', 'Database update');
 define('_AM_TDMSPOT_PAGEERROR', 'Error: You must create a page');
 define('_AM_TDMSPOT_CATERROR', 'Error: You must create a category');
 
 define('_AM_TDMSPOT_OPTIONDESC', 'the default option and that of the original block you can change options by editing this block after recording');
 
-define('_AM_TDMSPOT_PAGEDESC', 'Manage here your index page, a page can display multiple Blocks and several items defined by their class and limited by the "limit". You can navigate between pages by several effects settings are in the preferences of the module. ');
+define('_AM_TDMSPOT_PAGEDESC',
+    'Manage here your index page, a page can display multiple Blocks and several items defined by their class and limited by the "limit". You can navigate between pages by several effects settings are in the preferences of the module. ');
 
 define('_AM_TDMSPOT_MANAGE_INDEX', 'Module Index');
 define('_AM_TDMSPOT_MANAGE_PAGE', 'Manage pages');
 define('_AM_TDMSPOT_MANAGE_ITEM', 'Manage Items ');
-define("_AM_TDMSPOT_THEREARE_PAGE", "There are <span style='color: #ff0000; font-weight: bold'>%s</span> Pages in the Database");
+define('_AM_TDMSPOT_THEREARE_PAGE', "There are <span style='color: #ff0000; font-weight: bold'>%s</span> Pages in the Database");
 define('_AM_TDMSPOT_MANAGE_BLOCK', 'Block management');
 define('_AM_TDMSPOT_MANAGE_CAT', 'Category management');
-define("_AM_TDMSPOT_THEREARE_BLOCK", "There are <span style='color: #ff0000; font-weight: bold'>%s</span> Blocks in the Database");
-define("_AM_TDMSPOT_THEREARE_CAT", "There are <span style='color: #ff0000; font-weight: bold'>%s</span> Categories in the Database");
-define("_AM_TDMSPOT_THEREARE_ITEM", "There are <span style='color: #ff0000; font-weight: bold'>%s</span> article(s) Items in the Database");
-define("_AM_TDMSPOT_THEREARE_ITEM_WAITING", "There are <span style='color: #ff0000; font-weight: bold'>%s</span> Articles waiting  in the Database");
-define("_AM_TDMSPOT_THEREARE_ITEM_TIME", "There are <span style='color: #ff0000; font-weight: bold'>%s</span> articles  in the Database");
-define("_AM_TDMSPOT_THEREARE_CAT_WAITING", "There are <span style='color: #ff0000; font-weight: bold'>%s</span>  Categories waiting in the Database");
+define('_AM_TDMSPOT_THEREARE_BLOCK', "There are <span style='color: #ff0000; font-weight: bold'>%s</span> Blocks in the Database");
+define('_AM_TDMSPOT_THEREARE_CAT', "There are <span style='color: #ff0000; font-weight: bold'>%s</span> Categories in the Database");
+define('_AM_TDMSPOT_THEREARE_ITEM', "There are <span style='color: #ff0000; font-weight: bold'>%s</span> article(s) Items in the Database");
+define('_AM_TDMSPOT_THEREARE_ITEM_WAITING', "There are <span style='color: #ff0000; font-weight: bold'>%s</span> Articles waiting  in the Database");
+define('_AM_TDMSPOT_THEREARE_ITEM_TIME', "There are <span style='color: #ff0000; font-weight: bold'>%s</span> articles  in the Database");
+define('_AM_TDMSPOT_THEREARE_CAT_WAITING', "There are <span style='color: #ff0000; font-weight: bold'>%s</span>  Categories waiting in the Database");
 
 define('_AM_TDMSPOT_MANAGE_PLUG', 'Plugin Management');
 define('_AM_TDMSPOT_MANAGE_PLUGERROR', 'Copy the file "xoops_plugins/function.xoSpot.php" to your Root folder: "/class/smarty/xoops_plugins/"');
@@ -86,7 +71,8 @@ define('_AM_TDMSPOT_SEARCH', 'Search');
 define('_AM_TDMSPOT_ID', 'ID');
 define('_AM_TDMSPOT_VISIBLE', 'Visible');
 define('_AM_TDMSPOT_FREE', 'Free');
-define('_AM_TDMSPOT_FREEDESC', 'Page Volante ? Afficher le menu gr&#234;ce au pluging <{xospot}> ou copier le lien afficher dans l\'admin et les bocks de la page appelée ce glisseront dans le contenue en cours');
+define('_AM_TDMSPOT_FREEDESC',
+    'Page Volante ? Afficher le menu gr&#234;ce au pluging <{xospot}> ou copier le lien afficher dans l\'admin et les bocks de la page appelée ce glisseront dans le contenue en cours');
 define('_AM_TDMSPOT_ACTION', 'Action');
 define('_AM_TDMSPOT_PARENT', 'Parent');
 define('_AM_TDMSPOT_CATEGORY', 'Category');
@@ -96,14 +82,14 @@ define('_AM_TDMSPOT_IMG', 'Image');
 define('_AM_TDMSPOT_PATH', 'File in path %s');
 define('_AM_TDMSPOT_UPLOAD', 'Upload');
 define('_AM_TDMSPOT_FILE', 'File');
-define('_AM_TDMSPOT_TEXT_DESC', 'Useful Tags: <br />
-{X_BREAK}: set the size of the short description.<br />
-{X_NAME}: will display the name of the user.<br />
-{X_UNAME}: will display the name of the user.<br />
-{X_UEMAIL}: will display the email of the user.<br />
-{X_ADMINMAIL}: will display the email admin.<br />
-{X_SITENAME}: will display the name of your site.<br />
-{X_SITEURL}: will display the URL of your site.<br /><br />
+define('_AM_TDMSPOT_TEXT_DESC', 'Useful Tags: <br>
+{X_BREAK}: set the size of the short description.<br>
+{X_NAME}: will display the name of the user.<br>
+{X_UNAME}: will display the name of the user.<br>
+{X_UEMAIL}: will display the email of the user.<br>
+{X_ADMINMAIL}: will display the email admin.<br>
+{X_SITENAME}: will display the name of your site.<br>
+{X_SITEURL}: will display the URL of your site.<br><br>
 {X_PAGE: montitre}: display a summary');
 
 //plug.php

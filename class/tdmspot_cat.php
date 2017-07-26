@@ -1,41 +1,51 @@
 <?php
-/**
- * ****************************************************************************
- *  - TDMSpot By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.tdmxoops.net)
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
  *
- * Cette licence, contient des limitations!!!
- *
- * 1. Vous devez poss�der une permission d'ex�cuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' �tudier,
- * 3. Vous ne devez pas le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la libert� de l'am�liorer et de rendre publiques les modifications
- *
- * @license     TDMFR PRO license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
+/**
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
+ * @since
+ * @author       TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author       XOOPS Development Team
+ */
 
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+
+/**
+ * Class TDMSpot_cat
+ */
 class TDMSpot_cat extends XoopsObject
 {
     // constructor
+    /**
+     * TDMSpot_cat constructor.
+     */
     public function __construct()
     {
         parent::__construct();
-        $this->initVar("id", XOBJ_DTYPE_INT, null, false, 11);
-        $this->initVar("pid", XOBJ_DTYPE_INT, null, false, 11);
-        $this->initVar("title", XOBJ_DTYPE_TXTBOX, null, false);
-        $this->initVar("date", XOBJ_DTYPE_INT, null, false, 11);
-        $this->initVar("text", XOBJ_DTYPE_TXTAREA, null, false);
-        $this->initVar("img", XOBJ_DTYPE_TXTBOX, null, false);
-        $this->initVar("weight", XOBJ_DTYPE_INT, null, false, 11);
-        $this->initVar("display", XOBJ_DTYPE_INT, null, false, 1);
+        $this->initVar('id', XOBJ_DTYPE_INT, null, false, 11);
+        $this->initVar('pid', XOBJ_DTYPE_INT, null, false, 11);
+        $this->initVar('title', XOBJ_DTYPE_TXTBOX, null, false);
+        $this->initVar('date', XOBJ_DTYPE_INT, null, false, 11);
+        $this->initVar('text', XOBJ_DTYPE_TXTAREA, null, false);
+        $this->initVar('img', XOBJ_DTYPE_TXTBOX, null, false);
+        $this->initVar('weight', XOBJ_DTYPE_INT, null, false, 11);
+        $this->initVar('display', XOBJ_DTYPE_INT, null, false, 1);
     }
 
-
+    /**
+     * @param bool $action
+     * @return XoopsThemeForm
+     */
     public function getForm($action = false)
     {
         global $xoopsUser, $xoopsDB, $xoopsModule, $xoopsModuleConfig;
@@ -45,7 +55,7 @@ class TDMSpot_cat extends XoopsObject
         }
         $title = $this->isNew() ? sprintf(_AM_TDMSPOT_ADD) : sprintf(_AM_TDMSPOT_EDITER);
 
-        include_once(XOOPS_ROOT_PATH . "/class/xoopsformloader.php");
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         $form = new XoopsThemeForm($title, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
@@ -58,9 +68,9 @@ class TDMSpot_cat extends XoopsObject
         }
 
         //categorie
-        $cat_handler =& xoops_getModuleHandler('tdmspot_cat', 'TDMSpot');
-        $arr         = $cat_handler->getall();
-        $mytree      = new XoopsObjectTree($arr, 'id', 'pid');
+        $catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
+        $arr = $catHandler->getall();
+        $mytree = new XoopsObjectTree($arr, 'id', 'pid');
         $form->addElement(new XoopsFormLabel(_AM_TDMSPOT_PARENT, $mytree->makeSelBox('pid', 'title', '-', $this->getVar('pid'), true)));
 
         //editor
@@ -75,20 +85,20 @@ class TDMSpot_cat extends XoopsObject
         //  $form->addElement( new XoopsFormEditor(_AM_TDMSPOT_TEXT, "cat_text", $editor_configs), false );
 
         //upload
-        $img            = $this->getVar('img') ? : 'blank.gif';
-        $uploadirectory = "modules/" . $xoopsModule->dirname() . "/upload/cat/";
-        $imgtray        = new XoopsFormElementTray(_AM_TDMSPOT_IMG, '<br />');
-        $imgpath        = sprintf(_AM_TDMSPOT_PATH, $uploadirectory);
-        $imageselect    = new XoopsFormSelect($imgpath, 'img', $img);
-        $topics_array   = XoopsLists:: getImgListAsArray(XOOPS_ROOT_PATH . "/" . $uploadirectory);
+        $img = $this->getVar('img') ?: 'blank.gif';
+        $uploadirectory = 'modules/' . $xoopsModule->dirname() . '/upload/cat/';
+        $imgtray = new XoopsFormElementTray(_AM_TDMSPOT_IMG, '<br>');
+        $imgpath = sprintf(_AM_TDMSPOT_PATH, $uploadirectory);
+        $imageselect = new XoopsFormSelect($imgpath, 'img', $img);
+        $topics_array = XoopsLists:: getImgListAsArray(XOOPS_ROOT_PATH . '/' . $uploadirectory);
         foreach ($topics_array as $image) {
             $imageselect->addOption("$image", $image);
         }
-        $imageselect->setExtra("onchange='showImgSelected(\"image3\", \"img\", \"" . $uploadirectory . "\", \"\", \"" . XOOPS_URL . "\")'");
+        $imageselect->setExtra("onchange='showImgSelected(\"image3\", \"img\", \"" . $uploadirectory . '", "", "' . XOOPS_URL . "\")'");
         $imgtray->addElement($imageselect, false);
-        $imgtray->addElement(new XoopsFormLabel('', "<br /><img src='" . XOOPS_URL . "/" . $uploadirectory . "/" . $img . "' name='image3' id='image3' alt='' />"));
+        $imgtray->addElement(new XoopsFormLabel('', "<br><img src='" . XOOPS_URL . '/' . $uploadirectory . '/' . $img . "' name='image3' id='image3' alt=''>"));
 
-        $fileseltray = new XoopsFormElementTray('', '<br />');
+        $fileseltray = new XoopsFormElementTray('', '<br>');
         $fileseltray->addElement(new XoopsFormFile(_AM_TDMSPOT_UPLOAD, 'attachedfile', $xoopsModuleConfig['tdmspot_mimemax']), false);
         $fileseltray->addElement(new XoopsFormLabel(''), false);
         $imgtray->addElement($fileseltray);
@@ -99,14 +109,14 @@ class TDMSpot_cat extends XoopsObject
         $form->addElement(new XoopsFormText(_AM_TDMSPOT_WEIGHT, 'weight', 10, 11, $this->getVar('weight')));
 
         // Permissions
-        $member_handler = &xoops_gethandler('member');
-        $group_list     = &$member_handler->getGroupList();
-        $gperm_handler  = &xoops_gethandler('groupperm');
-        $full_list      = array_keys($group_list);
+        $memberHandler = xoops_getHandler('member');
+        $group_list = $memberHandler->getGroupList();
+        $gpermHandler = xoops_getHandler('groupperm');
+        $full_list = array_keys($group_list);
 
         if (!$this->isNew()) {      // Edit mode
-            $groups_ids                    = $gperm_handler->getGroupIds('tdmspot_catview', $this->getVar('id'), $xoopsModule->getVar('mid'));
-            $groups_ids                    = array_values($groups_ids);
+            $groups_ids = $gpermHandler->getGroupIds('tdmspot_catview', $this->getVar('id'), $xoopsModule->getVar('mid'));
+            $groups_ids = array_values($groups_ids);
             $groups_news_can_view_checkbox = new XoopsFormCheckBox(_AM_TDMSPOT_PERM_2, 'groups_view[]', $groups_ids);
         } else {    // Creation mode
             $groups_news_can_view_checkbox = new XoopsFormCheckBox(_AM_TDMSPOT_PERM_2, 'groups_view[]', $full_list);
@@ -123,13 +133,25 @@ class TDMSpot_cat extends XoopsObject
     }
 }
 
+/**
+ * Class TDMSpottdmspot_catHandler
+ */
 class TDMSpottdmspot_catHandler extends XoopsPersistableObjectHandler
 {
-    public function __construct(&$db)
+    /**
+     * TDMSpottdmspot_catHandler constructor.
+     * @param null|object|XoopsDatabase $db
+     */
+    public function __construct($db)
     {
-        parent::__construct($db, "tdmspot_cat", 'TDMSpot_cat', 'id', 'title');
+        parent::__construct($db, 'tdmspot_cat', 'TDMSpot_cat', 'id', 'title');
     }
 
+    /**
+     * @param object|XoopsObject $obj
+     * @param int                $val
+     * @return bool
+     */
     public function delete($obj, $val = 1)
     {
         return parent::delete($obj);

@@ -12,16 +12,16 @@
 /**
  *  Xoops Form Class Elements
  *
- * @copyright       XOOPS Project (https://xoops.org)
- * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @copyright       {@link https://xoops.org 2001-2017 XOOPS Project}
+ * @license         {@link http://www.fsf.org/copyleft/gpl.html GNU public license 2.0 or later}
  * @package         class
  * @package         kernel
  * @subpackage      form
  * @author          Kazumi Ono <onokazu@xoops.org>
  * @author          Taiwen Jiang <phppp@users.sourceforge.net>
  * @author          John Neill <catzwolf@xoops.org>
- * @version         $Id: formselect.php 3988 2009-12-05 15:46:47Z trabis $
  */
+
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 xoops_load('XoopsFormElement');
@@ -32,7 +32,7 @@ xoops_load('XoopsFormElement');
  * @author      Kazumi Ono <onokazu@xoops.org>
  * @author      Taiwen Jiang <phppp@users.sourceforge.net>
  * @author      John Neill <catzwolf@xoops.org>
- * @copyright   XOOPS Project (https://xoops.org)
+ * @copyright   {@link https://xoops.org 2001-2017 XOOPS Project}
  * @package     kernel
  * @subpackage  form
  * @access      public
@@ -76,11 +76,11 @@ class TDMFormSelect extends XoopsFormElement
     /**
      * Constructor
      *
-     * @param string $caption  Caption
-     * @param string $name     "name" attribute
-     * @param mixed  $value    Pre-selected value (or array of them).
-     * @param int    $size     Number or rows. "1" makes a drop-down-list
-     * @param bool   $multiple Allow multiple selections?
+     * @param string $caption Caption
+     * @param string $name "name" attribute
+     * @param mixed $value Pre-selected value (or array of them).
+     * @param int $size Number or rows. "1" makes a drop-down-list
+     * @param bool $multiple Allow multiple selections?
      * @param string $extra
      */
     public function __construct($caption, $name, $value = null, $size = 1, $multiple = false, $extra = '')
@@ -88,17 +88,17 @@ class TDMFormSelect extends XoopsFormElement
         $this->setCaption($caption);
         $this->setName($name);
         $this->_multiple = $multiple;
-        $this->_size     = (int)($size);
-        $this->_extra    = $extra;
+        $this->_size = (int)$size;
+        $this->_extra = $extra;
         if (isset($value)) {
             $this->setValue($value);
         }
     }
 
-//    public function TDMFormSelect($caption, $name, $value = null, $size = 1, $multiple = false, $extra = '')
-//    {
-//        parent::__construct($caption, $name, $value, $size, $multiple, $extra);
-//    }
+    //    public function TDMFormSelect($caption, $name, $value = null, $size = 1, $multiple = false, $extra = '')
+    //    {
+    //        parent::__construct($caption, $name, $value, $size, $multiple, $extra);
+    //    }
     /**
      * Are multiple selections allowed?
      *
@@ -119,6 +119,9 @@ class TDMFormSelect extends XoopsFormElement
         return $this->_size;
     }
 
+    /**
+     * @return string
+     */
     public function getExtra()
     {
         return $this->_extra;
@@ -163,7 +166,7 @@ class TDMFormSelect extends XoopsFormElement
      * Add an option
      *
      * @param string $value "value" attribute
-     * @param string $name  "name" attribute
+     * @param string $name "name" attribute
      */
     public function addOption($value, $name = '')
     {
@@ -218,13 +221,13 @@ class TDMFormSelect extends XoopsFormElement
     {
         global $start, $tris, $limit, $groups, $xoopsUser, $xoopsModule, $xoopsModuleConfig;
 
-        $gperm_handler =& xoops_gethandler('groupperm');
+        $gpermHandler = xoops_getHandler('groupperm');
 
-        $ele_name    = $this->getName();
-        $ele_title   = $this->getTitle();
-        $ele_value   = $this->getValue();
+        $ele_name = $this->getName();
+        $ele_title = $this->getTitle();
+        $ele_value = $this->getValue();
         $ele_options = $this->getOptions();
-        $ret         = '<select size="' . $this->getSize() . '"' . $this->getExtra();
+        $ret = '<select size="' . $this->getSize() . '"' . $this->getExtra();
 
         if ($this->isMultiple() != false) {
             $ret .= ' name="' . $ele_name . '[]" id="' . $ele_name . '" title="' . $ele_title . '" multiple="multiple">';
@@ -232,7 +235,7 @@ class TDMFormSelect extends XoopsFormElement
             $ret .= ' name="' . $ele_name . '" id="' . $ele_name . '" title="' . $ele_title . '">';
         }
         foreach ($ele_options as $value => $name) {
-            $cat_link = tdmspot_seo_genUrl('index', $value, $name);
+            $cat_link = tdmspot_generateSeoUrl('index', $value, $name);
             $ret .= '<option value="' . $cat_link . '"';
             if (count($ele_value) > 0 && in_array($value, $ele_value)) {
                 $ret .= ' selected="selected"';
@@ -256,12 +259,12 @@ class TDMFormSelect extends XoopsFormElement
             return implode("\n", $this->customValidationCode);
             // generate validation code if required
         } elseif ($this->isRequired()) {
-            $eltname    = $this->getName();
+            $eltname = $this->getName();
             $eltcaption = $this->getCaption();
-            $eltmsg     = empty($eltcaption) ? sprintf(_FORM_ENTER, $eltname) : sprintf(_FORM_ENTER, $eltcaption);
-            $eltmsg     = str_replace('"', '\"', stripslashes($eltmsg));
+            $eltmsg = empty($eltcaption) ? sprintf(_FORM_ENTER, $eltname) : sprintf(_FORM_ENTER, $eltcaption);
+            $eltmsg = str_replace('"', '\"', stripslashes($eltmsg));
 
-            return "\nvar hasSelected = false; var selectBox = myform.{$eltname};" . "for (i = 0; i < selectBox.options.length; i++) { if (selectBox.options[i].selected == true) { hasSelected = true; break; } }" . "if (!hasSelected) { window.alert(\"{$eltmsg}\"); selectBox.focus(); return false; }";
+            return "\nvar hasSelected = false; var selectBox = myform.{$eltname};" . 'for (i = 0; i < selectBox.options.length; i++) { if (selectBox.options[i].selected == true) { hasSelected = true; break; } }' . "if (!hasSelected) { window.alert(\"{$eltmsg}\"); selectBox.focus(); return false; }";
         }
 
         return '';

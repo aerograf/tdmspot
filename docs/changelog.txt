@@ -1,22 +1,53 @@
-2.00 Beta 1             2015-09-22
-=====================================
+<h5>2.00 Beta 2  [NOT RELEASED]</h5>
+<hr>
+- XOOPS 2.5.9, PHP 7 (mamba)
+- Converted to XOOPS 2.5.8 Admin GUI (mamba)
+- removed @version (mamba)
+- PSR-2 code cosmetics (mamba)
+- addNavigation(basename(__FILE__))  (mamba)
+- dirname(__FILE__) to __DIR__ (mamba)
+- replaced < br /> with < br > (mamba)
+- Unnecessary double quotes (mamba)
+- reference mismatch (mamba)
+- Hardening to type safe (mamba)
+- update Help (mamba)
+- changed _handler to Handler (mamba)
+- removed '/' from void HTML elements (&lt;br&gt;, &lt;img&gt;, etc) (mamba)
+- HTML 5: removed 'selected' and 'checked' (mamba)
+- updated file headers for consistency (mamba)
+- renamed several $indexAdmin with $adminObject for consistency (mamba)
+- Updates for PayPal changes (zyspec)
+- added Contributing.md (mamba)
+- moved functions to Utility class (mamba)
+- include_once to require_once (mamba)
+- php-cs-fixer updates (mamba)
+- started conversion to XMF (mamba)
+    &nbsp;&nbsp;- updated addInfoBoxLine entries (mamba)
+    &nbsp;&nbsp;- displayNavigation(basename(__FILE__))  (mamba)
+    &nbsp;&nbsp;- changed to ->displayButton('left') (mamba)
+
+
+2.00 Beta 1             2015-09-22]</h5>
+<hr>
 - Converted to XOOPS 2.5.7 Admin GUI (Mamba)
 
-1.05                    2010-10-04
-=====================================
+
+<h5>1.05                    [2010-10-04]</h5>
+<hr>
 - Modification des catégorie.
 - Modification admin.
 
 
-1.0                    2010-03-16
-=====================================
+<h5>1.0                    [2010-03-16]</h5>
+<hr>
 - Debug TXTAREA item & catégorie.
 - Debug navigation admin/item.
 - Debut download.php.
 - Ajout import smartsection.
 
-1.03                    2010-02-06
-=====================================
+
+<h5>1.03                    [2010-02-06]</h5>
+<hr>
 - Debug error class
 - Ajout de .htaccess
 - Debut .htacces pour les commentaires.
@@ -27,9 +58,8 @@
 - Ajout design catégorie par Mage.
 
 
-1.02                    2010-01-03
-=====================================
+<h5>1.02                    [2010-01-03]</h5>
+<hr>
 - Modifier All admin bug.
 - Modifier ALL.php redirection et header.
 - Ajout import news.
-

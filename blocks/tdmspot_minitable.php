@@ -1,20 +1,24 @@
 <?php
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
 /**
- * ****************************************************************************
- *  - TDMSpot By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.)
- *
- * Cette licence, contient des limitations
- *
- * 1. Vous devez poss�der une permission d'ex�cuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' �tudier ni l'adapter � vos besoins,
- * 3. Vous ne devez le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la libert� de l'am�liorer ni de rendre publiques les modifications
- *
- * @license     TDMFR GNU public license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
+ * @copyright     {@link https://xoops.org/ XOOPS Project}
+ * @license       {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
+ * @since
+ * @author        TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author        XOOPS Development Team
+ */
+
+/**
  * @param $options
  * @return array
  */
@@ -22,18 +26,18 @@ function b_tdmspot($options)
 {
     global $xoopsModuleConfig, $xoopsModule;
 
-    include_once XOOPS_ROOT_PATH . '/modules/TDMSpot/include/common.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tdmspot/include/common.php';
 
-    $module_handler =& xoops_gethandler('module');
-    $xoopsModule    =& $module_handler->getByDirname('TDMSpot');
+    $moduleHandler = xoops_getHandler('module');
+    $xoopsModule   = $moduleHandler->getByDirname('tdmspot');
 
     if (!isset($xoopsModuleConfig)) {
-        $config_handler    = &xoops_gethandler('config');
-        $xoopsModuleConfig = &$config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
+        $configHandler     = xoops_getHandler('config');
+        $xoopsModuleConfig = &$configHandler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
     }
 
     if ($xoopsModuleConfig['tdmspot_seo'] == 1) {
-        include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar("dirname") . '/include/seo.inc.php';
+        require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/seo.inc.php';
     }
 
     $blocks       = array();
@@ -41,7 +45,7 @@ function b_tdmspot($options)
     $nb_document  = $options[1];
     $lenght_title = $options[2];
     $myts         = MyTextSanitizer::getInstance();
-    $item_handler =& xoops_getModuleHandler('tdmspot_item', 'TDMSpot');
+    $itemHandler  = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
 
     $criteria = new CriteriaCompo();
     $criteria->setLimit($nb_document);
@@ -54,101 +58,107 @@ function b_tdmspot($options)
 
     switch ($type_block) {
         //title
-        case "title":
+        case 'title':
             $criteria->add(new Criteria('display', 1));
             $criteria->add(new Criteria('indate', time(), '<'));
             $criteria->setSort('title');
             $criteria->setOrder('DESC');
-            $assoc_arr = $item_handler->getall($criteria);
+            $assoc_arr = $itemHandler->getall($criteria);
             foreach (array_keys($assoc_arr) as $i) {
                 $blocks[$i]['id']    = $assoc_arr[$i]->getVar('id');
-                $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, ($lenght_title)) . "..." : $assoc_arr[$i]->getVar('title')));
-                //$blocks[$i]['title'] =  "<a href='".XOOPS_URL. "/modules/TDMSpot/item.php?itemid=".$assoc_arr[$i]->getVar('id')."'>".$title."</a>";
-                $blocks[$i]['link']   = tdmspot_seo_genUrl($xoopsModuleConfig['tdmspot_seo_item'], $assoc_arr[$i]->getVar('id'), $assoc_arr[$i]->getVar('title'));
-                $blocks[$i]['counts'] = $assoc_arr[$i]->getVar("counts");
-                $blocks[$i]['hits']   = $assoc_arr[$i]->getVar("hits");
-                $blocks[$i]['indate'] = formatTimeStamp($assoc_arr[$i]->getVar("indate"), "m");
+                $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, $lenght_title)
+                                                                                                                      . '...' : $assoc_arr[$i]->getVar('title')));
+                //$blocks[$i]['title'] =  "<a href='".XOOPS_URL. "/modules/tdmspot/item.php?itemid=".$assoc_arr[$i]->getVar('id')."'>".$title."</a>";
+                $blocks[$i]['link']   = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $assoc_arr[$i]->getVar('id'), $assoc_arr[$i]->getVar('title'));
+                $blocks[$i]['counts'] = $assoc_arr[$i]->getVar('counts');
+                $blocks[$i]['hits']   = $assoc_arr[$i]->getVar('hits');
+                $blocks[$i]['indate'] = formatTimestamp($assoc_arr[$i]->getVar('indate'), 'm');
             }
             break;
         //recents
-        case "date":
+        case 'date':
             $criteria->add(new Criteria('display', 1));
             $criteria->add(new Criteria('indate', time(), '<'));
             $criteria->setSort('indate');
             $criteria->setOrder('DESC');
-            $assoc_arr = $item_handler->getall($criteria);
+            $assoc_arr = $itemHandler->getall($criteria);
             foreach (array_keys($assoc_arr) as $i) {
                 $blocks[$i]['id']    = $assoc_arr[$i]->getVar('id');
-                $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, ($lenght_title)) . "..." : $assoc_arr[$i]->getVar('title')));
-                //$blocks[$i]['title'] =  "<a href='".XOOPS_URL. "/modules/TDMSpot/item.php?itemid=".$assoc_arr[$i]->getVar('id')."'>".$title."</a>";
-                $blocks[$i]['link']   = tdmspot_seo_genUrl($xoopsModuleConfig['tdmspot_seo_item'], $assoc_arr[$i]->getVar('id'), $assoc_arr[$i]->getVar('title'));
-                $blocks[$i]['counts'] = $assoc_arr[$i]->getVar("counts");
-                $blocks[$i]['hits']   = $assoc_arr[$i]->getVar("hits");
-                $blocks[$i]['indate'] = formatTimeStamp($assoc_arr[$i]->getVar("indate"), "m");
+                $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, $lenght_title)
+                                                                                                                      . '...' : $assoc_arr[$i]->getVar('title')));
+                //$blocks[$i]['title'] =  "<a href='".XOOPS_URL. "/modules/tdmspot/item.php?itemid=".$assoc_arr[$i]->getVar('id')."'>".$title."</a>";
+                $blocks[$i]['link']   = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $assoc_arr[$i]->getVar('id'), $assoc_arr[$i]->getVar('title'));
+                $blocks[$i]['counts'] = $assoc_arr[$i]->getVar('counts');
+                $blocks[$i]['hits']   = $assoc_arr[$i]->getVar('hits');
+                $blocks[$i]['indate'] = formatTimestamp($assoc_arr[$i]->getVar('indate'), 'm');
             }
             break;
         // populaire
-        case "hits":
+        case 'hits':
             $criteria->add(new Criteria('display', 1));
             $criteria->add(new Criteria('indate', time(), '<'));
             $criteria->setSort('hits');
             $criteria->setOrder('DESC');
-            $assoc_arr = $item_handler->getall($criteria);
+            $assoc_arr = $itemHandler->getall($criteria);
             foreach (array_keys($assoc_arr) as $i) {
                 $blocks[$i]['id']    = $assoc_arr[$i]->getVar('id');
-                $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, ($lenght_title)) . "..." : $assoc_arr[$i]->getVar('title')));
-                //$blocks[$i]['title'] =  "<a href='".XOOPS_URL. "/modules/TDMSpot/item.php?itemid=".$assoc_arr[$i]->getVar('id')."'>".$title."</a>";
-                $blocks[$i]['link']   = tdmspot_seo_genUrl($xoopsModuleConfig['tdmspot_seo_item'], $assoc_arr[$i]->getVar('id'), $assoc_arr[$i]->getVar('title'));
-                $blocks[$i]['counts'] = $assoc_arr[$i]->getVar("counts");
-                $blocks[$i]['hits']   = $assoc_arr[$i]->getVar("hits");
-                $blocks[$i]['indate'] = formatTimeStamp($assoc_arr[$i]->getVar("indate"), "m");
+                $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, $lenght_title)
+                                                                                                                      . '...' : $assoc_arr[$i]->getVar('title')));
+                //$blocks[$i]['title'] =  "<a href='".XOOPS_URL. "/modules/tdmspot/item.php?itemid=".$assoc_arr[$i]->getVar('id')."'>".$title."</a>";
+                $blocks[$i]['link']   = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $assoc_arr[$i]->getVar('id'), $assoc_arr[$i]->getVar('title'));
+                $blocks[$i]['counts'] = $assoc_arr[$i]->getVar('counts');
+                $blocks[$i]['hits']   = $assoc_arr[$i]->getVar('hits');
+                $blocks[$i]['indate'] = formatTimestamp($assoc_arr[$i]->getVar('indate'), 'm');
             }
             break;
-        case "counts":
+        case 'counts':
             $criteria->add(new Criteria('display', 1));
             $criteria->add(new Criteria('indate', time(), '<'));
             $criteria->setSort('counts');
             $criteria->setOrder('DESC');
-            $assoc_arr = $item_handler->getall($criteria);
+            $assoc_arr = $itemHandler->getall($criteria);
             foreach (array_keys($assoc_arr) as $i) {
                 $blocks[$i]['id']    = $assoc_arr[$i]->getVar('id');
-                $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, ($lenght_title)) . "..." : $assoc_arr[$i]->getVar('title')));
+                $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, $lenght_title)
+                                                                                                                      . '...' : $assoc_arr[$i]->getVar('title')));
                 //$blocks[$i]['title'] =  "<a href='".XOOPS_URL. "/modules/TDMSound/item.php?itemid=".$assoc_arr[$i]->getVar('id')."'>".$title."</a>";
-                $blocks[$i]['link']   = tdmspot_seo_genUrl($xoopsModuleConfig['tdmspot_seo_item'], $assoc_arr[$i]->getVar('id'), $assoc_arr[$i]->getVar('title'));
-                $blocks[$i]['counts'] = $assoc_arr[$i]->getVar("counts");
-                $blocks[$i]['hits']   = $assoc_arr[$i]->getVar("hits");
-                $blocks[$i]['indate'] = formatTimeStamp($assoc_arr[$i]->getVar("indate"), "m");
+                $blocks[$i]['link']   = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $assoc_arr[$i]->getVar('id'), $assoc_arr[$i]->getVar('title'));
+                $blocks[$i]['counts'] = $assoc_arr[$i]->getVar('counts');
+                $blocks[$i]['hits']   = $assoc_arr[$i]->getVar('hits');
+                $blocks[$i]['indate'] = formatTimestamp($assoc_arr[$i]->getVar('indate'), 'm');
             }
             break;
-        case "comments":
+        case 'comments':
             $criteria->add(new Criteria('display', 1));
             $criteria->add(new Criteria('indate', time(), '<'));
             $criteria->setSort('comments');
             $criteria->setOrder('DESC');
-            $assoc_arr = $item_handler->getall($criteria);
+            $assoc_arr = $itemHandler->getall($criteria);
             foreach (array_keys($assoc_arr) as $i) {
                 $blocks[$i]['id']    = $assoc_arr[$i]->getVar('id');
-                $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, ($lenght_title)) . "..." : $assoc_arr[$i]->getVar('title')));
-                //$blocks[$i]['title'] =  "<a href='".XOOPS_URL. "/modules/TDMSpot/item.php?itemid=".$assoc_arr[$i]->getVar('id')."'>".$title."</a>";
-                $blocks[$i]['link']   = tdmspot_seo_genUrl($xoopsModuleConfig['tdmspot_seo_item'], $assoc_arr[$i]->getVar('id'), $assoc_arr[$i]->getVar('title'));
-                $blocks[$i]['counts'] = $assoc_arr[$i]->getVar("counts");
-                $blocks[$i]['hits']   = $assoc_arr[$i]->getVar("hits");
-                $blocks[$i]['indate'] = formatTimeStamp($assoc_arr[$i]->getVar("indate"), "m");
+                $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, $lenght_title)
+                                                                                                                      . '...' : $assoc_arr[$i]->getVar('title')));
+                //$blocks[$i]['title'] =  "<a href='".XOOPS_URL. "/modules/tdmspot/item.php?itemid=".$assoc_arr[$i]->getVar('id')."'>".$title."</a>";
+                $blocks[$i]['link']   = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $assoc_arr[$i]->getVar('id'), $assoc_arr[$i]->getVar('title'));
+                $blocks[$i]['counts'] = $assoc_arr[$i]->getVar('counts');
+                $blocks[$i]['hits']   = $assoc_arr[$i]->getVar('hits');
+                $blocks[$i]['indate'] = formatTimestamp($assoc_arr[$i]->getVar('indate'), 'm');
             }
             break;
-        case "rand":
+        case 'rand':
             $criteria->add(new Criteria('display', 1));
             $criteria->add(new Criteria('indate', time(), '<'));
             $criteria->setSort('RAND()');
-            $assoc_arr = $item_handler->getall($criteria);
+            $assoc_arr = $itemHandler->getall($criteria);
             foreach (array_keys($assoc_arr) as $i) {
                 $blocks[$i]['id']    = $assoc_arr[$i]->getVar('id');
-                $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, ($lenght_title)) . "..." : $assoc_arr[$i]->getVar('title')));
-                //$blocks[$i]['title'] =  "<a href='".XOOPS_URL. "/modules/TDMSpot/item.php?itemid=".$assoc_arr[$i]->getVar('id')."'>".$title."</a>";
-                $blocks[$i]['link']   = tdmspot_seo_genUrl($xoopsModuleConfig['tdmspot_seo_item'], $assoc_arr[$i]->getVar('id'), $assoc_arr[$i]->getVar('title'));
-                $blocks[$i]['counts'] = $assoc_arr[$i]->getVar("counts");
-                $blocks[$i]['hits']   = $assoc_arr[$i]->getVar("hits");
-                $blocks[$i]['indate'] = formatTimeStamp($assoc_arr[$i]->getVar("indate"), "m");
+                $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, $lenght_title)
+                                                                                                                      . '...' : $assoc_arr[$i]->getVar('title')));
+                //$blocks[$i]['title'] =  "<a href='".XOOPS_URL. "/modules/tdmspot/item.php?itemid=".$assoc_arr[$i]->getVar('id')."'>".$title."</a>";
+                $blocks[$i]['link']   = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $assoc_arr[$i]->getVar('id'), $assoc_arr[$i]->getVar('title'));
+                $blocks[$i]['counts'] = $assoc_arr[$i]->getVar('counts');
+                $blocks[$i]['hits']   = $assoc_arr[$i]->getVar('hits');
+                $blocks[$i]['indate'] = formatTimestamp($assoc_arr[$i]->getVar('indate'), 'm');
             }
             break;
 
@@ -157,27 +167,32 @@ function b_tdmspot($options)
     return $blocks;
 }
 
+/**
+ * @param $options
+ * @return string
+ */
 function b_tdmspot_edit($options)
 {
-    $cat_handler =& xoops_getModuleHandler('tdmspot_cat', 'TDMSpot');
-    $criteria    = new CriteriaCompo();
+    $catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
+    $criteria   = new CriteriaCompo();
     $criteria->add(new Criteria('display', 1));
     $criteria->setSort('title');
     $criteria->setOrder('ASC');
-    $assoc_arr = $cat_handler->getall($criteria);
+    $assoc_arr = $catHandler->getall($criteria);
     $form      = _MI_TDMSPOT_BLOCK_LIMIT . "&nbsp;\n";
-    $form .= "<input type=\"hidden\" name=\"options[0]\" value=\"" . $options[0] . "\" />";
-    $form .= "<input name=\"options[1]\" size=\"5\" maxlength=\"255\" value=\"" . $options[1] . "\" type=\"text\" />&nbsp;<br />";
-    $form .= _MI_TDMSPOT_BLOCK_TEXTE . " : <input name=\"options[2]\" size=\"5\" maxlength=\"255\" value=\"" . $options[2] . "\" type=\"text\" /><br /><br />";
+    $form      .= '<input type="hidden" name="options[0]" value="' . $options[0] . '">';
+    $form      .= '<input name="options[1]" size="5" maxlength="255" value="' . $options[1] . '" type="text">&nbsp;<br>';
+    $form      .= _MI_TDMSPOT_BLOCK_TEXTE . ' : <input name="options[2]" size="5" maxlength="255" value="' . $options[2] . '" type="text"><br><br>';
     array_shift($options);
     array_shift($options);
     array_shift($options);
-    $form .= _MI_TDMSPOT_BLOCK_CAT . "<br /><select name=\"options[]\" multiple=\"multiple\" size=\"5\">";
-    $form .= "<option value=\"0\" " . (array_search(0, $options) === false ? '' : 'selected="selected"') . ">All</option>";
+    $form .= _MI_TDMSPOT_BLOCK_CAT . '<br><select name="options[]" multiple="multiple" size="5">';
+    $form .= '<option value="0" ' . (array_search(0, $options) === false ? '' : 'selected="selected"') . '>All</option>';
     foreach (array_keys($assoc_arr) as $i) {
-        $form .= "<option value=\"" . $assoc_arr[$i]->getVar('id') . "\" " . (array_search($assoc_arr[$i]->getVar('id'), $options) === false ? '' : 'selected="selected"') . ">" . $assoc_arr[$i]->getVar('title') . "</option>";
+        $form .= '<option value="' . $assoc_arr[$i]->getVar('id') . '" ' . (array_search($assoc_arr[$i]->getVar('id'), $options) === false ? '' : 'selected="selected"') . '>'
+                 . $assoc_arr[$i]->getVar('title') . '</option>';
     }
-    $form .= "</select>";
+    $form .= '</select>';
 
     return $form;
 }

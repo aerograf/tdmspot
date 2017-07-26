@@ -1,23 +1,25 @@
 <?php
-/**
- * ****************************************************************************
- *  - TDMSpot By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.)
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
  *
- * Cette licence, contient des limitations
- *
- * 1. Vous devez posséder une permission d'exécuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' étudier ni l'adapter à vos besoins,
- * 3. Vous ne devez le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la liberté de l'améliorer ni de rendre publiques les modifications
- *
- * @license     TDMFR GNU public license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-require '../../../mainfile.php';
-require(XOOPS_ROOT_PATH . '/header.php');
+
+/**
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
+ * @since
+ * @author       TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author       XOOPS Development Team
+ */
+
+require_once __DIR__ . '/../../../mainfile.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 if (!defined('XOOPS_ROOT_PATH')) {
     die('XOOPS root path not defined');
@@ -25,22 +27,22 @@ if (!defined('XOOPS_ROOT_PATH')) {
 
 $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'list';
 
-$item_handler =& xoops_getModuleHandler('tdmspot_item', 'TDMSpot');
-$vote_handler =& xoops_getModuleHandler('tdmspot_vote', 'TDMSpot');
+$itemHandler = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
+$voteHandler = xoops_getModuleHandler('tdmspot_vote', 'tdmspot');
 
 $myts = MyTextSanitizer::getInstance();
 
-$module_handler =& xoops_gethandler('module');
-$xoopsModule    =& $module_handler->getByDirname('TDMSpot');
-$gperm_handler  =& xoops_gethandler('groupperm');
+$moduleHandler = xoops_getHandler('module');
+$xoopsModule = $moduleHandler->getByDirname('tdmspot');
+$gpermHandler = xoops_getHandler('groupperm');
 
 if (!isset($xoopsModuleConfig)) {
-    $config_handler    = &xoops_gethandler('config');
-    $xoopsModuleConfig = &$config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
+    $configHandler = xoops_getHandler('config');
+    $xoopsModuleConfig = &$configHandler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
 }
 
 //inclus les langues
-include_once(XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/language/" . $xoopsConfig['language'] . "/main.php");
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/language/' . $xoopsConfig['language'] . '/main.php';
 
 //permission
 if (is_object($xoopsUser)) {
@@ -53,7 +55,7 @@ if (is_object($xoopsUser)) {
 
 switch ($op) {
 
-    case "addvote":
+    case 'addvote':
 
         //interdit au non membre
         if (empty($xoopsUser)) {
@@ -62,7 +64,7 @@ switch ($op) {
         }
 
         //permission d'afficher
-        if (!$gperm_handler->checkRight('spot_view', 32, $groups, $xoopsModule->getVar('mid'))) {
+        if (!$gpermHandler->checkRight('spot_view', 32, $groups, $xoopsModule->getVar('mid'))) {
             echo _MD_TDMSPOT_NOPERM;
             exit();
         }
@@ -70,26 +72,26 @@ switch ($op) {
         if ($_REQUEST['vote_id']) {
             $criteria = new CriteriaCompo();
             $criteria->add(new Criteria('vote_file', $_REQUEST['vote_id']));
-            $criteria->add(new Criteria('vote_ip', $_SERVER["REMOTE_ADDR"]));
-            $numvote = $vote_handler->getCount($criteria);
+            $criteria->add(new Criteria('vote_ip', $_SERVER['REMOTE_ADDR']));
+            $numvote = $voteHandler->getCount($criteria);
 
             if ($numvote > 0) {
                 echo _MD_TDMSPOT_VOTENOOK;
                 exit();
             } else {
-                $obj =& $vote_handler->create();
+                $obj = $voteHandler->create();
                 $obj->setVar('vote_file', $_REQUEST['vote_id']);
-                $obj->setVar('vote_ip', $_SERVER["REMOTE_ADDR"]);
-                $erreur = $vote_handler->insert($obj);
+                $obj->setVar('vote_ip', $_SERVER['REMOTE_ADDR']);
+                $erreur = $voteHandler->insert($obj);
 
-                $item  = $item_handler->get($_REQUEST['vote_id']);
+                $item = $itemHandler->get($_REQUEST['vote_id']);
                 $count = $item->getVar('file_counts');
-                $vote  = $item->getVar('file_votes');
+                $vote = $item->getVar('file_votes');
                 ++$count;
                 ++$vote;
                 $item->setVar('counts', $count);
                 $item->setVar('votes', $vote);
-                $erreur .= $item_handler->insert($item);
+                $erreur .= $itemHandler->insert($item);
             }
 
             if ($erreur) {
@@ -102,7 +104,7 @@ switch ($op) {
         }
         break;
 
-    case "removevote":
+    case 'removevote':
 
         //interdit au non membre
         if (empty($xoopsUser)) {
@@ -111,7 +113,7 @@ switch ($op) {
         }
 
         //permission d'afficher
-        if (!$gperm_handler->checkRight('spot_view', 32, $groups, $xoopsModule->getVar('mid'))) {
+        if (!$gpermHandler->checkRight('spot_view', 32, $groups, $xoopsModule->getVar('mid'))) {
             echo _MD_TDMSPOT_NOPERM;
             exit();
         }
@@ -119,26 +121,26 @@ switch ($op) {
         if ($_REQUEST['vote_id']) {
             $criteria = new CriteriaCompo();
             $criteria->add(new Criteria('vote_file', $_REQUEST['vote_id']));
-            $criteria->add(new Criteria('vote_ip', $_SERVER["REMOTE_ADDR"]));
-            $numvote = $vote_handler->getCount($criteria);
+            $criteria->add(new Criteria('vote_ip', $_SERVER['REMOTE_ADDR']));
+            $numvote = $voteHandler->getCount($criteria);
 
             if ($numvote > 0) {
                 echo _MD_TDMSPOT_VOTENOOK;
                 exit();
             } else {
-                $obj =& $vote_handler->create();
+                $obj = $voteHandler->create();
                 $obj->setVar('vote_file', $_REQUEST['vote_id']);
-                $obj->setVar('vote_ip', $_SERVER["REMOTE_ADDR"]);
-                $erreur = $vote_handler->insert($obj);
+                $obj->setVar('vote_ip', $_SERVER['REMOTE_ADDR']);
+                $erreur = $voteHandler->insert($obj);
 
-                $item  = $item_handler->get($_REQUEST['vote_id']);
+                $item = $itemHandler->get($_REQUEST['vote_id']);
                 $count = $item->getVar('file_counts');
-                $vote  = $item->getVar('file_votes');
+                $vote = $item->getVar('file_votes');
                 --$count;
                 ++$vote;
                 $item->setVar('counts', $count);
                 $item->setVar('votes', $vote);
-                $erreur .= $item_handler->insert($item);
+                $erreur .= $itemHandler->insert($item);
             }
             if ($erreur) {
                 echo _MD_TDMSPOT_VOTEOK;

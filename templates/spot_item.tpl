@@ -33,7 +33,7 @@
 
 
               <p class="itemText"><{$tpitem.text}></p>
-              <br style="clear: both;"/>
+              <br style="clear: both;">
               </div>
 
 
@@ -54,7 +54,7 @@
             </div>
 
             </div>
-            <br />
+            <br>
                 <{/foreach}>
 
 </td></tr></table>

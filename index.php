@@ -1,38 +1,39 @@
 <?php
-/**
- * ****************************************************************************
- *  - TDMSpot By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.)
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
  *
- * Cette licence, contient des limitations
- *
- * 1. Vous devez poss�der une permission d'ex�cuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' �tudier ni l'adapter � vos besoins,
- * 3. Vous ne devez le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la libert� de l'am�liorer ni de rendre publiques les modifications
- *
- * @license     TDMFR GNU public license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-include_once '../../mainfile.php';
-$xoopsOption['template_main'] = 'spot_index.tpl';
-require(XOOPS_ROOT_PATH . '/header.php');
+/**
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
+ * @since
+ * @author       TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author       XOOPS Development Team
+ */
 
-include_once XOOPS_ROOT_PATH . "/class/template.php";
-include_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
-include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar("dirname") . '/include/common.php';
+require_once __DIR__ . '/../../mainfile.php';
+$GLOBALS['xoopsOption']['template_main'] = 'spot_index.tpl';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
-$page_handler  =& xoops_getModuleHandler('tdmspot_page', 'TDMSpot');
-$item_handler  =& xoops_getModuleHandler('tdmspot_item', 'TDMSpot');
-$cat_handler   =& xoops_getModuleHandler('tdmspot_cat', 'TDMSpot');
-$block_handler =& xoops_getModuleHandler('tdmspot_newblocks', 'TDMSpot');
-$gperm_handler =& xoops_gethandler('groupperm');
+require_once XOOPS_ROOT_PATH . '/class/template.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/common.php';
+
+$pageHandler = xoops_getModuleHandler('tdmspot_page', 'tdmspot');
+$itemHandler = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
+$catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
+$blockHandler = xoops_getModuleHandler('tdmspot_newblocks', 'tdmspot');
+$gpermHandler = xoops_getHandler('groupperm');
 
 if ($xoopsModuleConfig['tdmspot_seo'] == 1) {
-    include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar("dirname") . '/include/seo.inc.php';
+    require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/seo.inc.php';
 }
 
 //permission
@@ -43,14 +44,14 @@ if (is_object($xoopsUser)) {
 }
 
 //permission d'afficher
-if (!$gperm_handler->checkRight('spot_view', 2, $groups, $xoopsModule->getVar('mid'))) {
+if (!$gpermHandler->checkRight('spot_view', 2, $groups, $xoopsModule->getVar('mid'))) {
     redirect_header(XOOPS_URL, 2, _MD_TDMSPOT_NOPERM);
     exit();
 }
 
-$limit  = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : $xoopsModuleConfig['tdmspot_page'];
-$tris   = isset($_REQUEST['tris']) ? $_REQUEST['tris'] : 'indate';
-$start  = isset($_REQUEST['start']) ? $_REQUEST['start'] : 0;
+$limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : $xoopsModuleConfig['tdmspot_page'];
+$tris = isset($_REQUEST['tris']) ? $_REQUEST['tris'] : 'indate';
+$start = isset($_REQUEST['start']) ? $_REQUEST['start'] : 0;
 $itemid = isset($_REQUEST['itemid']) ? $_REQUEST['itemid'] : 0;
 
 $myts = MyTextSanitizer::getInstance();
@@ -58,14 +59,14 @@ $myts = MyTextSanitizer::getInstance();
 // ************************************************************
 // Liste des Categories
 // ************************************************************
-$cat_arr = $cat_handler->getall();
-$mytree  = new TDMObjectTree($cat_arr, 'id', 'pid');
+$cat_arr = $catHandler->getall();
+$mytree = new TdmObjectTree($cat_arr, 'id', 'pid');
 //asigne les URL
-define("TDM_CAT_URL", TDMSPOT_CAT_URL);
-define("TDM_CAT_PATH", TDMSPOT_CAT_PATH);
+define('TDM_CAT_URL', TDMSPOT_CAT_URL);
+define('TDM_CAT_PATH', TDMSPOT_CAT_PATH);
 $cat_display = $xoopsModuleConfig['tdmspot_cat_display'];
-$cat_cel     = $xoopsModuleConfig['tdmspot_cat_cel'];
-$display_cat = $mytree->makeCatBox($item_handler, 'title', '-', $cat = false);
+$cat_cel = $xoopsModuleConfig['tdmspot_cat_cel'];
+$display_cat = $mytree->makeCatBox($itemHandler, 'title', '-', $cat = false);
 $xoopsTpl->assign('display_cat', $display_cat);
 
 // ************************************************************
@@ -75,7 +76,7 @@ $xoopsTpl->assign('display_cat', $display_cat);
 $criteria = new CriteriaCompo();
 
 if (!empty($itemid) && is_numeric($itemid)) {
-    $itemid = (int)($itemid);
+    $itemid = (int)$itemid;
     $criteria->add(new Criteria('id', $itemid));
 }
 
@@ -83,20 +84,20 @@ $criteria->add(new Criteria('visible', 1));
 $criteria->setSort('weight');
 $criteria->setOrder('ASC');
 $criteria->setLimit(1);
-$page_arr = $page_handler->getObjects($criteria);
+$page_arr = $pageHandler->getObjects($criteria);
 
-$page   = array();
+$page = array();
 $tptabs = array();
 
 foreach (array_keys($page_arr) as $p) {
-    if ($gperm_handler->checkRight('spot_pageview', $page_arr[$p]->getVar('id'), $groups, $xoopsModule->getVar('mid'))) {
+    if ($gpermHandler->checkRight('spot_pageview', $page_arr[$p]->getVar('id'), $groups, $xoopsModule->getVar('mid'))) {
         if ($xoopsModuleConfig['tdmspot_name'] == 1) {
             $page['title'] = $page_arr[$p]->getVar('title');
         }
         $page['id'] = $page_arr[$p]->getVar('id');
         //tabs
         $tptabs['title'] = $page_arr[$p]->getVar('title');
-        $tptabs['id']    = $page_arr[$p]->getVar('id');
+        $tptabs['id'] = $page_arr[$p]->getVar('id');
         //cherche les blocks
         $criteria = new CriteriaCompo();
 
@@ -104,27 +105,27 @@ foreach (array_keys($page_arr) as $p) {
         $criteria->add(new Criteria('pid', $page_arr[$p]->getVar('id')));
         $criteria->setSort('weight');
         $criteria->setOrder('ASC');
-        $block_arr = $block_handler->getObjects($criteria);
+        $block_arr = $blockHandler->getObjects($criteria);
         //$tpblock = array();
         foreach (array_keys($block_arr) as $b) {
             $tpblock['title'] = $block_arr[$b]->getVar('title');
-            $tpblock['side']  = $block_arr[$b]->getVar('side');
-            $tpblock['pid']   = $block_arr[$b]->getVar('pid');
+            $tpblock['side'] = $block_arr[$b]->getVar('side');
+            $tpblock['pid'] = $block_arr[$b]->getVar('pid');
 
             //cr�e le block
             $xoopsblock_arr = new XoopsBlock($block_arr[$b]->getVar('bid'));
 
-            @include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsblock_arr->getVar('dirname') . "/blocks/" . $xoopsblock_arr->getVar('func_file');
-            @include_once XOOPS_ROOT_PATH . "/modules/" . $xoopsblock_arr->getVar('dirname') . "/language/" . $xoopsConfig['language'] . "/blocks.php";
+            @require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsblock_arr->getVar('dirname') . '/blocks/' . $xoopsblock_arr->getVar('func_file');
+            @require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsblock_arr->getVar('dirname') . '/language/' . $xoopsConfig['language'] . '/blocks.php';
 
-            $opt = $block_arr[$b]->getVar("options") ? : $xoopsblock_arr->getVar('options');
+            $opt = $block_arr[$b]->getVar('options') ?: $xoopsblock_arr->getVar('options');
 
             $show_func = $xoopsblock_arr->getVar('show_func');
-            $options   = explode("|", $opt);
-            $block     = $show_func($options);
+            $options = explode('|', $opt);
+            $block = $show_func($options);
             $GLOBALS['xoopsLogger']->startTime($block_arr[$b]->getVar('title'));
             $GLOBALS['xoopsTpl']->assign('block', $block);
-            $tpblock['content'] = $GLOBALS['xoopsTpl']->fetch("db:" . $xoopsblock_arr->getVar("template"));
+            $tpblock['content'] = $GLOBALS['xoopsTpl']->fetch('db:' . $xoopsblock_arr->getVar('template'));
             $GLOBALS['xoopsLogger']->stopTime($block_arr[$b]->getVar('title'));
             $page['tpblock'][] = $tpblock;
         }
@@ -138,22 +139,22 @@ foreach (array_keys($page_arr) as $p) {
         $criteria->setSort('indate');
         $criteria->setOrder('ASC');
         $criteria->add(new Criteria('cat', '(' . $page_arr[$p]->getVar('cat') . ')', 'IN'));
-        $item_arr = $item_handler->getall($criteria);
+        $item_arr = $itemHandler->getall($criteria);
         foreach (array_keys($item_arr) as $i) {
-            if ($gperm_handler->checkRight('tdmpicture_catview', $item_arr[$i]->getVar('cat'), $groups, $xoopsModule->getVar('mid'))) {
-                $tpitem['id']    = $item_arr[$i]->getVar('id');
+            if ($gpermHandler->checkRight('tdmpicture_catview', $item_arr[$i]->getVar('cat'), $groups, $xoopsModule->getVar('mid'))) {
+                $tpitem['id'] = $item_arr[$i]->getVar('id');
                 $tpitem['title'] = $item_arr[$i]->getVar('title');
-                $tpitem['cat']   = $item_arr[$i]->getVar('cat');
+                $tpitem['cat'] = $item_arr[$i]->getVar('cat');
                 //trouve la categorie
-                if ($cat =& $cat_handler->get($item_arr[$i]->getVar('cat'))) {
+                if ($cat =& $catHandler->get($item_arr[$i]->getVar('cat'))) {
                     $tpitem['cat_title'] = $cat->getVar('title');
-                    $tpitem['cat_link']  = tdmspot_seo_genUrl($xoopsModuleConfig['tdmspot_seo_cat'], $cat->getVar('id'), $cat->getVar('title'));
-                    $tpitem['cat_id']    = $cat->getVar('id');
+                    $tpitem['cat_link'] = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_cat'], $cat->getVar('id'), $cat->getVar('title'));
+                    $tpitem['cat_id'] = $cat->getVar('id');
                     if ($xoopsModuleConfig['tdmspot_img'] == 1) {
-                        $imgpath = XOOPS_ROOT_PATH . "/modules/" . $xoopsModule->dirname() . "/upload/cat/" . $cat->getVar("img");
+                        $imgpath = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/cat/' . $cat->getVar('img');
                         if (file_exists($imgpath)) {
-                            $redim         = tdmspot_redimage($imgpath, $xoopsModuleConfig['tdmspot_cat_width'], $xoopsModuleConfig['tdmspot_cat_height']);
-                            $tpitem['img'] = "<img src=" . XOOPS_URL . "/modules/" . $xoopsModule->dirname() . "/upload/cat/" . $cat->getVar("img") . " height='" . $redim['dst_h'] . "' width='" . $redim['dst_w'] . "'>";
+                            $redim = tdmspot_redimage($imgpath, $xoopsModuleConfig['tdmspot_cat_width'], $xoopsModuleConfig['tdmspot_cat_height']);
+                            $tpitem['img'] = '<img src=' . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/upload/cat/' . $cat->getVar('img') . " height='" . $redim['dst_h'] . "' width='" . $redim['dst_w'] . "'>";
                             //$tpitem['img'] = XOOPS_URL. "/modules/".$xoopsModule->dirname()."/upload/cat/".$cat->getVar("img");
                         } else {
                             $tpitem['img'] = false;
@@ -161,30 +162,30 @@ foreach (array_keys($page_arr) as $p) {
                     }
                 }
 
-                $tpitem['link'] = tdmspot_seo_genUrl($xoopsModuleConfig['tdmspot_seo_item'], $item_arr[$i]->getVar('id'), $item_arr[$i]->getVar('title'));
+                $tpitem['link'] = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $item_arr[$i]->getVar('id'), $item_arr[$i]->getVar('title'));
 
                 if (strpos($item_arr[$i]->getVar('text'), '{X_BREAK}')) {
-                    $more           = substr($item_arr[$i]->getVar('text'), strpos($item_arr[$i]->getVar('text'), '{X_BREAK}') + 11);
+                    $more = substr($item_arr[$i]->getVar('text'), strpos($item_arr[$i]->getVar('text'), '{X_BREAK}') + 11);
                     $tpitem['text'] = substr($item_arr[$i]->getVar('text'), 0, strpos($item_arr[$i]->getVar('text'), '{X_BREAK}')) . "<a href='" . $tpitem['link'] . "' rel='nofollow'>[...]</a>";
                     $tpitem['more'] = strlen($more);
                 } else {
                     $tpitem['text'] = $item_arr[$i]->getVar('text');
                 }
 
-                $tpitem['indate']     = formatTimeStamp($item_arr[$i]->getVar("indate"), "m");
-                $tpitem['hits']       = $item_arr[$i]->getVar('hits');
-                $tpitem['votes']      = $item_arr[$i]->getVar("votes");
-                $tpitem['counts']     = $item_arr[$i]->getVar("counts");
+                $tpitem['indate'] = formatTimestamp($item_arr[$i]->getVar('indate'), 'm');
+                $tpitem['hits'] = $item_arr[$i]->getVar('hits');
+                $tpitem['votes'] = $item_arr[$i]->getVar('votes');
+                $tpitem['counts'] = $item_arr[$i]->getVar('counts');
                 $tpitem['postername'] = XoopsUser::getUnameFromId($item_arr[$i]->getVar('poster'));
-                $tpitem['poster']     = $item_arr[$i]->getVar('poster');
-                $tpitem['comments']   = $item_arr[$i]->getVar('comments');
+                $tpitem['poster'] = $item_arr[$i]->getVar('poster');
+                $tpitem['comments'] = $item_arr[$i]->getVar('comments');
 
                 //on test l'existance de fichier
-                if ($gperm_handler->checkRight('spot_view', 256, $groups, $xoopsModule->getVar('mid'))) {
-                    $imgpath = TDMSPOT_UPLOAD_PATH . "/" . $item_arr[$i]->getVar("file");
+                if ($gpermHandler->checkRight('spot_view', 256, $groups, $xoopsModule->getVar('mid'))) {
+                    $imgpath = TDMSPOT_UPLOAD_PATH . '/' . $item_arr[$i]->getVar('file');
                     if (file_exists($imgpath)) {
-                        $tpitem['file']     = $item_arr[$i]->getVar("file");
-                        $tpitem['file_url'] = tdmspot_seo_genUrl('download', $item_arr[$i]->getVar("id"), 'download_' . $item_arr[$i]->getVar('file'));
+                        $tpitem['file'] = $item_arr[$i]->getVar('file');
+                        $tpitem['file_url'] = tdmspot_generateSeoUrl('download', $item_arr[$i]->getVar('id'), 'download_' . $item_arr[$i]->getVar('file'));
                     } else {
                         $tpitem['file'] = false;
                     }
@@ -192,9 +193,9 @@ foreach (array_keys($page_arr) as $p) {
                 //moyen des vote
                 @$moyen = ceil($tpitem['votes'] / $tpitem['counts']);
                 if (@$moyen == 0) {
-                    $tpitem['moyen'] = "";
+                    $tpitem['moyen'] = '';
                 } else {
-                    $tpitem['moyen'] = "<img src='" . TDMSPOT_IMAGES_URL . "/rate" . $moyen . ".png'/>";
+                    $tpitem['moyen'] = "<img src='" . TDMSPOT_IMAGES_URL . '/rate' . $moyen . ".png'>";
                 }
 
                 $page['tpitem'][] = $tpitem;
@@ -211,20 +212,20 @@ $xoopsTpl->assign('selectcat', tdmspot_catselect(false));
 $xoopsTpl->assign('selectpage', tdmspot_pageselect($itemid));
 
 if ($xoopsModuleConfig['tdmspot_seo'] == 1) {
-    $xoopsTpl->assign('nav', "<a href='" . XOOPS_URL . "/" . $xoopsModuleConfig['tdmspot_seo_title'] . "/'/>" . $xoopsModuleConfig['tdmspot_seo_title'] . "</a>");
+    $xoopsTpl->assign('nav', "<a href='" . XOOPS_URL . '/' . $xoopsModuleConfig['tdmspot_seo_title'] . "/'>" . $xoopsModuleConfig['tdmspot_seo_title'] . '</a>');
 } else {
-    $xoopsTpl->assign('nav', "<a href='" . XOOPS_URL . "/modules/" . $xoopsModule->dirname() . "'/>" . $xoopsModule->name() . "</a>");
+    $xoopsTpl->assign('nav', "<a href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "'>" . $xoopsModule->name() . '</a>');
 }
 //perm
-if ($gperm_handler->checkRight('spot_view', 4, $groups, $xoopsModule->getVar('mid'))) {
-    $xoopsTpl->assign('perm_submit', "<a href='" . TDMSPOT_URL . "/submit.php'>" . _MD_TDMSPOT_PERM_4 . "</a>");
+if ($gpermHandler->checkRight('spot_view', 4, $groups, $xoopsModule->getVar('mid'))) {
+    $xoopsTpl->assign('perm_submit', "<a href='" . TDMSPOT_URL . "/submit.php'>" . _MD_TDMSPOT_PERM_4 . '</a>');
 }
-if ($gperm_handler->checkRight('spot_view', 128, $groups, $xoopsModule->getVar('mid'))) {
-    $xoopsTpl->assign('perm_rss', "<a href='" . TDMSPOT_URL . "/rss.php'><img src=" . TDMSPOT_IMAGES_URL . "/rss.png alt=" . _MD_TDMSPOT_EXPRSS . " title=" . _MD_TDMSPOT_EXPRSS . "></a>");
+if ($gpermHandler->checkRight('spot_view', 128, $groups, $xoopsModule->getVar('mid'))) {
+    $xoopsTpl->assign('perm_rss', "<a href='" . TDMSPOT_URL . "/rss.php'><img src=" . TDMSPOT_IMAGES_URL . '/rss.png alt=' . _MD_TDMSPOT_EXPRSS . ' title=' . _MD_TDMSPOT_EXPRSS . '></a>');
 }
-$xoopsTpl->assign('perm_vote', $gperm_handler->checkRight('spot_view', 32, $groups, $xoopsModule->getVar('mid')) ? true : false);
-$xoopsTpl->assign('perm_export', $gperm_handler->checkRight('spot_view', 16, $groups, $xoopsModule->getVar('mid')) ? true : false);
-$xoopsTpl->assign('perm_social', $gperm_handler->checkRight('spot_view', 64, $groups, $xoopsModule->getVar('mid')) ? true : false);
+$xoopsTpl->assign('perm_vote', $gpermHandler->checkRight('spot_view', 32, $groups, $xoopsModule->getVar('mid')) ? true : false);
+$xoopsTpl->assign('perm_export', $gpermHandler->checkRight('spot_view', 16, $groups, $xoopsModule->getVar('mid')) ? true : false);
+$xoopsTpl->assign('perm_social', $gpermHandler->checkRight('spot_view', 64, $groups, $xoopsModule->getVar('mid')) ? true : false);
 
 tdmspot_header();
 $xoopsTpl->assign('xoops_pagetitle', $myts->htmlSpecialChars($xoopsModule->name()));
@@ -236,4 +237,4 @@ if (isset($xoTheme) && is_object($xoTheme)) {
     $xoopsTpl->assign('xoops_meta_keywords', tdmspot_keywords($xoopsModuleConfig['tdmspot_keywords']));
     $xoopsTpl->assign('xoops_meta_description', tdmspot_desc($xoopsModuleConfig['tdmspot_description']));
 }
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

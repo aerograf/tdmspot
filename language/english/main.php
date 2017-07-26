@@ -1,21 +1,4 @@
 <?php
-/**
- * ****************************************************************************
- *  - TDMSpot By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.)
- *
- * Cette licence, contient des limitations
- *
- * 1. Vous devez posséder une permission d'exécuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' étudier ni l'adapter à vos besoins,
- * 3. Vous ne devez le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la liberté de l'améliorer ni de rendre publiques les modifications
- *
- * @license     TDMFR GNU public license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
- */
 
 //%%%%%%        File Name index.php         %%%%%
 define('_MD_TDMSPOT_NOPERM', 'Sorry you do not have permission to view this page.');
@@ -88,13 +71,13 @@ define('_MD_TDMSPOT_CATEGORY', 'Category');
 define('_MD_TDMSPOT_PAGE', 'Page');
 define('_MD_TDMSPOT_TEXT', 'Text');
 define('_MD_TDMSPOT_UPLOAD', 'Upload');
-define('_MD_TDMSPOT_TEXT_DESC', 'useful Tags: <br />
-{X_BREAK} defined the size of the short description.<br />
-{X_NAME} will display the name of the user.<br />
-{X_UNAME} will display the name of the user.<br />
-{X_UEMAIL} will display the email of the user.<br />
-{X_ADMINMAIL} will display the email of the admin.<br />
-{X_SITENAME} will display the name of your site. <br />
+define('_MD_TDMSPOT_TEXT_DESC', 'useful Tags: <br>
+{X_BREAK} defined the size of the short description.<br>
+{X_NAME} will display the name of the user.<br>
+{X_UNAME} will display the name of the user.<br>
+{X_UEMAIL} will display the email of the user.<br>
+{X_ADMINMAIL} will display the email of the admin.<br>
+{X_SITENAME} will display the name of your site. <br>
 {X_SITEURL} will display the URL of your site.');
 
 //permission

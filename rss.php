@@ -1,26 +1,28 @@
 <?php
-/**
- * ****************************************************************************
- *  - TDMSpot By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.)
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
  *
- * Cette licence, contient des limitations
- *
- * 1. Vous devez poss�der une permission d'ex�cuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' �tudier ni l'adapter � vos besoins,
- * 3. Vous ne devez le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la libert� de l'am�liorer ni de rendre publiques les modifications
- *
- * @license     TDMFR GNU public license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-include_once '../../mainfile.php';
-include_once $GLOBALS['xoops']->path('class/template.php');
-$page_handler =& xoops_getModuleHandler('tdmspot_page', 'TDMSpot');
-$item_handler =& xoops_getModuleHandler('tdmspot_item', 'TDMSpot');
-$cat_handler  =& xoops_getModuleHandler('tdmspot_cat', 'TDMSpot');
+
+/**
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
+ * @since
+ * @author       TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author       XOOPS Development Team
+ */
+
+require_once __DIR__ . '/../../mainfile.php';
+require_once $GLOBALS['xoops']->path('class/template.php');
+$pageHandler = xoops_getModuleHandler('tdmspot_page', 'tdmspot');
+$itemHandler = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
+$catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
 
 error_reporting(0);
 $GLOBALS['xoopsLogger']->activated = false;
@@ -66,28 +68,29 @@ if (!$tpl->is_cached('db:spot_rss.tpl')) {
     $criteria->add(new Criteria('indate', time(), '<'));
     $criteria->setSort('indate');
     $criteria->setOrder('ASC');
-    $item_arr = $item_handler->getall($criteria);
-    $tpitem   = array();
+    $item_arr = $itemHandler->getall($criteria);
+    $tpitem = array();
     foreach (array_keys($item_arr) as $i) {
-        $tpitem['id']    = $item_arr[$i]->getVar('id');
+        $tpitem['id'] = $item_arr[$i]->getVar('id');
         $tpitem['title'] = $item_arr[$i]->getVar('title');
-        $tpitem['cat']   = $item_arr[$i]->getVar('cat');
+        $tpitem['cat'] = $item_arr[$i]->getVar('cat');
         //trouve la categorie
-        if ($cat =& $cat_handler->get($item_arr[$i]->getVar('cat'))) {
+        if ($cat =& $catHandler->get($item_arr[$i]->getVar('cat'))) {
             $tpitem['cat_title'] = $cat->getVar('title');
-            $tpitem['cat_id']    = $cat->getVar('id');
+            $tpitem['cat_id'] = $cat->getVar('id');
         }
 
         if (strpos($item_arr[$i]->getVar('text'), '{X_BREAK}')) {
-            $more           = substr($item_arr[$i]->getVar('text'), strpos($item_arr[$i]->getVar('text'), '{X_BREAK}') + 11);
-            $tpitem['text'] = substr($item_arr[$i]->getVar('text'), 0, strpos($item_arr[$i]->getVar('text'), '{X_BREAK}')) . "<a href='./item.php?itemid=" . $tpitem['id'] . "' rel='nofollow'>[...]</a>";
+            $more = substr($item_arr[$i]->getVar('text'), strpos($item_arr[$i]->getVar('text'), '{X_BREAK}') + 11);
+            $tpitem['text'] = substr($item_arr[$i]->getVar('text'), 0,
+                    strpos($item_arr[$i]->getVar('text'), '{X_BREAK}')) . "<a href='./item.php?itemid=" . $tpitem['id'] . "' rel='nofollow'>[...]</a>";
         } else {
             $tpitem['text'] = $item_arr[$i]->getVar('text');
         }
 
-        $tpitem['indate'] = formatTimestamp($item_arr[$i]->getVar("indate"), "m");
-        $tpitem['link']   = XOOPS_URL . "/modules/TDMSpot/item.php?itemid=" . $item_arr[$i]->getVar("id");
-        $tpitem['guid']   = XOOPS_URL . "/modules/TDMSpot/item.php?itemid=" . $item_arr[$i]->getVar("id");
+        $tpitem['indate'] = formatTimestamp($item_arr[$i]->getVar('indate'), 'm');
+        $tpitem['link'] = XOOPS_URL . '/modules/tdmspot/item.php?itemid=' . $item_arr[$i]->getVar('id');
+        $tpitem['guid'] = XOOPS_URL . '/modules/tdmspot/item.php?itemid=' . $item_arr[$i]->getVar('id');
 
         $tpl->append('tpitem', $tpitem);
     }

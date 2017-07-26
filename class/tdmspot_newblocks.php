@@ -1,52 +1,63 @@
 <?php
-/**
- * ****************************************************************************
- *  - TDMSpot By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.)
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
  *
- * Cette licence, contient des limitations
- *
- * 1. Vous devez poss�der une permission d'ex�cuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' �tudier ni l'adapter � vos besoins,
- * 3. Vous ne devez le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la libert� de l'am�liorer ni de rendre publiques les modifications
- *
- * @license     TDMFR GNU public license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-defined('XOOPS_ROOT_PATH') || exit("XOOPS root path not defined");
+/**
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
+ * @since
+ * @author       TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author       XOOPS Development Team
+ */
+
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 if (!class_exists('XoopsPersistableObjectHandler')) {
-    include_once XOOPS_ROOT_PATH . '/modules/TDMSpot/class/object.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tdmspot/class/object.php';
 }
 
+/**
+ * Class TDMSpot_newblocks
+ */
 class TDMSpot_newblocks extends XoopsObject
 {
     // constructor
+    /**
+     * TDMSpot_newblocks constructor.
+     */
     public function __construct()
     {
         parent::__construct();
-        $this->initVar("id", XOBJ_DTYPE_INT, null, false, 10);
-        $this->initVar("bid", XOBJ_DTYPE_INT, null, false, 10);
-        $this->initVar("pid", XOBJ_DTYPE_INT, null, false, 10);
-        $this->initVar("options", XOBJ_DTYPE_TXTBOX, null, false);
-        $this->initVar("title", XOBJ_DTYPE_TXTBOX, null, false);
-        $this->initVar("side", XOBJ_DTYPE_TXTBOX, null, false);
-        $this->initVar("weight", XOBJ_DTYPE_INT, null, false, 1);
-        $this->initVar("visible", XOBJ_DTYPE_INT, null, false, 10);
+        $this->initVar('id', XOBJ_DTYPE_INT, null, false, 10);
+        $this->initVar('bid', XOBJ_DTYPE_INT, null, false, 10);
+        $this->initVar('pid', XOBJ_DTYPE_INT, null, false, 10);
+        $this->initVar('options', XOBJ_DTYPE_TXTBOX, null, false);
+        $this->initVar('title', XOBJ_DTYPE_TXTBOX, null, false);
+        $this->initVar('side', XOBJ_DTYPE_TXTBOX, null, false);
+        $this->initVar('weight', XOBJ_DTYPE_INT, null, false, 1);
+        $this->initVar('visible', XOBJ_DTYPE_INT, null, false, 10);
     }
 
-//    public function TDMSpot_newblocks()
-//    {
-//        $this->__construct();
-//    }
+    //    public function TDMSpot_newblocks()
+    //    {
+    //        $this->__construct();
+    //    }
 
+    /**
+     * @param bool $action
+     * @return XoopsThemeForm
+     */
     public function getForm($action = false)
     {
-        include_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 
         global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsConfig, $xoopsOption;
         if ($action === false) {
@@ -54,7 +65,7 @@ class TDMSpot_newblocks extends XoopsObject
         }
         $title = $this->isNew() ? sprintf(_AM_TDMSPOT_ADD) : sprintf(_AM_TDMSPOT_EDITER);
 
-        include_once(XOOPS_ROOT_PATH . "/class/xoopsformloader.php");
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         $form = new XoopsThemeForm($title, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
@@ -63,15 +74,15 @@ class TDMSpot_newblocks extends XoopsObject
             //Load groups
             $form->addElement(new XoopsFormHidden('id', $this->getVar('id')));
             //load option
-            include_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
+            require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
             $block_arr = new XoopsBlock($this->getVar('bid'));
-            include_once XOOPS_ROOT_PATH . '/modules/' . $block_arr->getVar('dirname') . '/blocks/' . $block_arr->getVar('func_file');
-            include_once XOOPS_ROOT_PATH . "/modules/" . $block_arr->getVar('dirname') . "/language/" . $xoopsConfig['language'] . "/blocks.php";
+            require_once XOOPS_ROOT_PATH . '/modules/' . $block_arr->getVar('dirname') . '/blocks/' . $block_arr->getVar('func_file');
+            require_once XOOPS_ROOT_PATH . '/modules/' . $block_arr->getVar('dirname') . '/language/' . $xoopsConfig['language'] . '/blocks.php';
 
             if ($edit_func = $block_arr->getVar('edit_func')) {
-                $opt = $this->getVar("options") ? : $block_arr->getVar('options');
+                $opt = $this->getVar('options') ?: $block_arr->getVar('options');
 
-                $options = explode("|", $opt);
+                $options = explode('|', $opt);
 
                 //$form->insertBreak($edit_func($options), 'odd');
                 $form->addElement(new XoopsFormLabel(_AM_TDMSPOT_OPTION, $edit_func($options)));
@@ -82,26 +93,26 @@ class TDMSpot_newblocks extends XoopsObject
 
         //load block
         $block_arr = new XoopsBlock();
-        $form_arr  = $block_arr->getAllBlocks();
+        $form_arr = $block_arr->getAllBlocks();
 
         $cat_select = new XoopsFormSelect(_AM_TDMSPOT_BLOCK, 'bid', $this->getVar('bid'));
         foreach (array_keys($form_arr) as $i) {
             $productcat_title = $form_arr[$i]->getVar('title');
-            $productcat_name  = $form_arr[$i]->getVar('dirname');
-            $cat_select->addOption($form_arr[$i]->getVar("bid"), $productcat_name . " *** " . $productcat_title);
+            $productcat_name = $form_arr[$i]->getVar('dirname');
+            $cat_select->addOption($form_arr[$i]->getVar('bid'), $productcat_name . ' *** ' . $productcat_title);
         }
 
         $form->addElement($cat_select);
         //
 
         //centrage
-        $tagchannel        = array(
-            'spot_topcenter'    => _AM_TDMSPOT_CENTERCCOLUMN,
-            'spot_topleft'      => _AM_TDMSPOT_CENTERLCOLUMN,
-            'spot_topright'     => _AM_TDMSPOT_CENTERRCOLUMN,
+        $tagchannel = array(
+            'spot_topcenter' => _AM_TDMSPOT_CENTERCCOLUMN,
+            'spot_topleft' => _AM_TDMSPOT_CENTERLCOLUMN,
+            'spot_topright' => _AM_TDMSPOT_CENTERRCOLUMN,
             'spot_bottomcenter' => _AM_TDMSPOT_BOTTOMCCOLUMN,
-            'spot_bottomleft'   => _AM_TDMSPOT_BOTTOMLCOLUMN,
-            'spot_bottomright'  => _AM_TDMSPOT_BOTTOMRCOLUMN
+            'spot_bottomleft' => _AM_TDMSPOT_BOTTOMLCOLUMN,
+            'spot_bottomright' => _AM_TDMSPOT_BOTTOMRCOLUMN
         );
         $tagchannel_select = new XoopsFormSelect(_AM_TDMSPOT_CENTER, 'side', $this->getVar('side'));
         $tagchannel_select->addOptionArray($tagchannel);
@@ -112,9 +123,9 @@ class TDMSpot_newblocks extends XoopsObject
             $form->insertBreak('<div align="center">' . _AM_TDMSPOT_OPTIONDESC . '</div>', 'odd');
         }
         //load page
-        $page_handler =& xoops_getModuleHandler('tdmspot_page', 'TDMSpot');
-        $page_select  = new XoopsFormSelect(_AM_TDMSPOT_PAGE, 'pid', $this->getVar('pid'));
-        $page_select->addOptionArray($page_handler->getList());
+        $pageHandler = xoops_getModuleHandler('tdmspot_page', 'tdmspot');
+        $page_select = new XoopsFormSelect(_AM_TDMSPOT_PAGE, 'pid', $this->getVar('pid'));
+        $page_select->addOptionArray($pageHandler->getList());
         $form->addElement($page_select, true);
         //
         //
@@ -128,10 +139,17 @@ class TDMSpot_newblocks extends XoopsObject
     }
 }
 
+/**
+ * Class TDMSpottdmspot_newblocksHandler
+ */
 class TDMSpottdmspot_newblocksHandler extends XoopsPersistableObjectHandler
 {
-    public function __construct(&$db)
+    /**
+     * TDMSpottdmspot_newblocksHandler constructor.
+     * @param null|object|XoopsDatabase $db
+     */
+    public function __construct($db)
     {
-        parent::__construct($db, "tdmspot_newblocks", 'TDMSpot_newblocks', 'id', 'title');
+        parent::__construct($db, 'tdmspot_newblocks', 'TDMSpot_newblocks', 'id', 'title');
     }
 }

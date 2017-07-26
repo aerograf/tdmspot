@@ -1,22 +1,23 @@
 <?php
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 
 /**
- * ****************************************************************************
- *  - TDMSpot By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.)
- *
- * Cette licence, contient des limitations
- *
- * 1. Vous devez posséder une permission d'exécuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' étudier ni l'adapter à vos besoins,
- * 3. Vous ne devez le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la liberté de l'améliorer ni de rendre publiques les modifications
- *
- * @license     TDMFR GNU public license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
+ * @since
+ * @author       TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author       XOOPS Development Team
  */
+
 class XoopsPersistableObjectHandler extends XoopsObjectHandler
 {
     /**
@@ -31,24 +32,31 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
 
     /**
      * Constructor - called from child classes
-     * @param   XoopsDatabase $db        {@link XoopsDatabase} object
-     * @param   string        $tablename Name of database table
-     * @param   string        $classname Name of Class, this handler is managing
-     * @param   string        $keyname   Name of the property, holding the key
+     * @param   XoopsDatabase $db {@link XoopsDatabase} object
+     * @param   string $tablename Name of database table
+     * @param   string $classname Name of Class, this handler is managing
+     * @param   string $keyname Name of the property, holding the key
      *
-     * @param bool            $idenfierName
+     * @param bool $idenfierName
      */
     public function __construct(XoopsDatabase $db, $tablename, $classname, $keyname, $idenfierName = false)
     {
         $this->XoopsObjectHandler($db);
-        $this->table     = $db->prefix($tablename);
-        $this->keyName   = $keyname;
+        $this->table = $db->prefix($tablename);
+        $this->keyName = $keyname;
         $this->className = $classname;
         if ($idenfierName != false) {
             $this->identifierName = $idenfierName;
         }
     }
 
+    /**
+     * @param XoopsDatabase $db
+     * @param               $tablename
+     * @param               $classname
+     * @param               $keyname
+     * @param bool          $idenfierName
+     */
     public function XoopsPersistableObjectHandler(XoopsDatabase $db, $tablename, $classname, $keyname, $idenfierName = false)
     {
         parent::__construct($db, $tablename, $classname, $keyname, $idenfierName);
@@ -74,8 +82,8 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
     /**
      * retrieve an object
      *
-     * @param   mixed $id        ID of the object - or array of ids for joint keys. Joint keys MUST be given in the same order as in the constructor
-     * @param   bool  $as_object whether to return an object or an array
+     * @param   mixed $id ID of the object - or array of ids for joint keys. Joint keys MUST be given in the same order as in the constructor
+     * @param   bool $as_object whether to return an object or an array
      * @return  mixed reference to the object, FALSE if failed
      */
     public function &get($id, $as_object = true)
@@ -84,10 +92,10 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
             $criteria = new CriteriaCompo();
             $keyNameCount = count($this->keyName);
             for ($i = 0; $i < $keyNameCount; ++$i) {
-                $criteria->add(new Criteria($this->keyName[$i], (int)($id[$i])));
+                $criteria->add(new Criteria($this->keyName[$i], (int)$id[$i]));
             }
         } else {
-            $criteria = new Criteria($this->keyName, (int)($id));
+            $criteria = new Criteria($this->keyName, (int)$id);
         }
         $criteria->setLimit(1);
         $obj_array = $this->getObjects($criteria, false, $as_object);
@@ -103,17 +111,17 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param   CriteriaElement $criteria  {@link CriteriaElement} conditions to be met
-     * @param   bool   $id_as_key use the ID as key for the array?
-     * @param   bool   $as_object return an array of objects?
+     * @param   CriteriaElement $criteria {@link CriteriaElement} conditions to be met
+     * @param   bool $id_as_key use the ID as key for the array?
+     * @param   bool $as_object return an array of objects?
      *
      * @return array
      */
     public function getObjects(CriteriaElement $criteria = null, $id_as_key = false, $as_object = true)
     {
-        $ret   = array();
+        $ret = array();
         $limit = $start = 0;
-        $sql   = 'SELECT * FROM ' . $this->table;
+        $sql = 'SELECT * FROM ' . $this->table;
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
             if ($criteria->getSort() != '') {
@@ -133,9 +141,9 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
     /**
      * Convert a database resultset to a returnable array
      *
-     * @param   object $result    database resultset
-     * @param   bool   $id_as_key - should NOT be used with joint keys
-     * @param   bool   $as_object
+     * @param   object $result database resultset
+     * @param   bool $id_as_key - should NOT be used with joint keys
+     * @param   bool $as_object
      *
      * @return array
      */
@@ -143,13 +151,13 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
     {
         $ret = array();
         while ($myrow = $this->db->fetchArray($result)) {
-            $obj =& $this->create(false);
+            $obj = $this->create(false);
             $obj->assignVars($myrow);
             if (!$id_as_key) {
                 if ($as_object) {
                     $ret[] =& $obj;
                 } else {
-                    $row  = array();
+                    $row = array();
                     $vars = $obj->getVars();
                     foreach (array_keys($vars) as $i) {
                         $row[$i] = $obj->getVar($i);
@@ -160,7 +168,7 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
                 if ($as_object) {
                     $ret[$myrow[$this->keyName]] =& $obj;
                 } else {
-                    $row  = array();
+                    $row = array();
                     $vars = $obj->getVars();
                     foreach (array_keys($vars) as $i) {
                         $row[$i] = $obj->getVar($i);
@@ -178,8 +186,8 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
      * Retrieve a list of objects as arrays - DON'T USE WITH JOINT KEYS
      *
      * @param   CriteriaElement $criteria {@link CriteriaElement} conditions to be met
-     * @param   int    $limit    Max number of objects to fetch
-     * @param   int    $start    Which record to start at
+     * @param   int $limit Max number of objects to fetch
+     * @param   int $start Which record to start at
      *
      * @return array
      */
@@ -224,22 +232,22 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
      * count objects matching a condition
      *
      * @param   CriteriaElement $criteria {@link CriteriaElement} to match
-     * @return  int     count of objects
+     * @return array|int
      */
     public function getCount(CriteriaElement $criteria = null)
     {
-        $field   = "";
+        $field = '';
         $groupby = false;
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
-            if ($criteria->groupby != "") {
+            if ($criteria->groupby != '') {
                 $groupby = true;
-                $field   = $criteria->groupby . ", "; //Not entirely secure unless you KNOW that no criteria's groupby clause is going to be mis-used
+                $field = $criteria->groupby . ', '; //Not entirely secure unless you KNOW that no criteria's groupby clause is going to be mis-used
             }
         }
         $sql = 'SELECT ' . $field . 'COUNT(*) FROM ' . $this->table;
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
-            if ($criteria->groupby != "") {
+            if ($criteria->groupby != '') {
                 $sql .= $criteria->getGroupby();
             }
         }
@@ -265,7 +273,7 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
      * delete an object from the database
      *
      * @param   object $obj reference to the object to delete
-     * @param   bool   $force
+     * @param   bool $force
      * @return  bool    FALSE if failed.
      */
     public function delete(&$obj, $force = false)
@@ -274,13 +282,13 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
             $clause = array();
             $keyNameCount = count($this->keyName);
             for ($i = 0; $i < $keyNameCount; ++$i) {
-                $clause[] = $this->keyName[$i] . " = " . $obj->getVar($this->keyName[$i]);
+                $clause[] = $this->keyName[$i] . ' = ' . $obj->getVar($this->keyName[$i]);
             }
-            $whereclause = implode(" AND ", $clause);
+            $whereclause = implode(' AND ', $clause);
         } else {
-            $whereclause = $this->keyName . " = " . $obj->getVar($this->keyName);
+            $whereclause = $this->keyName . ' = ' . $obj->getVar($this->keyName);
         }
-        $sql = "DELETE FROM " . $this->table . " WHERE " . $whereclause;
+        $sql = 'DELETE FROM ' . $this->table . ' WHERE ' . $whereclause;
         if (false != $force) {
             $result = $this->db->queryF($sql);
         } else {
@@ -296,9 +304,9 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
     /**
      * insert a new object in the database
      *
-     * @param   object $obj         reference to the object
-     * @param   bool   $force       whether to force the query execution despite security settings
-     * @param   bool   $checkObject check if the object is dirty and clean the attributes
+     * @param   object $obj reference to the object
+     * @param   bool $force whether to force the query execution despite security settings
+     * @param   bool $checkObject check if the object is dirty and clean the attributes
      * @return  bool FALSE if failed, TRUE if already present and unchanged or successful
      */
 
@@ -314,12 +322,12 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
              * @TODO: Change to if (!(class_exists($this->className) && $obj instanceof $this->className)) when going fully PHP5
              */
             if (!is_a($obj, $this->className)) {
-                $obj->setErrors(get_class($obj) . " Differs from " . $this->className);
+                $obj->setErrors(get_class($obj) . ' Differs from ' . $this->className);
 
                 return false;
             }
             if (!$obj->isDirty()) {
-                $obj->setErrors("Not dirty"); //will usually not be outputted as errors are not displayed when the method returns true, but it can be helpful when troubleshooting code - Mith
+                $obj->setErrors('Not dirty'); //will usually not be outputted as errors are not displayed when the method returns true, but it can be helpful when troubleshooting code - Mith
 
                 return true;
             }
@@ -330,7 +338,7 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
 
         foreach ($obj->cleanVars as $k => $v) {
             if ($obj->vars[$k]['data_type'] == XOBJ_DTYPE_INT) {
-                $cleanvars[$k] = (int)($v);
+                $cleanvars[$k] = (int)$v;
             } elseif (is_array($v)) {
                 $cleanvars[$k] = $this->db->quoteString(implode(',', $v));
             } else {
@@ -343,32 +351,32 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
                     $cleanvars[$this->keyName] = $this->db->genId($this->table . '_' . $this->keyName . '_seq');
                 }
             }
-            $sql = "INSERT INTO " . $this->table . " (" . implode(',', array_keys($cleanvars)) . ") VALUES (" . implode(',', array_values($cleanvars)) . ")";
+            $sql = 'INSERT INTO ' . $this->table . ' (' . implode(',', array_keys($cleanvars)) . ') VALUES (' . implode(',', array_values($cleanvars)) . ')';
         } else {
-            $sql = "UPDATE " . $this->table . " SET";
+            $sql = 'UPDATE ' . $this->table . ' SET';
             foreach ($cleanvars as $key => $value) {
                 if ((!is_array($this->keyName) && $key == $this->keyName) || (is_array($this->keyName) && in_array($key, $this->keyName))) {
                     continue;
                 }
                 if (isset($notfirst)) {
-                    $sql .= ",";
+                    $sql .= ',';
                 }
-                $sql .= " " . $key . " = " . $value;
+                $sql .= ' ' . $key . ' = ' . $value;
                 $notfirst = true;
             }
             if (is_array($this->keyName)) {
-                $whereclause = "";
+                $whereclause = '';
                 $keyNameCount = count($this->keyName);
                 for ($i = 0; $i < $keyNameCount; ++$i) {
                     if ($i > 0) {
-                        $whereclause .= " AND ";
+                        $whereclause .= ' AND ';
                     }
-                    $whereclause .= $this->keyName[$i] . " = " . $obj->getVar($this->keyName[$i]);
+                    $whereclause .= $this->keyName[$i] . ' = ' . $obj->getVar($this->keyName[$i]);
                 }
             } else {
-                $whereclause = $this->keyName . " = " . $obj->getVar($this->keyName);
+                $whereclause = $this->keyName . ' = ' . $obj->getVar($this->keyName);
             }
-            $sql .= " WHERE " . $whereclause;
+            $sql .= ' WHERE ' . $whereclause;
         }
         if (false != $force) {
             $result = $this->db->queryF($sql);
@@ -388,10 +396,10 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
     /**
      * Change a value for objects with a certain criteria
      *
-     * @param   string          $fieldname  Name of the field
-     * @param   string          $fieldvalue Value to write
-     * @param   CriteriaElement $criteria   {@link CriteriaElement}
-     * @param bool              $force
+     * @param   string $fieldname Name of the field
+     * @param   string $fieldvalue Value to write
+     * @param   CriteriaElement $criteria {@link CriteriaElement}
+     * @param bool $force
      * @return bool
      */
     public function updateAll($fieldname, $fieldvalue, CriteriaElement $criteria = null, $force = false)

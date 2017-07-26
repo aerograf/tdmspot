@@ -1,28 +1,12 @@
 <?php
-/**
- * ****************************************************************************
- *  - TDMSpot By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.)
- *
- * Cette licence, contient des limitations
- *
- * 1. Vous devez posséder une permission d'exécuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' étudier ni l'adapter à vos besoins,
- * 3. Vous ne devez le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la liberté de l'améliorer ni de rendre publiques les modifications
- *
- * @license     TDMFR GNU public license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
- */
 
 // The name of this module
-define('_MI_TDMSPOT_NAME', 'TDMSpot');
+define('_MI_TDMSPOT_NAME', 'TdmSpot');
 define('_MI_TDMSPOT_DESC', 'Spot managing your blocks');
 define('_MI_TDMSPOT_INDEX', 'Index');
 define('_MI_TDMSPOT_PAGE', 'Pages index');
 define('_MI_TDMSPOT_BLOCK', 'Blocks');
+define('_MI_TDMSPOT_PLUGINS', 'Plugins');
 define('_MI_TDMSPOT_CAT', 'Category');
 define('_MI_TDMSPOT_ITEM', 'Article');
 define('_MI_TDMSPOT_PERMISSIONS', 'Permissions');
@@ -55,7 +39,7 @@ define('_MI_TDMSPOT_SEO_DESC', 'Do not forget the .htaccess file in the root of 
 define('_MI_TDMSPOT_SEO_TITLE', 'Module name for the URL Rewriting?');
 define('_MI_TDMSPOT_SEO_CAT', 'Name of categories for URL Rewriting?');
 define('_MI_TDMSPOT_SEO_ITEM', 'Name of Articles for URL Rewriting?');
-define('_MI_TDMSPOT_EDITOR', 'Publisher?');
+define('_MI_TDMSPOT_EDITOR', 'Editor?');
 
 //block
 define('_MI_TDMSPOT_BLOCK_TITLE', 'Alphabetical Order');
@@ -87,6 +71,8 @@ define('_MI_TDMSPOT_DIRNAME', basename(dirname(dirname(__DIR__))));
 define('_MI_TDMSPOT_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_TDMSPOT_BACK_2_ADMIN', 'Back to Administration of ');
 
+define('_MI_TDMSPOT_IMPORT', 'Import');
+
 //define('_MI_TDMSPOT_HELP_DIR', __DIR__);
 
 //help
@@ -97,4 +83,3 @@ define('_MI_TDMSPOT_HELP_OVERVIEW', 'Overview');
 //define('_MI_TDMSPOT_HELP4','YYYYY');
 //define('_MI_TDMSPOT_HELP5','YYYYY');
 //define('_MI_TDMSPOT_HELP6','YYYYY');
-

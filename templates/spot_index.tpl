@@ -1,5 +1,5 @@
 <!-- menu -->
-<br />
+<br>
 
 <div id="content">
 
@@ -16,7 +16,7 @@ padding: 5px;">
 | <{$perm_submit}>
 <{/if}>
 </div>
-<br style="clear: both;"/>  <br />
+<br style="clear: both;">  <br>
 
 <{$display_cat}>
 
@@ -25,7 +25,7 @@ padding: 5px;">
 <{if $page.title}>
 <h3><{$page.title}></h3>
 <{/if}>
-<br />
+<br>
 
 <{include file="db:spot_top.tpl" tpblock=$page.tpblock}>
 <{include file="db:spot_item.tpl" tpitem=$page.tpitem}>
@@ -37,13 +37,13 @@ padding: 5px;">
 
 </div>
 
-<br /><br />
+<br><br>
 <{if $perm_social}>
 <!-- AddThis Button BEGIN -->
-<div style="float:left;"><a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;pub=xa-4ac5feea790b0936"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=xa-4ac5feea790b0936"></script></div>
+<div style="float:left;"><a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;pub=xa-4ac5feea790b0936"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"></a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=xa-4ac5feea790b0936"></script></div>
 <!-- AddThis Button END -->
 <{/if}>
 <{if $perm_rss}>
 <div style="float:right;"><{$perm_rss}></div>
 <{/if}>
-<br style="clear: both;"/>
+<br style="clear: both;">

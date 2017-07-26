@@ -1,65 +1,80 @@
 <?php
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 
 /**
- * ****************************************************************************
- *  - TDMSpot By TDM   - TEAM DEV MODULE FOR XOOPS
- *  - Licence PRO Copyright (c)  (http://www.)
- *
- * Cette licence, contient des limitations
- *
- * 1. Vous devez poss�der une permission d'ex�cuter le logiciel, pour n'importe quel usage.
- * 2. Vous ne devez pas l' �tudier ni l'adapter � vos besoins,
- * 3. Vous ne devez le redistribuer ni en faire des copies,
- * 4. Vous n'avez pas la libert� de l'am�liorer ni de rendre publiques les modifications
- *
- * @license     TDMFR GNU public license
- * @author      TDMFR ; TEAM DEV MODULE
- *
- * ****************************************************************************
+ * @copyright    {@link https://xoops.org/ XOOPS Project}
+ * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package       tdmspot
+ * @since
+ * @author       TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author       XOOPS Development Team
  */
+
 class TDMSoundMenu
 {
-    public  $Width              = 100;
-    public  $Height             = 100;
-    public  $BgColor            = 'transparent';
-    public  $OverBgColor        = '#FFF6C1';
-    public  $BorderWidth        = 1;
-    public  $BorderColor        = '#CCCCCC';
-    public  $OverBorderColor    = '#FF9900';
-    public  $BorderStyle        = 'solid';
-    public  $OverBorderStyle    = 'solid';
-    public  $Font               = 'Tahoma, Arial, Helvetica';
-    public  $FontColor          = '#666666';
-    public  $OverFontColor      = '#1E90FF';
-    public  $FontDeco           = 'none';
-    public  $OverFontDeco       = 'none';
-    public  $FontSize           = 11;
-    public  $FontWeight         = 'bold';
-    public  $FontExtra          = 'Tahoma, Arial, Helvetica';
-    public  $FontExtraColor     = '#A98952';
-    public  $OverFontExtraColor = '#0033FF';
-    public  $FontExtraDeco      = 'underline';
-    public  $OverFontExtraDeco  = 'underline';
-    public  $FontExtraSize      = 9;
-    public  $FontExtraWeight    = 'normal';
-    public  $TextAlign          = 'center';
+    public $Width              = 100;
+    public $Height             = 100;
+    public $BgColor            = 'transparent';
+    public $OverBgColor        = '#FFF6C1';
+    public $BorderWidth        = 1;
+    public $BorderColor        = '#CCCCCC';
+    public $OverBorderColor    = '#FF9900';
+    public $BorderStyle        = 'solid';
+    public $OverBorderStyle    = 'solid';
+    public $Font               = 'Tahoma, Arial, Helvetica';
+    public $FontColor          = '#666666';
+    public $OverFontColor      = '#1E90FF';
+    public $FontDeco           = 'none';
+    public $OverFontDeco       = 'none';
+    public $FontSize           = 11;
+    public $FontWeight         = 'bold';
+    public $FontExtra          = 'Tahoma, Arial, Helvetica';
+    public $FontExtraColor     = '#A98952';
+    public $OverFontExtraColor = '#0033FF';
+    public $FontExtraDeco      = 'underline';
+    public $OverFontExtraDeco  = 'underline';
+    public $FontExtraSize      = 9;
+    public $FontExtraWeight    = 'normal';
+    public $TextAlign          = 'center';
     private $_items             = array();
 
+    /**
+     * @param        $id
+     * @param string $link
+     * @param string $icon
+     * @param string $name
+     * @param string $extra
+     * @param string $alt
+     * @return bool
+     */
     public function addItem($id, $link = '', $icon = '', $name = '', $extra = '', $alt = '')
     {
         if (isset($this->_items[$id])) {
             return false;
         }
-        $rtn['link']       = $link;
-        $rtn['icon']       = $icon;
-        $rtn['name']       = $name;
-        $rtn['extra']      = $extra;
-        $rtn['alt']        = $alt;
+        $rtn['link'] = $link;
+        $rtn['icon'] = $icon;
+        $rtn['name'] = $name;
+        $rtn['extra'] = $extra;
+        $rtn['alt'] = $alt;
         $this->_items[$id] = $rtn;
 
         return true;
     }
 
+    /**
+     * @param $id
+     * @param $link
+     * @return bool
+     */
     public function setLink($id, $link)
     {
         if (isset($this->_items[$id])) {
@@ -71,6 +86,11 @@ class TDMSoundMenu
         }
     }
 
+    /**
+     * @param $id
+     * @param $icon
+     * @return bool
+     */
     public function setIcon($id, $icon)
     {
         if (isset($this->_items[$id])) {
@@ -82,6 +102,11 @@ class TDMSoundMenu
         }
     }
 
+    /**
+     * @param $id
+     * @param $name
+     * @return bool
+     */
     public function setName($id, $name)
     {
         if (isset($this->_items[$id])) {
@@ -93,6 +118,11 @@ class TDMSoundMenu
         }
     }
 
+    /**
+     * @param $id
+     * @param $extra
+     * @return bool
+     */
     public function setExtra($id, $extra)
     {
         if (isset($this->_items[$id])) {
@@ -104,6 +134,11 @@ class TDMSoundMenu
         }
     }
 
+    /**
+     * @param $id
+     * @param $alt
+     * @return bool
+     */
     public function setAlt($id, $alt)
     {
         if (isset($this->_items[$id])) {
@@ -115,6 +150,10 @@ class TDMSoundMenu
         }
     }
 
+    /**
+     * @param bool $ws
+     * @return string
+     */
     public function getCSS($ws = true)
     {
         if ($ws) {
@@ -123,17 +162,17 @@ class TDMSoundMenu
         $csscode .= "div.rmmenuicon{
                 margin: 3px;
                 font-family: $this->Font;
-                text-align: " . $this->TextAlign . ";
+                text-align: " . $this->TextAlign . ';
             }
             div.rmmenuicon a {
                 display: block; float: left;
-                height: " . $this->Height . "px !important;
-                height: " . $this->Height . "px;
-                width: " . $this->Width . "px !important;
-                width: " . $this->Width . "px;
+                height: ' . $this->Height . 'px !important;
+                height: ' . $this->Height . 'px;
+                width: ' . $this->Width . 'px !important;
+                width: ' . $this->Width . 'px;
                 vertical-align: middle;
                 text-decoration : none;
-                border: " . $this->BorderWidth . "px $this->BorderStyle $this->BorderColor;
+                border: ' . $this->BorderWidth . "px $this->BorderStyle $this->BorderColor;
                 padding: 2px 5px 1px 5px;
                 margin: 3px;
                 color: $this->FontColor;
@@ -169,18 +208,21 @@ class TDMSoundMenu
         return $csscode;
     }
 
+    /**
+     * @return string
+     */
     public function render()
     {
         $ret = "<div class='rmmenuicon'>";
         foreach ($this->_items as $k => $v) {
-            $ret .= "<a href='$v[link]' title='" . ($v['alt'] != '' ? $v['alt'] : $v['name']) . "'>" . ($v['icon'] != '' ? "<img src='$v[icon]' alt='$v[name]' /> " : '');
+            $ret .= "<a href='$v[link]' title='" . ($v['alt'] != '' ? $v['alt'] : $v['name']) . "'>" . ($v['icon'] != '' ? "<img src='$v[icon]' alt='$v[name]'> " : '');
             if ($v['name'] != '') {
                 $ret .= "<span>$v[name]</span>";
             }
             if ($v['extra'] != '') {
                 $ret .= "<span class='uno'>$v[extra]</span>";
             }
-            $ret .= "</a>";
+            $ret .= '</a>';
         }
         $ret .= "</div><div style='clear: both;'></div>";
 
