@@ -31,7 +31,7 @@ class utilities
         echo '<br>';
         //echo $xoopsModule->getVar('name') . ", version " . round($xoopsModule->getVar('version')/100 , 2) . "<br>";
         echo $xoopsModule->getVar('name') . ', version ' . round($GLOBALS['xoopsModule']->getInfo('version'), 2) . '<br>';
-        echo 'Updates are available from <a href=\'http://www.xoops.org\' target=\'_blank\'>http://http://www.xoops.org</a>';
+        echo 'Updates are available from <a href=\'https://xoops.org\' target=\'_blank\'>http://https://xoops.org</a>';
         echo '</span>';
     }
 
