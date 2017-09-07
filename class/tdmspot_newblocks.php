@@ -18,7 +18,7 @@
  * @author       XOOPS Development Team
  */
 
-defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 if (!class_exists('XoopsPersistableObjectHandler')) {
     require_once XOOPS_ROOT_PATH . '/modules/tdmspot/class/object.php';
@@ -106,14 +106,14 @@ class TDMSpot_newblocks extends XoopsObject
         //
 
         //centrage
-        $tagchannel = array(
+        $tagchannel = [
             'spot_topcenter' => _AM_TDMSPOT_CENTERCCOLUMN,
             'spot_topleft' => _AM_TDMSPOT_CENTERLCOLUMN,
             'spot_topright' => _AM_TDMSPOT_CENTERRCOLUMN,
             'spot_bottomcenter' => _AM_TDMSPOT_BOTTOMCCOLUMN,
             'spot_bottomleft' => _AM_TDMSPOT_BOTTOMLCOLUMN,
             'spot_bottomright' => _AM_TDMSPOT_BOTTOMRCOLUMN
-        );
+        ];
         $tagchannel_select = new XoopsFormSelect(_AM_TDMSPOT_CENTER, 'side', $this->getVar('side'));
         $tagchannel_select->addOptionArray($tagchannel);
         $form->addElement($tagchannel_select);

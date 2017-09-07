@@ -40,7 +40,7 @@ function b_tdmspot($options)
         require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/seo.inc.php';
     }
 
-    $blocks       = array();
+    $blocks       = [];
     $type_block   = $options[0];
     $nb_document  = $options[1];
     $lenght_title = $options[2];

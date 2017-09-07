@@ -46,7 +46,7 @@ $modversion['module_website_name'] = 'XOOPS';
 $modversion['min_php'] = '5.5';
 $modversion['min_xoops'] = '2.5.9';
 $modversion['min_admin'] = '1.1';
-$modversion['min_db'] = array('mysql' => '5.5');
+$modversion['min_db'] = ['mysql' => '5.5'];
 
 $modversion['system_menu'] = 1;
 
@@ -199,14 +199,14 @@ $modversion['config'][$i]['description'] = '';
 $modversion['config'][$i]['formtype'] = 'select';
 $modversion['config'][$i]['valuetype'] = 'text';
 $modversion['config'][$i]['default'] = 'texte';
-$modversion['config'][$i]['options'] = array(
+$modversion['config'][$i]['options'] = [
     _MI_TDMSPOT_CAT_DISPLAY_NONE => 'none',
     _MI_TDMSPOT_CAT_DISPLAY_SUB => 'sub',
     _MI_TDMSPOT_CAT_DISPLAY_SUBIMG => 'subimg',
     _MI_TDMSPOT_CAT_DISPLAY_TEXT => 'text',
     _MI_TDMSPOT_CAT_DISPLAY_TEXTIMG => 'textimg',
     _MI_TDMSPOT_CAT_DISPLAY_IMG => 'img'
-);
+];
 ++$i;
 $modversion['config'][$i]['name'] = 'tdmspot_cat_cel';
 $modversion['config'][$i]['title'] = '_MI_TDMSPOT_CAT_CEL';

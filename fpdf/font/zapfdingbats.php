@@ -1,5 +1,5 @@
 <?php
-$fpdf_charwidths['zapfdingbats'] = array(
+$fpdf_charwidths['zapfdingbats'] = [
     chr(0)   => 0,
     chr(1)   => 0,
     chr(2)   => 0,
@@ -256,4 +256,4 @@ $fpdf_charwidths['zapfdingbats'] = array(
     chr(253) => 970,
     chr(254) => 918,
     chr(255) => 0
-);
+];

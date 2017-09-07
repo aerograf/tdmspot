@@ -1,5 +1,5 @@
 <?php
-$fpdf_charwidths['helveticaI'] = array(
+$fpdf_charwidths['helveticaI'] = [
     chr(0)   => 278,
     chr(1)   => 278,
     chr(2)   => 278,
@@ -256,4 +256,4 @@ $fpdf_charwidths['helveticaI'] = array(
     chr(253) => 500,
     chr(254) => 556,
     chr(255) => 500
-);
+];

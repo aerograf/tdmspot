@@ -1,5 +1,5 @@
 <?php
-$fpdf_charwidths['symbol'] = array(
+$fpdf_charwidths['symbol'] = [
     chr(0)   => 250,
     chr(1)   => 250,
     chr(2)   => 250,
@@ -256,4 +256,4 @@ $fpdf_charwidths['symbol'] = array(
     chr(253) => 494,
     chr(254) => 494,
     chr(255) => 0
-);
+];

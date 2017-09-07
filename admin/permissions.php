@@ -55,7 +55,7 @@ $module_id = $xoopsModule->getVar('mid');
 $perm_name = 'spot_view';
 $perm_desc = _AM_TDMSPOT_MANAGE_PERM;
 
-$global_perms_array = array(
+$global_perms_array = [
     '2' => _AM_TDMSPOT_PERM_2,
     '4' => _AM_TDMSPOT_PERM_4,
     '8' => _AM_TDMSPOT_PERM_8,
@@ -64,7 +64,7 @@ $global_perms_array = array(
     '64' => _AM_TDMSPOT_PERM_64,
     '128' => _AM_TDMSPOT_PERM_128,
     '256' => _AM_TDMSPOT_PERM_256
-);
+];
 
 $permform = new XoopsGroupPermForm('', $module_id, $perm_name, '');
 

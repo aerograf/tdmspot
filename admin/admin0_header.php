@@ -26,11 +26,9 @@ if ($xoopsUser) {
     $xoopsModule = XoopsModule::getByDirname('tdmspot');
     if (!$xoopsUser->isAdmin($xoopsModule->mid())) {
         redirect_header(XOOPS_URL . '/', 3, _NOPERM);
-        exit();
     }
 } else {
     redirect_header(XOOPS_URL . '/', 3, _NOPERM);
-    exit();
 }
 if (file_exists('../language/' . $xoopsConfig['language'] . '/admin.php')) {
     require_once __DIR__ . '/../language/' . $xoopsConfig['language'] . '/admin.php';

@@ -46,7 +46,6 @@ if (is_object($xoopsUser)) {
 //permission d'afficher
 if (!$gpermHandler->checkRight('spot_view', 2, $groups, $xoopsModule->getVar('mid'))) {
     redirect_header(XOOPS_URL, 2, _MD_TDMSPOT_NOPERM);
-    exit();
 }
 
 if ($xoopsModuleConfig['tdmspot_seo'] == 1) {
@@ -74,13 +73,11 @@ switch ($op) {
         //securiter si aucun n'est choisis
         if (!isset($LT)) {
             redirect_header('index.php', 2, _MD_TDMSPOT_QUERYNOPERM);
-            exit();
         }
 
         //perm
         if (!$gpermHandler->checkRight('tdmspot_catview', $LT, $groups, $xoopsModule->getVar('mid'))) {
             redirect_header('index.php', 2, _MD_TDMSPOT_QUERYNOPERM);
-            exit();
         }
 
         // ************************************************************
@@ -115,8 +112,11 @@ switch ($op) {
         $nav_parent_id = array_reverse($nav_parent_id);
 
         foreach (array_keys($nav_parent_id) as $i) {
-            $navigation .= "<a href='" . tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_cat'], $nav_parent_id[$i]->getVar('id'),
-                    $nav_parent_id[$i]->getVar('title')) . "'>" . $nav_parent_id[$i]->getVar('title') . '</a>&nbsp;>&nbsp;';
+            $navigation .= "<a href='" . tdmspot_generateSeoUrl(
+                $xoopsModuleConfig['tdmspot_seo_cat'],
+                $nav_parent_id[$i]->getVar('id'),
+                    $nav_parent_id[$i]->getVar('title')
+            ) . "'>" . $nav_parent_id[$i]->getVar('title') . '</a>&nbsp;>&nbsp;';
         }
         //categorie en cour
         $cat = $catHandler->get($_REQUEST['LT']);
@@ -170,7 +170,7 @@ switch ($op) {
                 }
                 $indate = formatTimestamp($item_arr[$i]->getVar('indate'), 's');
                 $link = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $item_arr[$i]->getVar('id'), $item_arr[$i]->getVar('title'));
-                $xoopsTpl->append('tpitem_blindate', array('id' => $item_arr[$i]->getVar('id'), 'cat' => $item_arr[$i]->getVar('cat'), 'indate' => $indate, 'title' => $title, 'link' => $link));
+                $xoopsTpl->append('tpitem_blindate', ['id' => $item_arr[$i]->getVar('id'), 'cat' => $item_arr[$i]->getVar('cat'), 'indate' => $indate, 'title' => $title, 'link' => $link]);
             }
             unset($criteria);
         }
@@ -191,8 +191,10 @@ switch ($op) {
                     $title = substr($title, 0, $xoopsModuleConfig['tdmspot_bltitle']) . '...';
                 }
                 $link = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $item_arr[$i]->getVar('id'), $item_arr[$i]->getVar('title'));
-                $xoopsTpl->append('tpitem_blcounts',
-                    array('id' => $item_arr[$i]->getVar('id'), 'cat' => $item_arr[$i]->getVar('cat'), 'counts' => $item_arr[$i]->getVar('counts'), 'title' => $title, 'link' => $link));
+                $xoopsTpl->append(
+                    'tpitem_blcounts',
+                    ['id' => $item_arr[$i]->getVar('id'), 'cat' => $item_arr[$i]->getVar('cat'), 'counts' => $item_arr[$i]->getVar('counts'), 'title' => $title, 'link' => $link]
+                );
             }
         }
         //plus vue
@@ -211,8 +213,10 @@ switch ($op) {
                     $title = substr($title, 0, $xoopsModuleConfig['tdmspot_bltitle']) . '...';
                 }
                 $link = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $item_arr[$i]->getVar('id'), $item_arr[$i]->getVar('title'));
-                $xoopsTpl->append('tpitem_blhits',
-                    array('id' => $item_arr[$i]->getVar('id'), 'cat' => $item_arr[$i]->getVar('cat'), 'hits' => $item_arr[$i]->getVar('hits'), 'title' => $title, 'link' => $link));
+                $xoopsTpl->append(
+                    'tpitem_blhits',
+                    ['id' => $item_arr[$i]->getVar('id'), 'cat' => $item_arr[$i]->getVar('cat'), 'hits' => $item_arr[$i]->getVar('hits'), 'title' => $title, 'link' => $link]
+                );
             }
         }
 

@@ -24,7 +24,7 @@ class stats
      */
     public static function getModuleStats()
     {
-        $summaryArray = array();
+        $summaryArray = [];
 
         // amreview_reviews - amreview_cat - amreview_rate
 

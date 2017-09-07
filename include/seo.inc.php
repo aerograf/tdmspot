@@ -18,7 +18,7 @@
  * @author       XOOPS Development Team
  */
 
-defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 $seoOp = @$_GET['seoOp'];
 $seoArg = @$_GET['seoArg'];
@@ -53,7 +53,7 @@ if (empty($seoOp) && @$_SERVER['PATH_INFO']) {
     // $seoArg = substr($data[1], strlen($seoOp) + 1);
 }
 
-$seoMap = array(
+$seoMap = [
     $xoopsModuleConfig['tdmspot_seo_cat'] => 'viewcat.php',
     $xoopsModuleConfig['tdmspot_seo_item'] => 'item.php',
     'print' => 'print.php',
@@ -62,7 +62,7 @@ $seoMap = array(
     'rss' => 'rss.php',
     'download' => 'download.php',
     'index' => 'index.php'
-);
+];
 
 if (!empty($seoOp) && isset($seoMap[$seoOp])) {
     // module specific dispatching logic, other module must implement as

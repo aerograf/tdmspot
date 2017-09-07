@@ -46,7 +46,6 @@ if (is_object($xoopsUser)) {
 //permission d'afficher
 if (!$gpermHandler->checkRight('spot_view', 2, $groups, $xoopsModule->getVar('mid'))) {
     redirect_header(XOOPS_URL, 2, _MD_TDMSPOT_NOPERM);
-    exit();
 }
 
 $limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : $xoopsModuleConfig['tdmspot_page'];
@@ -86,8 +85,8 @@ $criteria->setOrder('ASC');
 $criteria->setLimit(1);
 $page_arr = $pageHandler->getObjects($criteria);
 
-$page = array();
-$tptabs = array();
+$page = [];
+$tptabs = [];
 
 foreach (array_keys($page_arr) as $p) {
     if ($gpermHandler->checkRight('spot_pageview', $page_arr[$p]->getVar('id'), $groups, $xoopsModule->getVar('mid'))) {

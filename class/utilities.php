@@ -182,7 +182,7 @@ class utilities
     {
         // amreview_reviews - amreview_cat - amreview_rate
 
-        $summary = array();
+        $summary = [];
 
         /**
          * As many of these will be "joined" at some point.

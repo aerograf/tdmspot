@@ -144,7 +144,7 @@ switch ($op) {
             }
         } else {
             xoops_cp_header();
-            xoops_confirm(array('ok' => 1, 'id' => $_REQUEST['id'], 'op' => 'del'), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMSPOT_BASESUREDELCAT, $obj->getVar('title')));
+            xoops_confirm(['ok' => 1, 'id' => $_REQUEST['id'], 'op' => 'del'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMSPOT_BASESUREDELCAT, $obj->getVar('title')));
         }
         break;
 
@@ -186,8 +186,11 @@ switch ($op) {
         } else {
             xoops_cp_header();
             $title = print_r($_REQUEST['id'], true);
-            xoops_confirm(array('ok' => 1, 'deletes' => 1, 'op' => $_REQUEST['op'], 'id' => serialize(array_map('intval', $_REQUEST['id']))), $_SERVER['REQUEST_URI'],
-                sprintf(_AM_TDMSPOT_BASESUREDELCAT, $title));
+            xoops_confirm(
+                ['ok' => 1, 'deletes' => 1, 'op' => $_REQUEST['op'], 'id' => serialize(array_map('intval', $_REQUEST['id']))],
+                $_SERVER['REQUEST_URI'],
+                sprintf(_AM_TDMSPOT_BASESUREDELCAT, $title)
+            );
         }
         break;
 

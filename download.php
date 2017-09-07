@@ -37,19 +37,16 @@ if (is_object($xoopsUser)) {
 
 if (!isset($_REQUEST['itemid'])) {
     redirect_header(XOOPS_URL, 2, _MD_TDMSPOT_NOPERM);
-    exit();
 }
 
 if (!$gpermHandler->checkRight('spot_view', 256, $groups, $xoopsModule->getVar('mid'))) {
     redirect_header(XOOPS_URL, 2, _MD_TDMSPOT_NOPERM);
-    exit();
 }
 
 $document = $itemHandler->get($_REQUEST['itemid']);
 
 if (!$document) {
     redirect_header(XOOPS_URL, 2, _MD_TDMSPOT_NOPERM);
-    exit();
 }
 
 //on test l'existance du fichier
@@ -58,7 +55,6 @@ if (file_exists($imgpath)) {
     $document_file = TDMSPOT_UPLOAD_URL . '/' . $document->getVar('file');
 } else {
     redirect_header(XOOPS_URL, 2, _MD_TDMSPOT_NOPERM);
-    exit();
 }
 
 //$dl = $document->getVar('file_dl');

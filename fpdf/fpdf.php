@@ -83,14 +83,14 @@ class fpdf
         $this->page = 0;
         $this->n = 2;
         $this->buffer = '';
-        $this->pages = array();
-        $this->PageSizes = array();
+        $this->pages = [];
+        $this->PageSizes = [];
         $this->state = 0;
-        $this->fonts = array();
-        $this->FontFiles = array();
-        $this->diffs = array();
-        $this->images = array();
-        $this->links = array();
+        $this->fonts = [];
+        $this->FontFiles = [];
+        $this->diffs = [];
+        $this->images = [];
+        $this->links = [];
         $this->InHeader = false;
         $this->InFooter = false;
         $this->lasth = 0;
@@ -104,7 +104,7 @@ class fpdf
         $this->ColorFlag = false;
         $this->ws = 0;
         //Standard fonts
-        $this->CoreFonts = array(
+        $this->CoreFonts = [
             'courier' => 'Courier',
             'courierB' => 'Courier-Bold',
             'courierI' => 'Courier-Oblique',
@@ -119,7 +119,7 @@ class fpdf
             'timesBI' => 'Times-BoldItalic',
             'symbol' => 'Symbol',
             'zapfdingbats' => 'ZapfDingbats'
-        );
+        ];
         //Scale factor
         if ($unit == 'pt') {
             $this->k = 1;
@@ -133,15 +133,15 @@ class fpdf
             $this->Error('Incorrect unit: ' . $unit);
         }
         //Page format
-        $this->PageFormats = array(
-            "a1" => array(1683.78, 2383.94),
-            "a2" => array(1190.55, 1683.78),
-            'a3' => array(841.89, 1190.55),
-            'a4' => array(595.28, 841.89),
-            'a5' => array(420.94, 595.28),
-            'letter' => array(612, 792),
-            'legal' => array(612, 1008)
-        );
+        $this->PageFormats = [
+            "a1" => [1683.78, 2383.94],
+            "a2" => [1190.55, 1683.78],
+            'a3' => [841.89, 1190.55],
+            'a4' => [595.28, 841.89],
+            'a5' => [420.94, 595.28],
+            'letter' => [612, 792],
+            'legal' => [612, 1008]
+        ];
         if (is_string($format)) {
             $format = $this->_getpageformat($format);
         }
@@ -270,10 +270,10 @@ class fpdf
             $field = count($this->aCols);
         }
 
-        $this->aCols[] = array('f' => $field, 'c' => $caption, 'w' => $width, 'a' => $align, 'd' => $date);
+        $this->aCols[] = ['f' => $field, 'c' => $caption, 'w' => $width, 'a' => $align, 'd' => $date];
     }
 
-    public function Table($query, $prop = array())
+    public function Table($query, $prop = [])
     {
         //Exécute la requête
         $res = $GLOBALS['xoopsDB']->queryF($query) or die('Erreur: ' . $GLOBALS['xoopsDB']->error() . "<BR>Requête: $query");
@@ -310,16 +310,16 @@ class fpdf
         $cMargin = $this->cMargin;
         $this->cMargin = $prop['padding'];
         if (!isset($prop['HeaderColor'])) {
-            $prop['HeaderColor'] = array();
+            $prop['HeaderColor'] = [];
         }
         $this->HeaderColor = $prop['HeaderColor'];
         if (!isset($prop['color1'])) {
-            $prop['color1'] = array();
+            $prop['color1'] = [];
         }
         if (!isset($prop['color2'])) {
-            $prop['color2'] = array();
+            $prop['color2'] = [];
         }
-        $this->RowColors = array($prop['color1'], $prop['color2']);
+        $this->RowColors = [$prop['color1'], $prop['color2']];
         //Calcule les largeurs des colonnes
         $this->CalcWidths($prop['width'], $prop['align']);
         //Imprime l'en-tête
@@ -333,7 +333,7 @@ class fpdf
         }
         $this->ProcessingTable = false;
         $this->cMargin = $cMargin;
-        $this->aCols = array();
+        $this->aCols = [];
         $this->Ln(4);
     }
 
@@ -392,7 +392,7 @@ if($this->ProcessingTable)
 
     public function Chars($text)
     {
-        return preg_replace(array("/&#39;/i", "/&#233;/i", "/&#232;/i", "/&#224;/i"), array("'", "é", "è", "à"), $text);
+        return preg_replace(["/&#39;/i", "/&#233;/i", "/&#232;/i", "/&#224;/i"], ["'", "é", "è", "à"], $text);
     }
 
     public function NumText($x, $y, $txt)
@@ -733,7 +733,7 @@ if($this->ProcessingTable)
             $this->Error('Could not include font definition file');
         }
         $i = count($this->fonts) + 1;
-        $this->fonts[$fontkey] = array('i' => $i, 'type' => $type, 'name' => $name, 'desc' => $desc, 'up' => $up, 'ut' => $ut, 'cw' => $cw, 'enc' => $enc, 'file' => $file);
+        $this->fonts[$fontkey] = ['i' => $i, 'type' => $type, 'name' => $name, 'desc' => $desc, 'up' => $up, 'ut' => $ut, 'cw' => $cw, 'enc' => $enc, 'file' => $file];
         if ($diff) {
             //Search existing encodings
             $d = 0;
@@ -752,9 +752,9 @@ if($this->ProcessingTable)
         }
         if ($file) {
             if ($type == 'TrueType') {
-                $this->FontFiles[$file] = array('length1' => $originalsize);
+                $this->FontFiles[$file] = ['length1' => $originalsize];
             } else {
-                $this->FontFiles[$file] = array('length1' => $size1, 'length2' => $size2);
+                $this->FontFiles[$file] = ['length1' => $size1, 'length2' => $size2];
             }
         }
     }
@@ -809,7 +809,7 @@ if($this->ProcessingTable)
                 $i = count($this->fonts) + 1;
                 $name = $this->CoreFonts[$fontkey];
                 $cw = $fpdf_charwidths[$fontkey];
-                $this->fonts[$fontkey] = array('i' => $i, 'type' => 'core', 'name' => $name, 'up' => -100, 'ut' => 50, 'cw' => $cw);
+                $this->fonts[$fontkey] = ['i' => $i, 'type' => 'core', 'name' => $name, 'up' => -100, 'ut' => 50, 'cw' => $cw];
             } else {
                 $this->Error('Undefined font: ' . $family . ' ' . $style);
             }
@@ -842,7 +842,7 @@ if($this->ProcessingTable)
     {
         //Create a new internal link
         $n = count($this->links) + 1;
-        $this->links[$n] = array(0, 0);
+        $this->links[$n] = [0, 0];
 
         return $n;
     }
@@ -856,13 +856,13 @@ if($this->ProcessingTable)
         if ($page == -1) {
             $page = $this->page;
         }
-        $this->links[$link] = array($page, $y);
+        $this->links[$link] = [$page, $y];
     }
 
     public function Link($x, $y, $w, $h, $link)
     {
         //Put a link on the page
-        $this->PageLinks[$this->page][] = array($x * $this->k, $this->hPt - $y * $this->k, $w * $this->k, $h * $this->k, $link);
+        $this->PageLinks[$this->page][] = [$x * $this->k, $this->hPt - $y * $this->k, $w * $this->k, $h * $this->k, $link];
     }
 
     public function Text($x, $y, $txt)
@@ -1357,7 +1357,7 @@ if($this->ProcessingTable)
         }
         $a = $this->PageFormats[$format];
 
-        return array($a[0] / $this->k, $a[1] / $this->k);
+        return [$a[0] / $this->k, $a[1] / $this->k];
     }
 
     public function _getfontpath()
@@ -1406,7 +1406,7 @@ if($this->ProcessingTable)
             $this->CurPageFormat = $format;
         }
         if ($orientation != $this->DefOrientation || $format[0] != $this->DefPageFormat[0] || $format[1] != $this->DefPageFormat[1]) {
-            $this->PageSizes[$this->page] = array($this->wPt, $this->hPt);
+            $this->PageSizes[$this->page] = [$this->wPt, $this->hPt];
         }
     }
 
@@ -1496,7 +1496,7 @@ if($this->ProcessingTable)
         }
         fclose($f);
 
-        return array('w' => $a[0], 'h' => $a[1], 'cs' => $colspace, 'bpc' => $bpc, 'f' => 'DCTDecode', 'data' => $data);
+        return ['w' => $a[0], 'h' => $a[1], 'cs' => $colspace, 'bpc' => $bpc, 'f' => 'DCTDecode', 'data' => $data];
     }
 
     public function _parsepng($file)
@@ -1557,13 +1557,13 @@ if($this->ProcessingTable)
                 //Read transparency info
                 $t = $this->_readstream($f, $n);
                 if ($ct == 0) {
-                    $trns = array(ord(substr($t, 1, 1)));
+                    $trns = [ord(substr($t, 1, 1))];
                 } elseif ($ct == 2) {
-                    $trns = array(ord(substr($t, 1, 1)), ord(substr($t, 3, 1)), ord(substr($t, 5, 1)));
+                    $trns = [ord(substr($t, 1, 1)), ord(substr($t, 3, 1)), ord(substr($t, 5, 1))];
                 } else {
                     $pos = strpos($t, chr(0));
                     if ($pos !== false) {
-                        $trns = array($pos);
+                        $trns = [$pos];
                     }
                 }
                 $this->_readstream($f, 4);
@@ -1582,7 +1582,7 @@ if($this->ProcessingTable)
         }
         fclose($f);
 
-        return array('w' => $w, 'h' => $h, 'cs' => $colspace, 'bpc' => $bpc, 'f' => 'FlateDecode', 'parms' => $parms, 'pal' => $pal, 'trns' => $trns, 'data' => $data);
+        return ['w' => $w, 'h' => $h, 'cs' => $colspace, 'bpc' => $bpc, 'f' => 'FlateDecode', 'parms' => $parms, 'pal' => $pal, 'trns' => $trns, 'data' => $data];
     }
 
     public function _readstream($f, $n)

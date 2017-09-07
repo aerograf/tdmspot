@@ -18,7 +18,7 @@
  * @author       XOOPS Development Team
  */
 
-defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 /**
  * @param string $title
@@ -41,7 +41,7 @@ function tdmspot_seo_title($title = '', $withExt = true)
 
     // Transformation des ponctuations
     //                 Tab     Space      !        "        #        %        &        '        (        )        ,        /        :        ;        <        =        >        ?        @        [        \        ]        ^        {        |        }        ~       .
-    $pattern = array(
+    $pattern = [
         '/%09/',
         '/%20/',
         '/%21/',
@@ -70,14 +70,14 @@ function tdmspot_seo_title($title = '', $withExt = true)
         '/%7D/',
         '/%7E/',
         "/\./"
-    );
-    $rep_pat = array('-', '-', '', '', '', '-100', '', '-', '', '', '', '-', '', '', '', '-', '', '', '-at-', '', '-', '', '-', '', '-', '', '-', '');
+    ];
+    $rep_pat = ['-', '-', '', '', '', '-100', '', '-', '', '', '', '-', '', '', '', '-', '', '', '-at-', '', '-', '', '-', '', '-', '', '-', ''];
     $title = preg_replace($pattern, $rep_pat, $title);
 
     // Transformation des caract�res accentu�s
     //                  °        è        é        ê        ë        ç        à        â        ä        î        ï        ù        ü        û        ô        ö
-    $pattern = array('/%B0/', '/%E8/', '/%E9/', '/%EA/', '/%EB/', '/%E7/', '/%E0/', '/%E2/', '/%E4/', '/%EE/', '/%EF/', '/%F9/', '/%FC/', '/%FB/', '/%F4/', '/%F6/');
-    $rep_pat = array('-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o');
+    $pattern = ['/%B0/', '/%E8/', '/%E9/', '/%EA/', '/%EB/', '/%E7/', '/%E0/', '/%E2/', '/%E4/', '/%EE/', '/%EF/', '/%F9/', '/%FC/', '/%FB/', '/%F4/', '/%F6/'];
+    $rep_pat = ['-', 'e', 'e', 'e', 'e', 'c', 'a', 'a', 'a', 'i', 'i', 'u', 'u', 'u', 'o', 'o'];
     $title = preg_replace($pattern, $rep_pat, $title);
 
     if (count($title) > 0) {
@@ -137,7 +137,7 @@ function tdmspot_generateSeoUrl($op, $id, $short_url = '', $start = null, $limit
         // generate classic url
 
         //seo Map
-        $seoMap = array(
+        $seoMap = [
             $xoopsModuleConfig['tdmspot_seo_cat'] => 'viewcat.php',
             $xoopsModuleConfig['tdmspot_seo_item'] => 'item.php',
             'print' => 'print.php',
@@ -146,7 +146,7 @@ function tdmspot_generateSeoUrl($op, $id, $short_url = '', $start = null, $limit
             'rss' => 'rss.php',
             'download' => 'download.php',
             'index' => 'index.php'
-        );
+        ];
 
         $url = '';
         $id_item = '';

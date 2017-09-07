@@ -47,7 +47,6 @@ switch ($op) {
         //perm
         if (!$gpermHandler->checkRight('tdmspot_view', 4, $groups, $xoopsModule->getVar('mid')) && !$gpermHandler->checkRight('tdmspot_view', 8, $groups, $xoopsModule->getVar('mid'))) {
             redirect_header(TDMSPOT_URL, 2, _MD_TDMSPOT_NOPERM);
-            exit();
         } else {
             // Affichage du formulaire de cr?ation de cat?gories
             $obj = $itemHandler->create();
@@ -61,7 +60,6 @@ switch ($op) {
         //perm
         if (!$gpermHandler->checkRight('tdmspot_view', 4, $groups, $xoopsModule->getVar('mid')) && !$gpermHandler->checkRight('tdmspot_view', 8, $groups, $xoopsModule->getVar('mid'))) {
             redirect_header(TDMSPOT_URL, 2, _MD_TDMSPOT_NOPERM);
-            exit();
         } else {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('index.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));

@@ -69,7 +69,7 @@ if (!$tpl->is_cached('db:spot_rss.tpl')) {
     $criteria->setSort('indate');
     $criteria->setOrder('ASC');
     $item_arr = $itemHandler->getall($criteria);
-    $tpitem = array();
+    $tpitem = [];
     foreach (array_keys($item_arr) as $i) {
         $tpitem['id'] = $item_arr[$i]->getVar('id');
         $tpitem['title'] = $item_arr[$i]->getVar('title');
@@ -82,8 +82,11 @@ if (!$tpl->is_cached('db:spot_rss.tpl')) {
 
         if (strpos($item_arr[$i]->getVar('text'), '{X_BREAK}')) {
             $more = substr($item_arr[$i]->getVar('text'), strpos($item_arr[$i]->getVar('text'), '{X_BREAK}') + 11);
-            $tpitem['text'] = substr($item_arr[$i]->getVar('text'), 0,
-                    strpos($item_arr[$i]->getVar('text'), '{X_BREAK}')) . "<a href='./item.php?itemid=" . $tpitem['id'] . "' rel='nofollow'>[...]</a>";
+            $tpitem['text'] = substr(
+                $item_arr[$i]->getVar('text'),
+                0,
+                    strpos($item_arr[$i]->getVar('text'), '{X_BREAK}')
+            ) . "<a href='./item.php?itemid=" . $tpitem['id'] . "' rel='nofollow'>[...]</a>";
         } else {
             $tpitem['text'] = $item_arr[$i]->getVar('text');
         }

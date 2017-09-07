@@ -69,7 +69,7 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
      *
      * @return  object
      */
-    public function &create($isNew = true)
+    public function create($isNew = true)
     {
         $obj = new $this->className();
         if ($isNew === true) {
@@ -86,7 +86,7 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
      * @param   bool $as_object whether to return an object or an array
      * @return  mixed reference to the object, FALSE if failed
      */
-    public function &get($id, $as_object = true)
+    public function get($id, $as_object = true)
     {
         if (is_array($this->keyName)) {
             $criteria = new CriteriaCompo();
@@ -111,20 +111,20 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
     /**
      * retrieve objects from the database
      *
-     * @param   CriteriaElement $criteria {@link CriteriaElement} conditions to be met
+     * @param   CriteriaCompo $criteria {@link CriteriaElement} conditions to be met
      * @param   bool $id_as_key use the ID as key for the array?
      * @param   bool $as_object return an array of objects?
      *
      * @return array
      */
-    public function getObjects(CriteriaElement $criteria = null, $id_as_key = false, $as_object = true)
+    public function getObjects(CriteriaCompo $criteria = null, $id_as_key = false, $as_object = true)
     {
-        $ret = array();
+        $ret = [];
         $limit = $start = 0;
         $sql = 'SELECT * FROM ' . $this->table;
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaCompo')) {
             $sql .= ' ' . $criteria->renderWhere();
-            if ($criteria->getSort() != '') {
+            if ($criteria->getSort() !== '') {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
             }
             $limit = $criteria->getLimit();
@@ -149,7 +149,7 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
      */
     public function convertResultSet($result, $id_as_key = false, $as_object = true)
     {
-        $ret = array();
+        $ret = [];
         while ($myrow = $this->db->fetchArray($result)) {
             $obj = $this->create(false);
             $obj->assignVars($myrow);
@@ -157,7 +157,7 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
                 if ($as_object) {
                     $ret[] =& $obj;
                 } else {
-                    $row = array();
+                    $row = [];
                     $vars = $obj->getVars();
                     foreach (array_keys($vars) as $i) {
                         $row[$i] = $obj->getVar($i);
@@ -168,7 +168,7 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
                 if ($as_object) {
                     $ret[$myrow[$this->keyName]] =& $obj;
                 } else {
-                    $row = array();
+                    $row = [];
                     $vars = $obj->getVars();
                     foreach (array_keys($vars) as $i) {
                         $row[$i] = $obj->getVar($i);
@@ -193,7 +193,7 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
      */
     public function getList(CriteriaElement $criteria = null, $limit = 0, $start = 0)
     {
-        $ret = array();
+        $ret = [];
         if ($criteria == null) {
             $criteria = new CriteriaCompo();
         }
@@ -260,7 +260,7 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
 
             return $count;
         } else {
-            $ret = array();
+            $ret = [];
             while (list($id, $count) = $this->db->fetchRow($result)) {
                 $ret[$id] = $count;
             }
@@ -279,7 +279,7 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
     public function delete(&$obj, $force = false)
     {
         if (is_array($this->keyName)) {
-            $clause = array();
+            $clause = [];
             $keyNameCount = count($this->keyName);
             for ($i = 0; $i < $keyNameCount; ++$i) {
                 $clause[] = $this->keyName[$i] . ' = ' . $obj->getVar($this->keyName[$i]);

@@ -10,16 +10,20 @@ define('_AM_TDMSPOT_EDITER', 'Edit');
 define('_AM_TDMSPOT_DELETE', 'Delete');
 define('_AM_TDMSPOT_BASESURE', 'WARNING: Are you sure you want to delete?');
 define('_AM_TDMSPOT_BASESUREDEL', "WARNING: Are you sure you want to delete: <b><span style='color : Red'> %s </span></b> ?");
-define('_AM_TDMSPOT_BASESUREDELCAT',
-    "WARNING: Are you sure you want to delete: <b><span style='color : Red'> %s </span></b>, the children of the category will be deleted but the files will not be deleted");
+define(
+    '_AM_TDMSPOT_BASESUREDELCAT',
+    "WARNING: Are you sure you want to delete: <b><span style='color : Red'> %s </span></b>, the children of the category will be deleted but the files will not be deleted"
+);
 define('_AM_TDMSPOT_BASEOK', 'Database update');
 define('_AM_TDMSPOT_PAGEERROR', 'Error: You must create a page');
 define('_AM_TDMSPOT_CATERROR', 'Error: You must create a category');
 
 define('_AM_TDMSPOT_OPTIONDESC', 'the default option and that of the original block you can change options by editing this block after recording');
 
-define('_AM_TDMSPOT_PAGEDESC',
-    'Manage here your index page, a page can display multiple Blocks and several items defined by their class and limited by the "limit". You can navigate between pages by several effects settings are in the preferences of the module. ');
+define(
+    '_AM_TDMSPOT_PAGEDESC',
+    'Manage here your index page, a page can display multiple Blocks and several items defined by their class and limited by the "limit". You can navigate between pages by several effects settings are in the preferences of the module. '
+);
 
 define('_AM_TDMSPOT_MANAGE_INDEX', 'Module Index');
 define('_AM_TDMSPOT_MANAGE_PAGE', 'Manage pages');
@@ -71,8 +75,10 @@ define('_AM_TDMSPOT_SEARCH', 'Search');
 define('_AM_TDMSPOT_ID', 'ID');
 define('_AM_TDMSPOT_VISIBLE', 'Visible');
 define('_AM_TDMSPOT_FREE', 'Free');
-define('_AM_TDMSPOT_FREEDESC',
-    'Page Volante ? Afficher le menu gr&#234;ce au pluging <{xospot}> ou copier le lien afficher dans l\'admin et les bocks de la page appelée ce glisseront dans le contenue en cours');
+define(
+    '_AM_TDMSPOT_FREEDESC',
+    'Page Volante ? Afficher le menu gr&#234;ce au pluging <{xospot}> ou copier le lien afficher dans l\'admin et les bocks de la page appelée ce glisseront dans le contenue en cours'
+);
 define('_AM_TDMSPOT_ACTION', 'Action');
 define('_AM_TDMSPOT_PARENT', 'Parent');
 define('_AM_TDMSPOT_CATEGORY', 'Category');

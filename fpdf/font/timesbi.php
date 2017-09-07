@@ -1,5 +1,5 @@
 <?php
-$fpdf_charwidths['timesBI'] = array(
+$fpdf_charwidths['timesBI'] = [
     chr(0)   => 250,
     chr(1)   => 250,
     chr(2)   => 250,
@@ -256,4 +256,4 @@ $fpdf_charwidths['timesBI'] = array(
     chr(253) => 444,
     chr(254) => 500,
     chr(255) => 444
-);
+];

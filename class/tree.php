@@ -18,7 +18,7 @@
  * @author       XOOPS Development Team
  */
 
-defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
 
@@ -59,7 +59,7 @@ class TdmObjectTree extends XoopsObjectTree
      */
     public function makeArrayTree($fieldName, $prefix = '-', $key = 0)
     {
-        $ret = array();
+        $ret = [];
         $this->_makeArrayTreeOptions($fieldName, $key, $ret, $prefix);
 
         return $ret;
@@ -104,8 +104,14 @@ class TdmObjectTree extends XoopsObjectTree
             //echo $selected;
             if (isset($selected) && $value == $selected) {
                 if (isset($this->_tree[$this->_tree[$key]['parent']]['obj'])) {
-                    $parent_link = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_cat'], $this->_tree[$this->_tree[$key]['parent']]['obj']->getVar('id'),
-                        $this->_tree[$this->_tree[$key]['parent']]['obj']->getVar('title'), $start, $limit, $tris);
+                    $parent_link = tdmspot_generateSeoUrl(
+                        $xoopsModuleConfig['tdmspot_seo_cat'],
+                        $this->_tree[$this->_tree[$key]['parent']]['obj']->getVar('id'),
+                        $this->_tree[$this->_tree[$key]['parent']]['obj']->getVar('title'),
+                        $start,
+                        $limit,
+                        $tris
+                    );
                     $parent = '<div align="right"><a href ="' . $parent_link . '" title="' . $this->_tree[$this->_tree[$key]['parent']]['obj']->getVar('title') . '">' . $this->_tree[$this->_tree[$key]['parent']]['obj']->getVar('title') . '</a></div>';
                 }
 

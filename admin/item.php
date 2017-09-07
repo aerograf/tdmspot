@@ -122,10 +122,14 @@ switch ($op) {
         echo $indexAdmin->addNavigation($currentFile);
 
         echo '</div><br><div class="head" align="center">';
-        echo ($display != 0) ? '<a href="item.php?op=list&display=0">' . sprintf(_AM_TDMSPOT_THEREARE_ITEM_WAITING,
-                $item_waiting) . '</a> | ' : '<a href="item.php?op=list">' . sprintf(_AM_TDMSPOT_THEREARE_ITEM, $numitem) . '</a> | ';
-        echo ($indate != 0) ? '<a href="item.php?op=list">' . sprintf(_AM_TDMSPOT_THEREARE_ITEM,
-                $numitem) . '</a>' : '<a href="item.php?op=list&indate=' . time() . '">' . sprintf(_AM_TDMSPOT_THEREARE_ITEM_TIME, $item_time) . '</a>';
+        echo ($display != 0) ? '<a href="item.php?op=list&display=0">' . sprintf(
+            _AM_TDMSPOT_THEREARE_ITEM_WAITING,
+                $item_waiting
+        ) . '</a> | ' : '<a href="item.php?op=list">' . sprintf(_AM_TDMSPOT_THEREARE_ITEM, $numitem) . '</a> | ';
+        echo ($indate != 0) ? '<a href="item.php?op=list">' . sprintf(
+            _AM_TDMSPOT_THEREARE_ITEM,
+                $numitem
+        ) . '</a>' : '<a href="item.php?op=list&indate=' . time() . '">' . sprintf(_AM_TDMSPOT_THEREARE_ITEM_TIME, $item_time) . '</a>';
         echo '</div><br>';
         $obj = $itemHandler->get($_REQUEST['id']);
         $form = $obj->getForm();
@@ -152,7 +156,7 @@ switch ($op) {
             }
         } else {
             xoops_cp_header();
-            xoops_confirm(array('ok' => 1, 'id' => $_REQUEST['id'], 'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMSPOT_BASESURE, $obj->getVar('title')));
+            xoops_confirm(['ok' => 1, 'id' => $_REQUEST['id'], 'op' => 'delete'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMSPOT_BASESURE, $obj->getVar('title')));
         }
         break;
 
@@ -184,8 +188,11 @@ switch ($op) {
         } else {
             xoops_cp_header();
             $title = print_r($_REQUEST['id'], true);
-            xoops_confirm(array('ok' => 1, 'deletes' => 1, 'op' => $_REQUEST['op'], 'id' => serialize(array_map('intval', $_REQUEST['id']))), $_SERVER['REQUEST_URI'],
-                sprintf(_AM_TDMSPOT_BASESUREDEL, $title));
+            xoops_confirm(
+                ['ok' => 1, 'deletes' => 1, 'op' => $_REQUEST['op'], 'id' => serialize(array_map('intval', $_REQUEST['id']))],
+                $_SERVER['REQUEST_URI'],
+                sprintf(_AM_TDMSPOT_BASESUREDEL, $title)
+            );
         }
         break;
 
@@ -213,10 +220,14 @@ switch ($op) {
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
         echo '</div><br><div class="head" align="center">';
-        echo ($display != 0) ? '<a href="item.php?op=list&display=0">' . sprintf(_AM_TDMSPOT_THEREARE_ITEM_WAITING,
-                $item_waiting) . '</a> | ' : '<a href="item.php?op=list">' . sprintf(_AM_TDMSPOT_THEREARE_ITEM, $numitem) . '</a> | ';
-        echo ($indate != 0) ? '<a href="item.php?op=list">' . sprintf(_AM_TDMSPOT_THEREARE_ITEM,
-                $numitem) . '</a>' : '<a href="item.php?op=list&indate=' . time() . '">' . sprintf(_AM_TDMSPOT_THEREARE_ITEM_TIME, $item_time) . '</a>';
+        echo ($display != 0) ? '<a href="item.php?op=list&display=0">' . sprintf(
+            _AM_TDMSPOT_THEREARE_ITEM_WAITING,
+                $item_waiting
+        ) . '</a> | ' : '<a href="item.php?op=list">' . sprintf(_AM_TDMSPOT_THEREARE_ITEM, $numitem) . '</a> | ';
+        echo ($indate != 0) ? '<a href="item.php?op=list">' . sprintf(
+            _AM_TDMSPOT_THEREARE_ITEM,
+                $numitem
+        ) . '</a>' : '<a href="item.php?op=list&indate=' . time() . '">' . sprintf(_AM_TDMSPOT_THEREARE_ITEM_TIME, $item_time) . '</a>';
         echo '</div><br>';
 
         //creation du formulaire de tris

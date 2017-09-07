@@ -37,7 +37,7 @@ function tdmspot_search($queryarray, $andor, $limit, $offset, $userid)
     //load class
     $itemHandler = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
 
-    $ret = array();
+    $ret = [];
     //cherche le fichier
     $criteria = new CriteriaCompo();
     $criteria->setSort('title');

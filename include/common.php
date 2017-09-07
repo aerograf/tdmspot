@@ -18,7 +18,7 @@
  * @author       XOOPS Development Team
  */
 
-defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 define('TDMSPOT_DIRNAME', basename(dirname(__DIR__)));
 define('TDMSPOT_URL', XOOPS_URL . '/modules/' . TDMSPOT_DIRNAME);
@@ -39,11 +39,11 @@ require_once XOOPS_ROOT_PATH . '/class/tree.php';
 require_once TDMSPOT_ROOT_PATH . '/class/tree.php';
 require_once TDMSPOT_ROOT_PATH . '/class/formselect.php';
 
-$uploadFolders = array(
+$uploadFolders = [
     TDMSPOT_UPLOAD_PATH,
     TDMSPOT_UPLOAD_PATH . '/photos',
     TDMSPOT_UPLOAD_PATH . '/photos/thumb',
     TDMSPOT_UPLOAD_PATH . '/photos/highlight',
     TDMSPOT_PATH . '/cache',
     TDMSPOT_PATH . '/cache/tmp'
-);
+];

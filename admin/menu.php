@@ -25,63 +25,57 @@ $module = $moduleHandler->getByDirname($moduleDirName);
 $pathIcon32 = '../../' . $module->getInfo('icons32');
 xoops_loadLanguage('modinfo', $module->dirname());
 
-$xoopsModuleAdminPath = XOOPS_ROOT_PATH . '/' . $module->getInfo('dirmoduleadmin');
-if (!file_exists($fileinc = $xoopsModuleAdminPath . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/' . 'main.php')) {
-    $fileinc = $xoopsModuleAdminPath . '/language/english/main.php';
-}
-require_once $fileinc;
-
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _AM_MODULEADMIN_HOME,
     'link' => 'admin/index.php',
     'icon' => $pathIcon32 . '/home.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_TDMSPOT_INDEX,
     'link' => 'admin/main.php',
     'icon' => $pathIcon32 . '/manage.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_TDMSPOT_CAT,
     'link' => 'admin/cat.php',
     'icon' => $pathIcon32 . '/category.png'
-);
-$adminmenu[] = array(
+];
+$adminmenu[] = [
     'title' => _MI_TDMSPOT_ITEM,
     'link' => 'admin/item.php',
     'icon' => $pathIcon32 . '/content.png'
-);
-$adminmenu[] = array(
+];
+$adminmenu[] = [
     'title' => _MI_TDMSPOT_PAGE,
     'link' => 'admin/page.php',
     'icon' => $pathIcon32 . '/index.png'
-);
-$adminmenu[] = array(
+];
+$adminmenu[] = [
     'title' => _MI_TDMSPOT_BLOCK,
     'link' => 'admin/block.php',
     'icon' => $pathIcon32 . '/block.png'
-);
-$adminmenu[] = array(
+];
+$adminmenu[] = [
     'title' => _MI_TDMSPOT_PLUGINS,
     'link' => 'admin/plug.php',
     'icon' => $pathIcon32 . '/add.png'
-);
-$adminmenu[] = array(
+];
+$adminmenu[] = [
     'title' => _MI_TDMSPOT_IMPORT,
     'link' => 'admin/import.php',
     'icon' => $pathIcon32 . '/compfile.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_TDMSPOT_PERMISSIONS,
     'link' => 'admin/permissions.php',
     'icon' => $pathIcon32 . '/permissions.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _AM_MODULEADMIN_ABOUT,
     'link' => 'admin/about.php',
     'icon' => $pathIcon32 . '/about.png'
-);
+];

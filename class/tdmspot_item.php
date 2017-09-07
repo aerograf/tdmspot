@@ -18,7 +18,7 @@
  * @author       XOOPS Development Team
  */
 
-defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 /**
  * Class TDMSpot_item
@@ -82,7 +82,7 @@ class TDMSpot_item extends XoopsObject
         $form->addElement(new XoopsFormLabel(_MD_TDMSPOT_CATEGORY, $mytree->makeSelBox('cat', 'title', '-', $this->getVar('cat'), true)), true);
 
         //editor
-        $editor_configs = array();
+        $editor_configs = [];
         $editor_configs['name'] = "text'";
         $editor_configs['value'] = $this->getVar('text', 'e');
         $editor_configs['rows'] = 20;

@@ -1,5 +1,5 @@
 <?php
-$fpdf_charwidths['times'] = array(
+$fpdf_charwidths['times'] = [
     chr(0)   => 250,
     chr(1)   => 250,
     chr(2)   => 250,
@@ -256,4 +256,4 @@ $fpdf_charwidths['times'] = array(
     chr(253) => 500,
     chr(254) => 500,
     chr(255) => 500
-);
+];

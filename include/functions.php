@@ -69,8 +69,11 @@ function tdmspot_catselect($cat)
 
     $form = new XoopsThemeForm('', 'catform', $_SERVER['REQUEST_URI'], 'post', true);
     //$form->setExtra('enctype="multipart/form-data"');
-    $tagchannel_select = new XoopsFormLabel('',
-        $mytree->makeSelBox('pid', 'title', '-', '', '-- ' . _MD_TDMSPOT_CATEGORY, 0, "OnChange='window.document.location=this.options[this.selectedIndex].value;'", 'spot_catview'), 'pid');
+    $tagchannel_select = new XoopsFormLabel(
+        '',
+        $mytree->makeSelBox('pid', 'title', '-', '', '-- ' . _MD_TDMSPOT_CATEGORY, 0, "OnChange='window.document.location=this.options[this.selectedIndex].value;'", 'spot_catview'),
+        'pid'
+    );
     $form->addElement($tagchannel_select);
 
     //$form->display();
@@ -108,7 +111,7 @@ function tdmspot_trisselect($cat, $tris)
 {
     global $start, $tris, $limit, $groups, $xoopsUser, $xoopsModule, $xoopsModuleConfig;
     $catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
-    $option = array('title' => _MD_TDMSPOT_TRITITLE, 'indate' => _MD_TDMSPOT_TRIDATE, 'counts' => _MD_TDMSPOT_TRICOUNTS, 'hits' => _MD_TDMSPOT_TRIHITS, 'comments' => _MD_TDMSPOT_TRICOMMENT);
+    $option = ['title' => _MD_TDMSPOT_TRITITLE, 'indate' => _MD_TDMSPOT_TRIDATE, 'counts' => _MD_TDMSPOT_TRICOUNTS, 'hits' => _MD_TDMSPOT_TRIHITS, 'comments' => _MD_TDMSPOT_TRICOMMENT];
     $select_tris = '<select name="tris" onchange="window.document.location=this.options[this.selectedIndex].value;">';
     //trouve le nom de la cat
     $cat = $catHandler->get($cat);
@@ -131,7 +134,7 @@ function tdmspot_viewselect($cat, $limit)
 {
     global $start, $tris, $xoopsModule, $xoopsModuleConfig;
     $catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
-    $option = array('10' => 10, '20' => 20, '30' => 30, '40' => 40, '50' => 50, '100' => 100);
+    $option = ['10' => 10, '20' => 20, '30' => 30, '40' => 40, '50' => 50, '100' => 100];
     $select_view = '<select name="limit" onchange="window.document.location=this.options[this.selectedIndex].value;">';
     //trouve le nom de la cat
     $cat = $catHandler->get($cat);
@@ -154,7 +157,7 @@ function tdmspot_viewselect($cat, $limit)
 function tdmspot_redimage($img_src, $dst_w, $dst_h)
 {
     // Lit les dimensions de l'image
-    $redim = array();
+    $redim = [];
     $size = @getimagesize($img_src);
     $src_w = $size[0];
     $src_h = $size[1];
@@ -222,7 +225,7 @@ function tdmspot_keywords($content)
 {
     $myts = MyTextSanitizer::getInstance();
 
-    $tmp = array();
+    $tmp = [];
     // Search for the "Minimum keyword length"
     $configHandler = xoops_getHandler('config');
     $xoopsConfigSearch =& $configHandler->getConfigsByCat(XOOPS_CONF_SEARCH);
@@ -233,8 +236,8 @@ function tdmspot_keywords($content)
     $content = $myts->undoHtmlSpecialChars($content);
     $content = strip_tags($content);
     $content = strtolower($content);
-    $search_pattern = array('&nbsp;', "\t", "\r\n", "\r", "\n", ',', '.', "'", ';', ':', ')', '(', '"', '?', '!', '{', '}', '[', ']', '<', '>', '/', '+', '-', '_', '\\', '*');
-    $replace_pattern = array(' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+    $search_pattern = ['&nbsp;', "\t", "\r\n", "\r", "\n", ',', '.', "'", ';', ':', ')', '(', '"', '?', '!', '{', '}', '[', ']', '<', '>', '/', '+', '-', '_', '\\', '*'];
+    $replace_pattern = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
     $content = str_replace($search_pattern, $replace_pattern, $content);
     $keywords = explode(' ', $content);
     $keywords = array_unique($keywords);
@@ -315,7 +318,7 @@ function Adminmenu($currentoption = 0, $breadcrumb = '')
     global $xoopsModule, $xoopsConfig;
     $myts = MyTextSanitizer::getInstance();
 
-    $tblColors = array();
+    $tblColors = [];
     $tblColors[0] = $tblColors[1] = $tblColors[2] = $tblColors[3] = $tblColors[4] = $tblColors[5] = $tblColors[6] = $tblColors[7] = $tblColors[8] = '';
     $tblColors[$currentoption] = 'current';
     if (file_exists(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/language/' . $xoopsConfig['language'] . '/modinfo.php')) {

@@ -18,7 +18,7 @@
  * @author       XOOPS Development Team
  */
 
-defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 if (!class_exists('XoopsPersistableObjectHandler')) {
     require_once XOOPS_ROOT_PATH . '/modules/tdmspot/class/object.php';
@@ -140,14 +140,14 @@ class TDMSpot_page extends XoopsObject
         //
 
         //display
-        $channel = array(1 => _AM_TDMSPOT_PLUGTABS, 2 => _AM_TDMSPOT_PLUGSELECT, 3 => _AM_TDMSPOT_PLUGTEXT, 4 => 'Accordion', 5 => 'wslide', 0 => _AM_TDMSPOT_PLUGNONE);
+        $channel = [1 => _AM_TDMSPOT_PLUGTABS, 2 => _AM_TDMSPOT_PLUGSELECT, 3 => _AM_TDMSPOT_PLUGTEXT, 4 => 'Accordion', 5 => 'wslide', 0 => _AM_TDMSPOT_PLUGNONE];
         $channel_select = new XoopsFormSelect(_AM_TDMSPOT_PLUGDISPLAY, 'display', 0);
         //$channel_select->setDescription(_AM_TDMSPOT_PLUGSTYLE_DESC);
         $channel_select->addOptionArray($channel);
         $form->addElement($channel_select);
 
         // style display
-        $tagchannel = array(
+        $tagchannel = [
             'cupertino' => 'cupertino',
             'lightness' => 'lightness',
             'darkness' => 'darkness',
@@ -161,7 +161,7 @@ class TDMSpot_page extends XoopsObject
             'excite' => 'excite',
             'vader' => 'vader',
             'trontastic' => 'trontastic'
-        );
+        ];
 
         //$tagchannel = array('black-menu' => 'black', 'blue-menu' => 'blue', 'bluesprite-menu' => 'bluesprite', 'chrome-menu' => 'chrome', 'green-menu' => 'green', 'indentmenu-menu' => 'indentmenu', 'jquery-menu' => 'jquery', 'marron-menu' => 'marron', 'modernbricksmenu-menu' => 'modernbricksmenu' ,
         //'mytabsdefault-menu' => 'mytabsdefault', 'shadetabs-menu' => 'shadetabs', 'slate-menu' => 'slate', 'stylefour-menu' => 'stylefour', 'time4bed-menu' => 'time4bed' );

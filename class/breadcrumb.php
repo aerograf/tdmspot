@@ -21,7 +21,7 @@
 class SystemBreadcrumb
 {
     /* Variables */
-    public $_bread = array();
+    public $_bread = [];
     public $_tips;
 
     /**

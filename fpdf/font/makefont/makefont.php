@@ -13,7 +13,7 @@ function ReadMap($enc)
     if (empty($a)) {
         die('<B>Error:</B> encoding not found: ' . $enc);
     }
-    $cc2gn = array();
+    $cc2gn = [];
     foreach ($a as $l) {
         if ($l{0} == '!') {
             $e          = preg_split('/[ \\t]+/', chop($l));
@@ -38,9 +38,9 @@ function ReadAFM($file, &$map)
     if (empty($a)) {
         die('File not found');
     }
-    $widths = array();
-    $fm     = array();
-    $fix    = array(
+    $widths = [];
+    $fm     = [];
+    $fix    = [
         'Edot'                 => 'Edotaccent',
         'edot'                 => 'edotaccent',
         'Idot'                 => 'Idotaccent',
@@ -74,7 +74,7 @@ function ReadAFM($file, &$map)
         'combiningacuteaccent' => 'acutecomb',
         'combiningdotbelow'    => 'dotbelowcomb',
         'dongsign'             => 'dong'
-    );
+    ];
     foreach ($a as $l) {
         $e = explode(' ', chop($l));
         if (count($e) < 2) {
@@ -127,7 +127,7 @@ function ReadAFM($file, &$map)
         } elseif ($code == 'IsFixedPitch') {
             $fm['IsFixedPitch'] = ($param == 'true');
         } elseif ($code == 'FontBBox') {
-            $fm['FontBBox'] = array($e[1], $e[2], $e[3], $e[4]);
+            $fm['FontBBox'] = [$e[1], $e[2], $e[3], $e[4]];
         } elseif ($code == 'CapHeight') {
             $fm['CapHeight'] = (int)$param;
         } elseif ($code == 'StdVW') {
@@ -195,7 +195,7 @@ function MakeFontDescriptor($fm, $symbolic)
     if (isset($fm['FontBBox'])) {
         $fbb = $fm['FontBBox'];
     } else {
-        $fbb = array(0, $des - 100, 1000, $asc + 100);
+        $fbb = [0, $des - 100, 1000, $asc + 100];
     }
     $fd .= ",'FontBBox'=>'[" . $fbb[0] . ' ' . $fbb[1] . ' ' . $fbb[2] . ' ' . $fbb[3] . "]'";
     //ItalicAngle
@@ -337,7 +337,7 @@ function CheckTTF($file)
  * $patch:    optional patch for encoding                                       *
  * $type :    font type if $fontfile is empty                                   *
  *******************************************************************************/
-function MakeFont($fontfile, $afmfile, $enc = 'cp1252', $patch = array(), $type = 'TrueType')
+function MakeFont($fontfile, $afmfile, $enc = 'cp1252', $patch = [], $type = 'TrueType')
 {
     //Generate a font definition file
     set_magic_quotes_runtime(0);
@@ -347,7 +347,7 @@ function MakeFont($fontfile, $afmfile, $enc = 'cp1252', $patch = array(), $type 
             $map[$cc] = $gn;
         }
     } else {
-        $map = array();
+        $map = [];
     }
     if (!file_exists($afmfile)) {
         die('<B>Error:</B> AFM file not found: ' . $afmfile);

@@ -88,8 +88,14 @@ class tdmspotPageNav
             $ret .= '<div id="xo-pagenav">';
             $prev = $this->current - $this->perpage;
             if ($prev >= 0) {
-                $ret .= '<a class="xo-pagarrow" href="' . tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_cat'], $cat->getVar('id'), $cat->getVar('title'), $prev, $this->perpage,
-                        $tris) . '"><u>&laquo;</u></a> ';
+                $ret .= '<a class="xo-pagarrow" href="' . tdmspot_generateSeoUrl(
+                    $xoopsModuleConfig['tdmspot_seo_cat'],
+                    $cat->getVar('id'),
+                    $cat->getVar('title'),
+                    $prev,
+                    $this->perpage,
+                        $tris
+                ) . '"><u>&laquo;</u></a> ';
             }
             $counter = 1;
             $current_page = (int)floor(($this->current + $this->perpage) / $this->perpage);
@@ -100,8 +106,14 @@ class tdmspotPageNav
                     if ($counter == $total_pages && $current_page < $total_pages - $offset) {
                         $ret .= '... ';
                     }
-                    $ret .= '<a class="xo-counterpage" href="' . tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_cat'], $cat->getVar('id'), $cat->getVar('title'), ($counter - 1) * $this->perpage,
-                            $this->perpage, $tris) . '">' . $counter . '</a> ';
+                    $ret .= '<a class="xo-counterpage" href="' . tdmspot_generateSeoUrl(
+                        $xoopsModuleConfig['tdmspot_seo_cat'],
+                        $cat->getVar('id'),
+                        $cat->getVar('title'),
+                        ($counter - 1) * $this->perpage,
+                            $this->perpage,
+                        $tris
+                    ) . '">' . $counter . '</a> ';
                     if ($counter == 1 && $current_page > 1 + $offset) {
                         $ret .= '... ';
                     }
@@ -110,8 +122,14 @@ class tdmspotPageNav
             }
             $next = $this->current + $this->perpage;
             if ($this->total > $next) {
-                $ret .= '<a class="xo-pagarrow" href="' . tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_cat'], $cat->getVar('id'), $cat->getVar('title'), $next, $this->perpage,
-                        $tris) . '"><u>&raquo;</u></a> ';
+                $ret .= '<a class="xo-pagarrow" href="' . tdmspot_generateSeoUrl(
+                    $xoopsModuleConfig['tdmspot_seo_cat'],
+                    $cat->getVar('id'),
+                    $cat->getVar('title'),
+                    $next,
+                    $this->perpage,
+                        $tris
+                ) . '"><u>&raquo;</u></a> ';
             }
             $ret .= '</div> ';
         }

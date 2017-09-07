@@ -29,7 +29,6 @@ $option = !empty($_REQUEST['option']) ? $_REQUEST['option'] : 'default';
 
 if (!isset($_REQUEST['itemid'])) {
     redirect_header('index.php', 2, _MD_TDMSPOT_NOPERM);
-    exit();
 }
 
 switch ($option) {
@@ -58,7 +57,6 @@ switch ($option) {
         //si pas le droit d'exporter
         if (!$gpermHandler->checkRight('spot_view', 16, $groups, $xoopsModule->getVar('mid'))) {
             redirect_header('index.php', 2, _MD_TDMPICTURE_NOPERM);
-            exit();
         }
 
         $file =& $itemHandler->get($_REQUEST['itemid']);
@@ -114,5 +112,5 @@ function Chars($text)
 {
     $myts = &MyTextSanitizer:: getInstance();
 
-    return preg_replace(array('/&#039;/i', '/&#233;/i', '/&#232;/i', '/&#224;/i', '/&quot;/i', '/<br \>/i', '/&agrave;/i', '/&#8364;/i'), array("'", '�', '�', '�', '"', "\n", '�', '�'), $text);
+    return preg_replace(['/&#039;/i', '/&#233;/i', '/&#232;/i', '/&#224;/i', '/&quot;/i', '/<br \>/i', '/&agrave;/i', '/&#8364;/i'], ["'", '�', '�', '�', '"', "\n", '�', '�'], $text);
 }

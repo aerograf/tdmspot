@@ -10,16 +10,20 @@ define('_AM_TDMSPOT_EDITER', 'Editer');
 define('_AM_TDMSPOT_DELETE', 'Supprimer');
 define('_AM_TDMSPOT_BASESURE', 'ATTENTION: Etes-vous sûr de vouloir supprimer?');
 define('_AM_TDMSPOT_BASESUREDEL', "ATTENTION: Etes-vous sûr de vouloir supprimer : <b><span style='color : Red'> %s </span></b> ?");
-define('_AM_TDMSPOT_BASESUREDELCAT',
-    "ATTENTION: Etes-vous sûr de vouloir supprimer : <b><span style='color : Red'> %s </span></b>, les enfants de la catégorie seront supprimés mais les fichiers ne seront pas effacés");
+define(
+    '_AM_TDMSPOT_BASESUREDELCAT',
+    "ATTENTION: Etes-vous sûr de vouloir supprimer : <b><span style='color : Red'> %s </span></b>, les enfants de la catégorie seront supprimés mais les fichiers ne seront pas effacés"
+);
 define('_AM_TDMSPOT_BASEOK', 'Base de donnée mise à jour');
 define('_AM_TDMSPOT_PAGEERROR', 'Erreur: vous devez créer une page');
 define('_AM_TDMSPOT_CATERROR', 'Erreur: vous devez créer une catégorie');
 
 define('_AM_TDMSPOT_OPTIONDESC', "l'option par défaut et celle du block d'origine vous pouvez modifier les options en éditant ce block aprés enregistrement");
 
-define('_AM_TDMSPOT_PAGEDESC',
-       'Gérer ici votre page index, une page peut afficher plusieurs Blocks et plusieurs Articles définie par leur catégorie et limité par le champ "limite". Vous pouvez naviguer entre les pages par plusieurs effets les réglages se trouvent dans les préférences du module.');
+define(
+    '_AM_TDMSPOT_PAGEDESC',
+       'Gérer ici votre page index, une page peut afficher plusieurs Blocks et plusieurs Articles définie par leur catégorie et limité par le champ "limite". Vous pouvez naviguer entre les pages par plusieurs effets les réglages se trouvent dans les préférences du module.'
+);
 
 define('_AM_TDMSPOT_MANAGE_INDEX', 'Index du module');
 define('_AM_TDMSPOT_MANAGE_PAGE', 'Gestion des pages');
@@ -71,8 +75,10 @@ define('_AM_TDMSPOT_SEARCH', 'Recherche');
 define('_AM_TDMSPOT_ID', 'ID');
 define('_AM_TDMSPOT_VISIBLE', 'Visible');
 define('_AM_TDMSPOT_FREE', 'Volante');
-define('_AM_TDMSPOT_FREEDESC',
-    'Page Volante ? Afficher le menu gr&#234;ce au pluging <{xospot}> ou copier le lien afficher dans l\'admin et les bocks de la page appelée ce glisseront dans le contenue en cours');
+define(
+    '_AM_TDMSPOT_FREEDESC',
+    'Page Volante ? Afficher le menu gr&#234;ce au pluging <{xospot}> ou copier le lien afficher dans l\'admin et les bocks de la page appelée ce glisseront dans le contenue en cours'
+);
 define('_AM_TDMSPOT_ACTION', 'Action');
 define('_AM_TDMSPOT_PARENT', 'Parent');
 define('_AM_TDMSPOT_CATEGORY', 'Catégorie');

@@ -50,7 +50,6 @@ if (is_object($xoopsUser)) {
 //permission d'afficher
 if (!$gpermHandler->checkRight('spot_view', 2, $groups, $xoopsModule->getVar('mid'))) {
     redirect_header(XOOPS_URL, 2, _MD_TDMSPOT_NOPERM);
-    exit();
 }
 
 if ($xoopsModuleConfig['tdmspot_seo'] == 1) {
@@ -77,7 +76,6 @@ switch ($op) {
         //securiter si aucun n'est choisis
         if (empty($itemid)) {
             redirect_header(XOOPS_URL, 2, _MD_TDMSPOT_NOPERM);
-            exit();
         }
 
         //Fichier
@@ -95,7 +93,6 @@ switch ($op) {
             //si pas le droit d'afficher la cat
             if (!$gpermHandler->checkRight('tdmpicture_catview', $item_arr[$i]->getVar('cat'), $groups, $xoopsModule->getVar('mid'))) {
                 redirect_header('index.php', 2, _MD_TDMSPOT_NOPERM);
-                exit();
             }
 
             //navigation next previous
@@ -105,8 +102,8 @@ switch ($op) {
             $criteria3->add(new Criteria('cat', $item_arr[$i]->getVar('cat')));
             $criteria3->setOrder('DESC');
             $arr = $itemHandler->getObjects($criteria3);
-            $nav_ids = array();
-            $nav_title = array();
+            $nav_ids = [];
+            $nav_title = [];
             foreach (array_keys($arr) as $f) {
                 if ($gpermHandler->checkRight('tdmspot_catview', $item_arr[$i]->getVar('cat'), $groups, $xoopsModule->getVar('mid'))) {
                     $nav_ids[] = $arr[$f]->getVar('id');
@@ -119,13 +116,17 @@ switch ($op) {
             $nav = '';
             if ($pos != 0) {
                 $prev_link = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $nav_ids[$pos - 1], $nav_title[$pos - 1]);
-                $xoopsTpl->assign('prev_page',
-                    "<span style='text-decoration: underline;'>&laquo;</span> <span style='font-weight: bold;'>" . _MD_TDMSPOT_ITEMPREV . '</span><br><br>' . $nav_date[$pos - 1] . " - <a href='" . $prev_link . "'>" . $nav_title[$pos - 1] . '</a>');
+                $xoopsTpl->assign(
+                    'prev_page',
+                    "<span style='text-decoration: underline;'>&laquo;</span> <span style='font-weight: bold;'>" . _MD_TDMSPOT_ITEMPREV . '</span><br><br>' . $nav_date[$pos - 1] . " - <a href='" . $prev_link . "'>" . $nav_title[$pos - 1] . '</a>'
+                );
             }
             if ($pos != $numrows) {
                 $next_link = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $nav_ids[$pos + 1], $nav_title[$pos + 1]);
-                $xoopsTpl->assign('next_page',
-                    "&nbsp;&nbsp;<span style='font-weight: bold;'>" . _MD_TDMSPOT_ITEMNEXT . "</span> <span style='text-decoration: underline;'>&raquo;</span><br><br>" . $nav_date[$pos + 1] . " - <a href='" . $next_link . "'>" . $nav_title[$pos + 1] . '</a>');
+                $xoopsTpl->assign(
+                    'next_page',
+                    "&nbsp;&nbsp;<span style='font-weight: bold;'>" . _MD_TDMSPOT_ITEMNEXT . "</span> <span style='text-decoration: underline;'>&raquo;</span><br><br>" . $nav_date[$pos + 1] . " - <a href='" . $next_link . "'>" . $nav_title[$pos + 1] . '</a>'
+                );
             }
             //
             //$xoopsTpl->assign('nav_page', $nav);
@@ -146,8 +147,11 @@ switch ($op) {
             $num_cat = $catHandler->getCount($criteria);
             foreach (array_keys($nav_parent_id) as $i) {
                 //$navigation .= '<a href="viewcat.php?LT='.$nav_parent_id[$i]->getVar('id').'">' . $nav_parent_id[$i]->getVar('title') . '</a>&nbsp;>&nbsp;';
-                $navigation .= "<a href='" . tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_cat'], $nav_parent_id[$i]->getVar('id'),
-                        $nav_parent_id[$i]->getVar('title')) . "'>" . $nav_parent_id[$i]->getVar('title') . '</a>&nbsp;>&nbsp;';
+                $navigation .= "<a href='" . tdmspot_generateSeoUrl(
+                    $xoopsModuleConfig['tdmspot_seo_cat'],
+                    $nav_parent_id[$i]->getVar('id'),
+                        $nav_parent_id[$i]->getVar('title')
+                ) . "'>" . $nav_parent_id[$i]->getVar('title') . '</a>&nbsp;>&nbsp;';
             }
 
             //trouve la categorie
@@ -297,7 +301,7 @@ switch ($op) {
                     }
                     $indate = formatTimestamp($item_arr[$i]->getVar('indate'), 's');
                     $link = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $item_arr[$i]->getVar('id'), $item_arr[$i]->getVar('title'));
-                    $xoopsTpl->append('tpitem_blsimil', array('id' => $item_arr[$i]->getVar('id'), 'cat' => $item_arr[$i]->getVar('cat'), 'indate' => $indate, 'title' => $title, 'link' => $link));
+                    $xoopsTpl->append('tpitem_blsimil', ['id' => $item_arr[$i]->getVar('id'), 'cat' => $item_arr[$i]->getVar('cat'), 'indate' => $indate, 'title' => $title, 'link' => $link]);
                 }
                 unset($criteria);
             }
@@ -319,7 +323,7 @@ switch ($op) {
                     }
                     $indate = formatTimestamp($item_arr[$i]->getVar('indate'), 's');
                     $link = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $item_arr[$i]->getVar('id'), $item_arr[$i]->getVar('title'));
-                    $xoopsTpl->append('tpitem_blposter', array('id' => $item_arr[$i]->getVar('id'), 'cat' => $item_arr[$i]->getVar('cat'), 'indate' => $indate, 'title' => $title, 'link' => $link));
+                    $xoopsTpl->append('tpitem_blposter', ['id' => $item_arr[$i]->getVar('id'), 'cat' => $item_arr[$i]->getVar('cat'), 'indate' => $indate, 'title' => $title, 'link' => $link]);
                 }
             }
         }
@@ -330,8 +334,10 @@ switch ($op) {
 
 //lien admin
 if ($xoopsUser->isAdmin()) {
-    $xoopsTpl->assign('perm_admin',
-        '&nbsp; <a href="' . TDMSPOT_URL . '/admin/item.php?op=edit&id=' . $item_arr[$i]->getVar('id') . '"><img src="' . TDMSPOT_IMAGES_URL . '/edit.png" border="0" alt="' . _MD_TDMSPOT_EDITER . '" title="' . _MD_TDMSPOT_EDITER . '"></a><a href="' . TDMSPOT_URL . '/admin/item.php?op=delete&id=' . $item_arr[$i]->getVar('id') . '"><img src="' . TDMSPOT_IMAGES_URL . '/delete.png" border="0" alt="' . _MD_TDMSPOT_DELETE . '" title="' . _MD_TDMSPOT_DELETE . '"></a>');
+    $xoopsTpl->assign(
+        'perm_admin',
+        '&nbsp; <a href="' . TDMSPOT_URL . '/admin/item.php?op=edit&id=' . $item_arr[$i]->getVar('id') . '"><img src="' . TDMSPOT_IMAGES_URL . '/edit.png" border="0" alt="' . _MD_TDMSPOT_EDITER . '" title="' . _MD_TDMSPOT_EDITER . '"></a><a href="' . TDMSPOT_URL . '/admin/item.php?op=delete&id=' . $item_arr[$i]->getVar('id') . '"><img src="' . TDMSPOT_IMAGES_URL . '/delete.png" border="0" alt="' . _MD_TDMSPOT_DELETE . '" title="' . _MD_TDMSPOT_DELETE . '"></a>'
+    );
 }
 //perm
 if ($gpermHandler->checkRight('spot_view', 4, $groups, $xoopsModule->getVar('mid'))) {
