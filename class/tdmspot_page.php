@@ -20,9 +20,6 @@
 
 defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
-if (!class_exists('XoopsPersistableObjectHandler')) {
-    require_once XOOPS_ROOT_PATH . '/modules/tdmspot/class/object.php';
-}
 
 /**
  * Class TDMSpot_page
