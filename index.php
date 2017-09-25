@@ -32,7 +32,7 @@ $catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
 $blockHandler = xoops_getModuleHandler('tdmspot_newblocks', 'tdmspot');
 $gpermHandler = xoops_getHandler('groupperm');
 
-if ($xoopsModuleConfig['tdmspot_seo'] == 1) {
+if (1 == $xoopsModuleConfig['tdmspot_seo']) {
     require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/seo.inc.php';
 }
 
@@ -90,7 +90,7 @@ $tptabs = [];
 
 foreach (array_keys($page_arr) as $p) {
     if ($gpermHandler->checkRight('spot_pageview', $page_arr[$p]->getVar('id'), $groups, $xoopsModule->getVar('mid'))) {
-        if ($xoopsModuleConfig['tdmspot_name'] == 1) {
+        if (1 == $xoopsModuleConfig['tdmspot_name']) {
             $page['title'] = $page_arr[$p]->getVar('title');
         }
         $page['id'] = $page_arr[$p]->getVar('id');
@@ -149,7 +149,7 @@ foreach (array_keys($page_arr) as $p) {
                     $tpitem['cat_title'] = $cat->getVar('title');
                     $tpitem['cat_link'] = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_cat'], $cat->getVar('id'), $cat->getVar('title'));
                     $tpitem['cat_id'] = $cat->getVar('id');
-                    if ($xoopsModuleConfig['tdmspot_img'] == 1) {
+                    if (1 == $xoopsModuleConfig['tdmspot_img']) {
                         $imgpath = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/cat/' . $cat->getVar('img');
                         if (file_exists($imgpath)) {
                             $redim = tdmspot_redimage($imgpath, $xoopsModuleConfig['tdmspot_cat_width'], $xoopsModuleConfig['tdmspot_cat_height']);
@@ -191,7 +191,7 @@ foreach (array_keys($page_arr) as $p) {
                 }
                 //moyen des vote
                 @$moyen = ceil($tpitem['votes'] / $tpitem['counts']);
-                if (@$moyen == 0) {
+                if (0 == @$moyen) {
                     $tpitem['moyen'] = '';
                 } else {
                     $tpitem['moyen'] = "<img src='" . TDMSPOT_IMAGES_URL . '/rate' . $moyen . ".png'>";
@@ -210,7 +210,7 @@ $xoopsTpl->assign('selectcat', tdmspot_catselect(false));
 
 $xoopsTpl->assign('selectpage', tdmspot_pageselect($itemid));
 
-if ($xoopsModuleConfig['tdmspot_seo'] == 1) {
+if (1 == $xoopsModuleConfig['tdmspot_seo']) {
     $xoopsTpl->assign('nav', "<a href='" . XOOPS_URL . '/' . $xoopsModuleConfig['tdmspot_seo_title'] . "/'>" . $xoopsModuleConfig['tdmspot_seo_title'] . '</a>');
 } else {
     $xoopsTpl->assign('nav', "<a href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "'>" . $xoopsModule->name() . '</a>');

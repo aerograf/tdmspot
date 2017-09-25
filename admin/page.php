@@ -109,7 +109,7 @@ switch ($op) {
     case 'delete':
         $obj =& $pageHandler->get($_REQUEST['id']);
 
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('page.php', 2, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -127,7 +127,7 @@ switch ($op) {
 
     case _DELETE:
 
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('page.php', 2, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -226,12 +226,12 @@ switch ($op) {
             echo '</tr>';
             $class = 'odd';
             foreach (array_keys($alb_arr) as $i) {
-                $class = ($class === 'even') ? 'odd' : 'even';
+                $class = ('even' === $class) ? 'odd' : 'even';
                 $id = $alb_arr[$i]->getVar('id');
 
                 $title = $myts->displayTarea($alb_arr[$i]->getVar('title'));
 
-                $display = $alb_arr[$i]->getVar('visible') == 1 ? "<img src='./../assets/images/on.gif' border='0'>" : "<img src='./../assets/images/off.gif' border='0'>";
+                $display = 1 == $alb_arr[$i]->getVar('visible') ? "<img src='./../assets/images/on.gif' border='0'>" : "<img src='./../assets/images/off.gif' border='0'>";
 
                 echo '<tr class="' . $class . '">';
                 echo '<td align="center"><input type="checkbox" name="id[]" id="id[]" value="' . $id . '"></td>';

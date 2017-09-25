@@ -15,7 +15,7 @@ function ReadMap($enc)
     }
     $cc2gn = [];
     foreach ($a as $l) {
-        if ($l{0} == '!') {
+        if ('!' == $l{0}) {
             $e          = preg_split('/[ \\t]+/', chop($l));
             $cc         = hexdec(substr($e[0], 1));
             $gn         = $e[2];
@@ -82,12 +82,12 @@ function ReadAFM($file, &$map)
         }
         $code  = $e[0];
         $param = $e[1];
-        if ($code == 'C') {
+        if ('C' == $code) {
             //Character metrics
             $cc = (int)$e[1];
             $w  = $e[4];
             $gn = $e[7];
-            if (substr($gn, -4) == '20AC') {
+            if ('20AC' == substr($gn, -4)) {
                 $gn = 'Euro';
             }
             if (isset($fix[$gn])) {
@@ -103,34 +103,34 @@ function ReadAFM($file, &$map)
                 $widths[$cc] = $w;
             } else {
                 $widths[$gn] = $w;
-                if ($gn == 'X') {
+                if ('X' == $gn) {
                     $fm['CapXHeight'] = $e[13];
                 }
             }
-            if ($gn == '.notdef') {
+            if ('.notdef' == $gn) {
                 $fm['MissingWidth'] = $w;
             }
-        } elseif ($code == 'FontName') {
+        } elseif ('FontName' == $code) {
             $fm['FontName'] = $param;
-        } elseif ($code == 'Weight') {
+        } elseif ('Weight' == $code) {
             $fm['Weight'] = $param;
-        } elseif ($code == 'ItalicAngle') {
+        } elseif ('ItalicAngle' == $code) {
             $fm['ItalicAngle'] = (double)$param;
-        } elseif ($code == 'Ascender') {
+        } elseif ('Ascender' == $code) {
             $fm['Ascender'] = (int)$param;
-        } elseif ($code == 'Descender') {
+        } elseif ('Descender' == $code) {
             $fm['Descender'] = (int)$param;
-        } elseif ($code == 'UnderlineThickness') {
+        } elseif ('UnderlineThickness' == $code) {
             $fm['UnderlineThickness'] = (int)$param;
-        } elseif ($code == 'UnderlinePosition') {
+        } elseif ('UnderlinePosition' == $code) {
             $fm['UnderlinePosition'] = (int)$param;
-        } elseif ($code == 'IsFixedPitch') {
-            $fm['IsFixedPitch'] = ($param == 'true');
-        } elseif ($code == 'FontBBox') {
+        } elseif ('IsFixedPitch' == $code) {
+            $fm['IsFixedPitch'] = ('true' == $param);
+        } elseif ('FontBBox' == $code) {
             $fm['FontBBox'] = [$e[1], $e[2], $e[3], $e[4]];
-        } elseif ($code == 'CapHeight') {
+        } elseif ('CapHeight' == $code) {
             $fm['CapHeight'] = (int)$param;
-        } elseif ($code == 'StdVW') {
+        } elseif ('StdVW' == $code) {
             $fm['StdVW'] = (int)$param;
         }
     }
@@ -187,7 +187,7 @@ function MakeFontDescriptor($fm, $symbolic)
     if (!$symbolic) {
         $flags += 1 << 5;
     }
-    if (isset($fm['ItalicAngle']) and $fm['ItalicAngle'] != 0) {
+    if (isset($fm['ItalicAngle']) and 0 != $fm['ItalicAngle']) {
         $flags += 1 << 6;
     }
     $fd .= ",'Flags'=>" . $flags;
@@ -225,9 +225,9 @@ function MakeWidthArray($fm)
     $s  = "array(\n\t";
     $cw = $fm['Widths'];
     for ($i = 0; $i <= 255; ++$i) {
-        if (chr($i) == "'") {
+        if ("'" == chr($i)) {
             $s .= "'\\''";
-        } elseif (chr($i) == "\\") {
+        } elseif ("\\" == chr($i)) {
             $s .= "'\\\\'";
         } elseif ($i >= 32 and $i <= 126) {
             $s .= "'" . chr($i) . "'";
@@ -238,7 +238,7 @@ function MakeWidthArray($fm)
         if ($i < 255) {
             $s .= ',';
         }
-        if (($i + 1) % 22 == 0) {
+        if (0 == ($i + 1) % 22) {
             $s .= "\n\t";
         }
     }
@@ -304,7 +304,7 @@ function CheckTTF($file)
     //Seek OS/2 table
     $found = false;
     for ($i = 0; $i < $nb; ++$i) {
-        if (fread($f, 4) == 'OS/2') {
+        if ('OS/2' == fread($f, 4)) {
             $found = true;
             break;
         }
@@ -321,9 +321,9 @@ function CheckTTF($file)
     //Extract fsType flags
     fseek($f, 8, SEEK_CUR);
     $fsType = ReadShort($f);
-    $rl     = ($fsType & 0x02) != 0;
-    $pp     = ($fsType & 0x04) != 0;
-    $e      = ($fsType & 0x08) != 0;
+    $rl     = 0 != ($fsType & 0x02);
+    $pp     = 0 != ($fsType & 0x04);
+    $e      = 0 != ($fsType & 0x08);
     fclose($f);
     if ($rl and !$pp and !$e) {
         echo '<B>Warning:</B> font license does not allow embedding';
@@ -362,15 +362,15 @@ function MakeFont($fontfile, $afmfile, $enc = 'cp1252', $patch = [], $type = 'Tr
     //Find font type
     if ($fontfile) {
         $ext = strtolower(substr($fontfile, -3));
-        if ($ext == 'ttf') {
+        if ('ttf' == $ext) {
             $type = 'TrueType';
-        } elseif ($ext == 'pfb') {
+        } elseif ('pfb' == $ext) {
             $type = 'Type1';
         } else {
             die('<B>Error:</B> unrecognized font file extension: ' . $ext);
         }
     } else {
-        if ($type != 'TrueType' and $type != 'Type1') {
+        if ('TrueType' != $type and 'Type1' != $type) {
             die('<B>Error:</B> incorrect font type: ' . $type);
         }
     }
@@ -397,7 +397,7 @@ function MakeFont($fontfile, $afmfile, $enc = 'cp1252', $patch = [], $type = 'Tr
         if (!file_exists($fontfile)) {
             die('<B>Error:</B> font file not found: ' . $fontfile);
         }
-        if ($type == 'TrueType') {
+        if ('TrueType' == $type) {
             CheckTTF($fontfile);
         }
         $f = fopen($fontfile, 'rb');
@@ -406,7 +406,7 @@ function MakeFont($fontfile, $afmfile, $enc = 'cp1252', $patch = [], $type = 'Tr
         }
         $file = fread($f, filesize($fontfile));
         fclose($f);
-        if ($type == 'Type1') {
+        if ('Type1' == $type) {
             //Find first two sections and discard third one
             $pos = strpos($file, 'eexec');
             if (!$pos) {
@@ -429,7 +429,7 @@ function MakeFont($fontfile, $afmfile, $enc = 'cp1252', $patch = [], $type = 'Tr
             $s .= '$file=\'' . basename($fontfile) . "';\n";
             echo '<B>Notice:</B> font file could not be compressed (gzcompress not available)<BR>';
         }
-        if ($type == 'Type1') {
+        if ('Type1' == $type) {
             $s .= '$size1=' . $size1 . ";\n";
             $s .= '$size2=' . $size2 . ";\n";
         } else {

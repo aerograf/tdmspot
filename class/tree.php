@@ -95,7 +95,7 @@ class TdmObjectTree extends XoopsObjectTree
 
             //recherche image
             $imgpath = TDM_CAT_PATH . '/' . $this->_tree[$key]['obj']->getVar('img');
-            if (file_exists($imgpath) && $this->_tree[$key]['obj']->getVar('img') !== 'blank.gif') {
+            if (file_exists($imgpath) && 'blank.gif' !== $this->_tree[$key]['obj']->getVar('img')) {
                 $picture = '<a href ="' . $cat_link . '" title="' . $this->_tree[$key]['obj']->getVar('title') . '"><img src="' . TDM_CAT_URL . '/' . $this->_tree[$key]['obj']->getVar('img') . '" class="img" width="' . $xoopsModuleConfig['tdmspot_cat_width'] . '"  height="' . $xoopsModuleConfig['tdmspot_cat_height'] . '"></a>';
             } else {
                 $picture = '<a href ="' . $cat_link . '" title="' . $this->_tree[$key]['obj']->getVar('title') . '"><img src="' . TDM_CAT_URL . '/no_picture.png" class="img" width="' . $xoopsModuleConfig['tdmspot_cat_width'] . '"  height="' . $xoopsModuleConfig['tdmspot_cat_height'] . '"></a>';
@@ -121,7 +121,7 @@ class TdmObjectTree extends XoopsObjectTree
         <br style="clear: both;"></ul></td></tr></table><br>';
             }
 
-            if ($cat_display === 'sub' || $cat_display === 'subimg') {
+            if ('sub' === $cat_display || 'subimg' === $cat_display) {
                 $cat_sub = true;
             } else {
                 $cat_sub = false;
@@ -228,7 +228,7 @@ class TdmObjectTree extends XoopsObjectTree
     public function makeCatBox($itemHandler, $fieldName, $prefix = '-', $selected = '', $key = 0)
     {
         global $cat_display;
-        if ($cat_display !== 'none') {
+        if ('none' !== $cat_display) {
             $ret = '<div style="text-align:right"><a href="javascript:;" onclick="masque(\'1\')" >+-</a></div><table cellpadding="0" id="masque_1" class="outer tdmcat_' . $cat_display . '" cellspacing="0"><tr>';
             $chcount = 1;
             $this->_makeCatBoxOptions($itemHandler, $fieldName, $selected, $key, $ret, $ret2, $prefix, '', $chcount);

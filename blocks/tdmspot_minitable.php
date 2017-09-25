@@ -36,7 +36,7 @@ function b_tdmspot($options)
         $xoopsModuleConfig = &$configHandler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
     }
 
-    if ($xoopsModuleConfig['tdmspot_seo'] == 1) {
+    if (1 == $xoopsModuleConfig['tdmspot_seo']) {
         require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/seo.inc.php';
     }
 
@@ -52,7 +52,7 @@ function b_tdmspot($options)
     array_shift($options);
     array_shift($options);
     array_shift($options);
-    if (!(count($options) == 1 && $options[0] == 0)) {
+    if (!(1 == count($options) && 0 == $options[0])) {
         $criteria->add(new Criteria('cat', addCatSelect($options), 'IN'));
     }
 
@@ -187,9 +187,9 @@ function b_tdmspot_edit($options)
     array_shift($options);
     array_shift($options);
     $form .= _MI_TDMSPOT_BLOCK_CAT . '<br><select name="options[]" multiple="multiple" size="5">';
-    $form .= '<option value="0" ' . (array_search(0, $options) === false ? '' : 'selected="selected"') . '>All</option>';
+    $form .= '<option value="0" ' . (false === array_search(0, $options) ? '' : 'selected="selected"') . '>All</option>';
     foreach (array_keys($assoc_arr) as $i) {
-        $form .= '<option value="' . $assoc_arr[$i]->getVar('id') . '" ' . (array_search($assoc_arr[$i]->getVar('id'), $options) === false ? '' : 'selected="selected"') . '>'
+        $form .= '<option value="' . $assoc_arr[$i]->getVar('id') . '" ' . (false === array_search($assoc_arr[$i]->getVar('id'), $options) ? '' : 'selected="selected"') . '>'
                  . $assoc_arr[$i]->getVar('title') . '</option>';
     }
     $form .= '</select>';

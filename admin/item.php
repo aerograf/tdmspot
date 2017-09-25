@@ -30,7 +30,7 @@ $catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
 
 //verifie la presence des categorie
 $numcat = $catHandler->getCount();
-if ($numcat == 0) {
+if (0 == $numcat) {
     redirect_header('cat.php', 2, _AM_TDMSPOT_CATERROR);
 }
 
@@ -122,11 +122,11 @@ switch ($op) {
         echo $indexAdmin->addNavigation($currentFile);
 
         echo '</div><br><div class="head" align="center">';
-        echo ($display != 0) ? '<a href="item.php?op=list&display=0">' . sprintf(
+        echo (0 != $display) ? '<a href="item.php?op=list&display=0">' . sprintf(
             _AM_TDMSPOT_THEREARE_ITEM_WAITING,
                 $item_waiting
         ) . '</a> | ' : '<a href="item.php?op=list">' . sprintf(_AM_TDMSPOT_THEREARE_ITEM, $numitem) . '</a> | ';
-        echo ($indate != 0) ? '<a href="item.php?op=list">' . sprintf(
+        echo (0 != $indate) ? '<a href="item.php?op=list">' . sprintf(
             _AM_TDMSPOT_THEREARE_ITEM,
                 $numitem
         ) . '</a>' : '<a href="item.php?op=list&indate=' . time() . '">' . sprintf(_AM_TDMSPOT_THEREARE_ITEM_TIME, $item_time) . '</a>';
@@ -141,7 +141,7 @@ switch ($op) {
     case 'delete':
         $obj =& $itemHandler->get($_REQUEST['id']);
 
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('item.php', 2, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -162,7 +162,7 @@ switch ($op) {
 
     case _DELETE:
 
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('item.php', 2, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -220,11 +220,11 @@ switch ($op) {
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
         echo '</div><br><div class="head" align="center">';
-        echo ($display != 0) ? '<a href="item.php?op=list&display=0">' . sprintf(
+        echo (0 != $display) ? '<a href="item.php?op=list&display=0">' . sprintf(
             _AM_TDMSPOT_THEREARE_ITEM_WAITING,
                 $item_waiting
         ) . '</a> | ' : '<a href="item.php?op=list">' . sprintf(_AM_TDMSPOT_THEREARE_ITEM, $numitem) . '</a> | ';
-        echo ($indate != 0) ? '<a href="item.php?op=list">' . sprintf(
+        echo (0 != $indate) ? '<a href="item.php?op=list">' . sprintf(
             _AM_TDMSPOT_THEREARE_ITEM,
                 $numitem
         ) . '</a>' : '<a href="item.php?op=list&indate=' . time() . '">' . sprintf(_AM_TDMSPOT_THEREARE_ITEM_TIME, $item_time) . '</a>';
@@ -269,15 +269,15 @@ switch ($op) {
             $criteria->add(new Criteria('display', $display));
         }
 
-        if (isset($_REQUEST['cat']) && $_REQUEST['cat'] != 0) {
+        if (isset($_REQUEST['cat']) && 0 != $_REQUEST['cat']) {
             $criteria->add(new Criteria('cat', $_REQUEST['cat']));
         }
 
-        if (isset($_REQUEST['itemid']) && $_REQUEST['itemid'] != 0) {
+        if (isset($_REQUEST['itemid']) && 0 != $_REQUEST['itemid']) {
             $criteria->add(new Criteria('id', $_REQUEST['itemid']));
         }
 
-        if (isset($_REQUEST['indate']) && $_REQUEST['indate'] != 0) {
+        if (isset($_REQUEST['indate']) && 0 != $_REQUEST['indate']) {
             $criteria->add(new Criteria('indate', $_REQUEST['indate'], '>'));
         }
 
@@ -309,7 +309,7 @@ switch ($op) {
             echo '</tr>';
             $class = 'odd';
             foreach (array_keys($alb_arr) as $i) {
-                $class = ($class === 'even') ? 'odd' : 'even';
+                $class = ('even' === $class) ? 'odd' : 'even';
                 $id = $alb_arr[$i]->getVar('id');
                 $title = $myts->displayTarea($alb_arr[$i]->getVar('title'));
                 $indate = formatTimestamp($alb_arr[$i]->getVar('indate'), 'm');
@@ -321,7 +321,7 @@ switch ($op) {
                     $cat_title = 'NONE';
                 }
                 //
-                if ($alb_arr[$i]->getVar('display') == 1 && $alb_arr[$i]->getVar('indate') < time()) {
+                if (1 == $alb_arr[$i]->getVar('display') && $alb_arr[$i]->getVar('indate') < time()) {
                     $display = "<img src='./../assets/images/on.gif' border='0'>";
                 } else {
                     $display = "<a href='item.php?op=update&id=" . $id . "'><img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . "' src='./../assets/images/off.gif' border='0'></a>";

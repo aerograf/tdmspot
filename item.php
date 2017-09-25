@@ -52,7 +52,7 @@ if (!$gpermHandler->checkRight('spot_view', 2, $groups, $xoopsModule->getVar('mi
     redirect_header(XOOPS_URL, 2, _MD_TDMSPOT_NOPERM);
 }
 
-if ($xoopsModuleConfig['tdmspot_seo'] == 1) {
+if (1 == $xoopsModuleConfig['tdmspot_seo']) {
     require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/seo.inc.php';
 }
 // get User ID
@@ -114,7 +114,7 @@ switch ($op) {
             $numrows = count($nav_ids) - 1;
             $pos = array_search($itemid, $nav_ids);
             $nav = '';
-            if ($pos != 0) {
+            if (0 != $pos) {
                 $prev_link = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $nav_ids[$pos - 1], $nav_title[$pos - 1]);
                 $xoopsTpl->assign(
                     'prev_page',
@@ -167,7 +167,7 @@ switch ($op) {
                 $meta_keywords = $cat->getVar('title');
                 $meta_description = $cat->getVar('title');
 
-                if ($xoopsModuleConfig['tdmspot_img'] == 1) {
+                if (1 == $xoopsModuleConfig['tdmspot_img']) {
                     $imgpath = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/cat/' . $cat->getVar('img');
                     if (file_exists($imgpath)) {
                         $redim = tdmspot_redimage($imgpath, $xoopsModuleConfig['tdmspot_cat_width'], $xoopsModuleConfig['tdmspot_cat_height']);
@@ -200,7 +200,7 @@ switch ($op) {
             $memberHandler = xoops_getHandler('member');
             $thisUser = $memberHandler->getUser($bl_poster);
             //teste l'avatard
-            if ($thisUser->getVar('user_avatar') !== 'blank.gif') {
+            if ('blank.gif' !== $thisUser->getVar('user_avatar')) {
                 $tpitem['user_avatarurl'] = XOOPS_URL . '/uploads/' . $thisUser->getVar('user_avatar');
             } else {
                 $tpitem['user_avatarurl'] = TDMSPOT_IMAGES_URL . '/user.png';
@@ -208,7 +208,7 @@ switch ($op) {
             $tpitem['user_uname'] = $thisUser->getVar('uname');
             $tpitem['user_name'] = $thisUser->getVar('name');
             $tpitem['user_name'] = $thisUser->getVar('name');
-            if ($thisUser->getVar('url', 'E') == '') {
+            if ('' == $thisUser->getVar('url', 'E')) {
                 $tpitem['user_websiteurl'] = '';
             } else {
                 $tpitem['user_websiteurl'] = '<a href="' . $thisUser->getVar('url', 'E') . '" rel="external">' . $thisUser->getVar('url') . '</a>';
@@ -270,7 +270,7 @@ switch ($op) {
             $tpitem['print'] = tdmspot_generateSeoUrl('print', $item_arr[$i]->getVar('id'), 'print_' . $item_arr[$i]->getVar('title'));
             //moyen des votes
             @$moyen = ceil($tpitem['votes'] / $tpitem['counts']);
-            if (@$moyen == 0) {
+            if (0 == @$moyen) {
                 $tpitem['moyen'] = '';
             } else {
                 $tpitem['moyen'] = "<img src='" . TDMSPOT_IMAGES_URL . '/rate' . $moyen . ".png'>";
@@ -278,14 +278,14 @@ switch ($op) {
 
             $xoopsTpl->append('tpitem', $tpitem);
             $xoopsTpl->assign('nav_bar', $navigation);
-            if ($xoopsModuleConfig['tdmspot_seo'] == 1) {
+            if (1 == $xoopsModuleConfig['tdmspot_seo']) {
                 $xoopsTpl->assign('nav', "<a href='" . XOOPS_URL . '/' . $xoopsModuleConfig['tdmspot_seo_title'] . "/'>" . $xoopsModuleConfig['tdmspot_seo_title'] . '</a>');
             } else {
                 $xoopsTpl->assign('nav', "<a href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "'>" . $xoopsModule->name() . '</a>');
             }
 
             // similaire
-            if ($xoopsModuleConfig['tdmspot_blsimil'] != 0) {
+            if (0 != $xoopsModuleConfig['tdmspot_blsimil']) {
                 $criteria = new CriteriaCompo();
                 $criteria->add(new Criteria('display', 1));
                 $criteria->add(new Criteria('indate', time(), '<'));

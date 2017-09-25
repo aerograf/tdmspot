@@ -204,8 +204,8 @@ function tdm_switchselect($text, $form_sort, $url)
     $select_view = '<form name="form_switch" id="form_switch" action="' . $_SERVER['REQUEST_URI'] . '" method="post"><span style="font-weight: bold;">' . $text . '</span>';
     //$sorts =  $sort ==  'asc' ? 'desc' : 'asc';
     if ($form_sort == $sort) {
-        $sel1 = $order === 'asc' ? 'selasc.png' : 'asc.png';
-        $sel2 = $order === 'desc' ? 'seldesc.png' : 'desc.png';
+        $sel1 = 'asc' === $order ? 'selasc.png' : 'asc.png';
+        $sel2 = 'desc' === $order ? 'seldesc.png' : 'desc.png';
     } else {
         $sel1 = 'asc.png';
         $sel2 = 'desc.png';

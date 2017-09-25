@@ -58,7 +58,7 @@ class TDMSpot_item extends XoopsObject
     public function getForm($action = false)
     {
         global $xoopsUser, $xoopsDB, $xoopsModule, $xoopsModuleConfig;
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
         $title = $this->isNew() ? sprintf(_MD_TDMSPOT_ADD) : sprintf(_MD_TDMSPOT_EDITER);

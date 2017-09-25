@@ -48,7 +48,7 @@ if (!$gpermHandler->checkRight('spot_view', 2, $groups, $xoopsModule->getVar('mi
     redirect_header(XOOPS_URL, 2, _MD_TDMSPOT_NOPERM);
 }
 
-if ($xoopsModuleConfig['tdmspot_seo'] == 1) {
+if (1 == $xoopsModuleConfig['tdmspot_seo']) {
     require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/seo.inc.php';
 }
 
@@ -142,7 +142,7 @@ switch ($op) {
 
         $xoopsTpl->assign('nav_bar', $navigation);
 
-        if ($xoopsModuleConfig['tdmspot_seo'] == 1) {
+        if (1 == $xoopsModuleConfig['tdmspot_seo']) {
             $xoopsTpl->assign('nav', "<a href='" . XOOPS_URL . '/' . $xoopsModuleConfig['tdmspot_seo_title'] . "/'>" . $xoopsModuleConfig['tdmspot_seo_title'] . '</a>');
         } else {
             $xoopsTpl->assign('nav', "<a href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "'>" . $xoopsModule->name() . '</a>');
@@ -154,7 +154,7 @@ switch ($op) {
         // ************************************************************
 
         //+ r�cents
-        if ($xoopsModuleConfig['tdmspot_blindate'] != 0) {
+        if (0 != $xoopsModuleConfig['tdmspot_blindate']) {
             $criteria = new CriteriaCompo();
             $criteria->add(new Criteria('display', 1));
             $criteria->add(new Criteria('indate', time(), '<'));
@@ -242,7 +242,7 @@ switch ($op) {
                     $tpitem['cat_title'] = $cat->getVar('title');
                     $tpitem['cat_link'] = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_cat'], $cat->getVar('id'), $cat->getVar('title'));
                     $tpitem['cat_id'] = $cat->getVar('id');
-                    if ($xoopsModuleConfig['tdmspot_img'] == 1) {
+                    if (1 == $xoopsModuleConfig['tdmspot_img']) {
                         $imgpath = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/cat/' . $cat->getVar('img');
                         if (file_exists($imgpath)) {
                             $redim = tdmspot_redimage($imgpath, $xoopsModuleConfig['tdmspot_cat_width'], $xoopsModuleConfig['tdmspot_cat_height']);
@@ -293,7 +293,7 @@ switch ($op) {
 
                 //moyen des votes
                 @$moyen = ceil($tpitem['votes'] / $tpitem['counts']);
-                if (@$moyen == 0) {
+                if (0 == @$moyen) {
                     $tpitem['moyen'] = '';
                 } else {
                     $tpitem['moyen'] = "<img src='" . TDMSPOT_IMAGES_URL . '/rate' . $moyen . ".png'>";

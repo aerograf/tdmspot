@@ -53,7 +53,7 @@ class TDMSpot_page extends XoopsObject
     public function getForm($action = false)
     {
         global $xoopsDB, $xoopsModule, $xoopsModuleConfig;
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
         $title = $this->isNew() ? sprintf(_AM_TDMSPOT_ADD) : sprintf(_AM_TDMSPOT_EDITER);
@@ -108,7 +108,7 @@ class TDMSpot_page extends XoopsObject
     public function getPlug($action = false)
     {
         global $xoopsDB, $xoopsModule, $xoopsModuleConfig;
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
         $title = $this->isNew() ? sprintf(_AM_TDMSPOT_ADD) : sprintf(_AM_TDMSPOT_EDITER);

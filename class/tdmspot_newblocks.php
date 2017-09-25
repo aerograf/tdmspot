@@ -57,7 +57,7 @@ class TDMSpot_newblocks extends XoopsObject
         require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 
         global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsConfig, $xoopsOption;
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
         $title = $this->isNew() ? sprintf(_AM_TDMSPOT_ADD) : sprintf(_AM_TDMSPOT_EDITER);

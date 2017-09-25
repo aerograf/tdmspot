@@ -122,7 +122,7 @@ switch ($op) {
     case 'del':
         $obj =& $catHandler->get($_REQUEST['id']);
 
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('cat.php', 2, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -150,7 +150,7 @@ switch ($op) {
 
     case _DELETE:
 
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('cat.php', 2, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -265,12 +265,12 @@ switch ($op) {
 
             foreach (array_keys($category_ArrayTree) as $i) {
                 //foreach ($arr as $c) {
-                $class = ($class === 'even') ? 'odd' : 'even';
+                $class = ('even' === $class) ? 'odd' : 'even';
                 $cat_id = $assoc_cat[$i]->getVar('id');
                 $cat_pid = $assoc_cat[$i]->getVar('pid');
                 $cat_title = $assoc_cat[$i]->getVar('title');
 
-                $display = $assoc_cat[$i]->getVar('display') == 1 ? "<img src='" . TDMSPOT_IMAGES_URL . "/on.gif' border='0'>" : "<a href='cat.php?op=update&id=" . $cat_id . "'><img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . "' src='" . TDMSPOT_IMAGES_URL . "/off.gif' border='0'></a>";
+                $display = 1 == $assoc_cat[$i]->getVar('display') ? "<img src='" . TDMSPOT_IMAGES_URL . "/on.gif' border='0'>" : "<a href='cat.php?op=update&id=" . $cat_id . "'><img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . "' src='" . TDMSPOT_IMAGES_URL . "/off.gif' border='0'></a>";
 
                 //on test l'existance de l'image
                 $img = $assoc_cat[$i]->getVar('img') ?: 'blank.gif';

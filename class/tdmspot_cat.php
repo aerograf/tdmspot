@@ -50,7 +50,7 @@ class TDMSpot_cat extends XoopsObject
     {
         global $xoopsUser, $xoopsDB, $xoopsModule, $xoopsModuleConfig;
 
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
         $title = $this->isNew() ? sprintf(_AM_TDMSPOT_ADD) : sprintf(_AM_TDMSPOT_EDITER);

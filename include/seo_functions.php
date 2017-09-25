@@ -108,12 +108,12 @@ function tdmspot_generateSeoUrl($op, $id, $short_url = '', $start = null, $limit
         $xoopsModuleConfig = &$configHandler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
     }
 
-    if ($xoopsModuleConfig['tdmspot_seo'] == 1) {
+    if (1 == $xoopsModuleConfig['tdmspot_seo']) {
         if (!empty($short_url)) {
             $short_url = tdmspot_seo_title($short_url) . '.html';
         }
 
-        if ($xoopsModuleConfig['tdmspot_seo'] == 1) {
+        if (1 == $xoopsModuleConfig['tdmspot_seo']) {
             // generate SEO url using htaccess
             $url = '';
             if (!empty($id)) {

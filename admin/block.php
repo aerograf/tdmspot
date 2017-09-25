@@ -31,7 +31,7 @@ $blockHandler = xoops_getModuleHandler('tdmspot_newblocks', 'tdmspot');
 
 //verifie la presence des pages
 $numgenre = $pageHandler->getCount();
-if ($numgenre == 0) {
+if (0 == $numgenre) {
     redirect_header('page.php', 2, _AM_TDMSPOT_PAGEERROR);
 }
 
@@ -106,7 +106,7 @@ switch ($op) {
     case 'delete':
         $obj =& $blockHandler->get($_REQUEST['id']);
 
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('block.php', 2, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -124,7 +124,7 @@ switch ($op) {
 
     case _DELETE:
 
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('block.php', 2, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -225,11 +225,11 @@ switch ($op) {
                 $block_arr = new XoopsBlock($alb_arr[$i]->getVar('bid'));
                 $title_block = $block_arr->getVar('name');
 
-                $class = ($class === 'even') ? 'odd' : 'even';
+                $class = ('even' === $class) ? 'odd' : 'even';
                 $id = $alb_arr[$i]->getVar('id');
                 $title = $myts->displayTarea($alb_arr[$i]->getVar('title'));
 
-                $display = $alb_arr[$i]->getVar('visible') == 1 ? "<img src='./../assets/images/on.gif' border='0'>" : "<img src='./../assets/images/off.gif' border='0'>";
+                $display = 1 == $alb_arr[$i]->getVar('visible') ? "<img src='./../assets/images/on.gif' border='0'>" : "<img src='./../assets/images/off.gif' border='0'>";
 
                 echo '<tr class="' . $class . '">';
                 echo '<td align="center"><input type="checkbox" name="id[]" id="id[]" value="' . $id . '"></td>';
