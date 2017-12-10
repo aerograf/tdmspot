@@ -84,7 +84,7 @@ $modversion = [
 
     // ------------------- Install/Update -------------------
     'onInstall'           => 'include/oninstall.php',
-        'onUpdate'            => 'include/onupdate.php',
+    'onUpdate'            => 'include/onupdate.php',
     //  'onUninstall'         => 'include/onuninstall.php',
     // -------------------  PayPal ---------------------------
     'paypal'              => [
@@ -185,7 +185,7 @@ $modversion['config'][] = [
     'description' => '',
     'formtype'    => 'textarea',
     'valuetype'   => 'text',
-    'valuetype'   => 'application/x-compress|application/x-compressed|application/x-compressed|application/x-zip-compressed|application/zip|multipart/x-zip|image/png|text/xml|application/xml|application/msword|audio/wav|audio/x-wav|application/gnutar|application/x-compressed|application/x-tar|application/x-shockwave-flash|application/vnd.ms-powerpoint|application/mspowerpoint|image/png|application/pro_eng|video/mpeg|audio/mpeg3|audio/x-mpeg-3|video/mpeg|video/x-mpeg|video/quicktime|image/jpeg|image/pjpeg|image/jpeg|image/pjpeg|application/x-gzip|multipart/x-gzip|image/bmp|image/x-windows-bmp|application/x-troff-msvideo|video/avi|video/msvideo|video/x-msvideo|',
+    'options'     => 'application/x-compress|application/x-compressed|application/x-compressed|application/x-zip-compressed|application/zip|multipart/x-zip|image/png|text/xml|application/xml|application/msword|audio/wav|audio/x-wav|application/gnutar|application/x-compressed|application/x-tar|application/x-shockwave-flash|application/vnd.ms-powerpoint|application/mspowerpoint|image/png|application/pro_eng|video/mpeg|audio/mpeg3|audio/x-mpeg-3|video/mpeg|video/x-mpeg|video/quicktime|image/jpeg|image/pjpeg|image/jpeg|image/pjpeg|application/x-gzip|multipart/x-gzip|image/bmp|image/x-windows-bmp|application/x-troff-msvideo|video/avi|video/msvideo|video/x-msvideo|',
 ];
 
 require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
