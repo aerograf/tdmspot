@@ -29,6 +29,10 @@ class ItemHandler extends \XoopsPersistableObjectHandler
     /**
      * ItemHandler constructor.
      * @param null|object|\XoopsDatabase $db
+     * @param string                     $table
+     * @param string                     $className
+     * @param string                     $keyName
+     * @param string                     $identifierName
      */
     public function __construct(\XoopsDatabase $db = null, $table = '', $className = '', $keyName = '', $identifierName = '')
     {

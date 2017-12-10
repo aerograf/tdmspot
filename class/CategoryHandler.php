@@ -30,6 +30,10 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * CategoryHandler constructor.
      * @param null|\XoopsDatabase $db
+     * @param string              $table
+     * @param string              $className
+     * @param string              $keyName
+     * @param string              $identifierName
      */
 
 
@@ -39,8 +43,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     * @param \XoopsObject $obj
-     * @param int                $val
+     * @param \XoopsObject $object
+     * @param bool         $force
      * @return bool
      */
     public function delete(\XoopsObject $object, $force = true)

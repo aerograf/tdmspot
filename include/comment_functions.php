@@ -29,7 +29,7 @@ if (!defined('XOOPS_ROOT_PATH')) {
 /**
  * @param $id
  * @param $total_num
- * @return
+ * @return mixed
  */
 function tdmspot_comments_update($id, $total_num)
 {
