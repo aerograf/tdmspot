@@ -283,7 +283,7 @@ switch ($op) {
                 $display = 1 == $assoc_cat[$i]->getVar('display') ?
                     $icons['1']
                     : "<a href='cat.php?op=update&id=" . $cat_id . "'>
-                    <img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . " border='0'>". $icons['0'] ."</a>";
+                    <img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . " border='0'>". $icons['0'] . '</a>';
 
 
 

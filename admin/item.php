@@ -326,7 +326,7 @@ switch ($op) {
                 if (1 == $alb_arr[$i]->getVar('display') && $alb_arr[$i]->getVar('indate') < time()) {
                     $display =  $icons['1'];
                 } else {
-                    $display = "<a href='item.php?op=update&id=" . $id . "'><img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . " border='0'>". $icons['0'] ."</a>";
+                    $display = "<a href='item.php?op=update&id=" . $id . "'><img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . " border='0'>". $icons['0'] . '</a>';
                 }
 
 
