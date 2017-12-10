@@ -55,7 +55,7 @@
                     cleanedTag = cleanedTag ? startTags[s] + cleanedTag : startTags[s];
                     matched = true;
                   }
-                };
+                }
               }
             }
           }

@@ -89,7 +89,7 @@ class Item extends \XoopsObject
 
             $form->addElement(new \XoopsFormLabel(_MD_TDMSPOT_CATEGORY, $mytree->makeSelBox('cat', 'title', '-', $this->getVar('cat'), true)), true);
         }
-        
+
 
         //editor
         $editor_configs = [];

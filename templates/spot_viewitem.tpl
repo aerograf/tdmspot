@@ -103,7 +103,7 @@ padding: 5px;">
 
             <div class="itemFoot">
             <{if $perm_vote}>
-            <a href="javascript:;"><img height="16px" src="<{$smarty.const.TDMSPOT_IMAGES_URL}>/good-mark.png" onclick="AddVote(<{$tpitem.id}>, '<{$smarty.const.TDMSPOT_URL}>');return false;" title="<{$smarty.const._MD_TDMSPOT_VOTEADD}>"></a> <a href="javascript:;"><img height="16px" src="<{$smarty.const.TDMSPOT_IMAGES_URL}>/bad-mark.png" onclick="RemoveVote(<{$tpitem.id}>, '<{$smarty.const.TDMSPOT_URL}>');return false;" title="<{$smarty.const._MD_TDMSPOT_VOTEREMOVE}>"></a>
+            <a href="javascript:"><img height="16px" src="<{$smarty.const.TDMSPOT_IMAGES_URL}>/good-mark.png" onclick="AddVote(<{$tpitem.id}>, '<{$smarty.const.TDMSPOT_URL}>');return false;" title="<{$smarty.const._MD_TDMSPOT_VOTEADD}>"></a> <a href="javascript:"><img height="16px" src="<{$smarty.const.TDMSPOT_IMAGES_URL}>/bad-mark.png" onclick="RemoveVote(<{$tpitem.id}>, '<{$smarty.const.TDMSPOT_URL}>');return false;" title="<{$smarty.const._MD_TDMSPOT_VOTEREMOVE}>"></a>
             -
             <{/if}>
             <span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/chart.png) no-repeat left; padding-left: 15px;">&nbsp;<{$smarty.const._MD_TDMSPOT_NOTES}> <{$tpitem.counts}>/<{$tpitem.votes}> <{$smarty.const._MD_TDMSPOT_VOTES}> </span>
