@@ -46,7 +46,7 @@ function tdmspot_search($queryarray, $andor, $limit, $offset, $userid)
     $criteria->setOrder('ASC');
     $criteria->add(new \Criteria('display', 1));
     $criteria->add(new \Criteria('indate', time(), '<'));
-    $criteria->add(new \Criteria('title', '%' . isset($queryarray[0]) ?: '' . '%', 'LIKE'));
+    $criteria->add(new \Criteria('title', ('%' . isset($queryarray[0]) ?: '' . '%'), 'LIKE'));
     $criteria->setStart($offset);
     $criteria->setLimit($limit);
     $item_arr = $itemHandler->getObjects($criteria);

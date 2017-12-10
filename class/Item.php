@@ -122,10 +122,9 @@ class Item extends \XoopsObject
             $form->addElement(new \XoopsFormRadioYN(_MD_TDMSPOT_VISIBLE, 'display', $this->getVar('display'), _YES, _NO));
         } else {
             $gpermHandler = xoops_getHandler('groupperm');
+            $groups = XOOPS_GROUP_ANONYMOUS;
             if (is_object($xoopsUser)) {
                 $groups = $xoopsUser->getGroups();
-            } else {
-                $groups = XOOPS_GROUP_ANONYMOUS;
             }
 
             if ($gpermHandler->checkRight('tdmspot_view', 8, $groups, $xoopsModule->getVar('mid'))) {

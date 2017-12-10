@@ -317,10 +317,9 @@ switch ($op) {
                 $indate = formatTimestamp($alb_arr[$i]->getVar('indate'), 'm');
 
                 //trouve la categorie
+                $cat_title = 'NONE';
                 if ($cat = $catHandler->get($alb_arr[$i]->getVar('cat'))) {
                     $cat_title = $cat->getVar('title');
-                } else {
-                    $cat_title = 'NONE';
                 }
                 //
                 if (1 == $alb_arr[$i]->getVar('display') && $alb_arr[$i]->getVar('indate') < time()) {

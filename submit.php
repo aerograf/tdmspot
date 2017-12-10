@@ -29,10 +29,9 @@ require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '
 $myts = \MyTextSanitizer::getInstance();
 $gpermHandler = xoops_getHandler('groupperm');
 //permission
+$groups = XOOPS_GROUP_ANONYMOUS;
 if (is_object($xoopsUser)) {
     $groups = $xoopsUser->getGroups();
-} else {
-    $groups = XOOPS_GROUP_ANONYMOUS;
 }
 
 //load class

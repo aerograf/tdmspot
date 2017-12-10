@@ -39,10 +39,9 @@ if (1 == $xoopsModuleConfig['tdmspot_seo']) {
 }
 
 //permission
+$groups = XOOPS_GROUP_ANONYMOUS;
 if (is_object($xoopsUser)) {
     $groups = $xoopsUser->getGroups();
-} else {
-    $groups = XOOPS_GROUP_ANONYMOUS;
 }
 
 //permission d'afficher

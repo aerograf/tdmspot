@@ -559,15 +559,13 @@ class Utility
         $src_w = $size[0];
         $src_h = $size[1];
         // Teste les dimensions tenant dans la zone
+        $test_h = 0;
         if ($src_w > 0) {
             $test_h = round(($dst_w / $src_w) * $src_h);
-        } else {
-            $test_h = 0;
         }
+        $test_w = 0;
         if ($src_h > 0) {
             $test_w = round(($dst_h / $src_h) * $src_w);
-        } else {
-            $test_w = 0;
         }
         // Si Height final non pr�cis� (0)
         if (!$dst_h) {

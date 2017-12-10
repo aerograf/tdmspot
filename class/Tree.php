@@ -124,10 +124,9 @@ class Tree extends \XoopsObjectTree
         <br style="clear: both;"></ul></td></tr></table><br>';
             }
 
+            $cat_sub = false;
             if ('sub' === $cat_display || 'subimg' === $cat_display) {
                 $cat_sub = true;
-            } else {
-                $cat_sub = false;
             }
 
             if ((!$prefix_curr && $cat_sub) || (!$cat_sub && $this->tree[$key]['obj']->getVar('pid') == $selected)) {

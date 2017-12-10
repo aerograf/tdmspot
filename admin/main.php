@@ -63,10 +63,9 @@ $numpage = $pageHandler->getCount();
 //compte les blocks
 $numblock = $blockHandler->getCount();
 
+$veriffile = '<span style="color: green;"><img src="./../assets/images/on.gif" >mod_rewrite OK</span>';
 if (!in_array('mod_rewrite', @apache_get_modules())) {
     $veriffile = '<span style="color: red;"><img src="./../assets/images/off.gif">mod_rewrite ERROR</a></span>';
-} else {
-    $veriffile = '<span style="color: green;"><img src="./../assets/images/on.gif" >mod_rewrite OK</span>';
 }
 
 if (PHP_VERSION >= 5) {

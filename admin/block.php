@@ -217,10 +217,9 @@ switch ($op) {
             $class = 'odd';
             foreach (array_keys($alb_arr) as $i) {
                 //nom de page
+                $page_title = false;
                 if ($page = $pageHandler->get($alb_arr[$i]->getVar('pid'))) {
                     $page_title = $page->getVar('title');
-                } else {
-                    $page_title = false;
                 }
 
                 //trouve le block
