@@ -18,6 +18,8 @@
  * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
 if (!defined('XOOPS_ROOT_PATH')) {
     die('XOOPS root path not defined');
 }
@@ -35,16 +37,16 @@ function tdmspot_search($queryarray, $andor, $limit, $offset, $userid)
     global $xoopsDB;
 
     //load class
-    $itemHandler = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
+    $itemHandler = new tdmspot\ItemHandler(); //xoops_getModuleHandler('tdmspot_item', 'tdmspot');
 
     $ret = [];
     //cherche le fichier
-    $criteria = new CriteriaCompo();
+    $criteria = new \CriteriaCompo();
     $criteria->setSort('title');
     $criteria->setOrder('ASC');
-    $criteria->add(new Criteria('display', 1));
-    $criteria->add(new Criteria('indate', time(), '<'));
-    $criteria->add(new Criteria('title', '%' . $queryarray[0] . '%', 'LIKE'));
+    $criteria->add(new \Criteria('display', 1));
+    $criteria->add(new \Criteria('indate', time(), '<'));
+    $criteria->add(new \Criteria('title', '%' . isset($queryarray[0]) ?: '' . '%', 'LIKE'));
     $criteria->setStart($offset);
     $criteria->setLimit($limit);
     $item_arr = $itemHandler->getObjects($criteria);

@@ -18,12 +18,14 @@
  * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
 require_once __DIR__ . '/admin_header.php';
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-require_once __DIR__ . '/../include/functions.php';
+require_once __DIR__ . '/../class/Utility.php';
 
 xoops_cp_header();
 //apelle du menu admin
@@ -35,10 +37,10 @@ xoops_cp_header();
 //}
 
 //load class
-$itemHandler = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
-$catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
-$pageHandler = xoops_getModuleHandler('tdmspot_page', 'tdmspot');
-$blockHandler = xoops_getModuleHandler('tdmspot_newblocks', 'tdmspot');
+$itemHandler = new tdmspot\ItemHandler(); //xoops_getModuleHandler('tdmspot_item', 'tdmspot');
+$catHandler = new tdmspot\CategoryHandler(); //xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
+$pageHandler = new tdmspot\PageHandler(); //xoops_getModuleHandler('tdmspot_page', 'tdmspot');
+$blockHandler = new tdmspot\NewblocksHandler(); //xoops_getModuleHandler('tdmspot_newblocks', 'tdmspot');
 
 //compte les items
 $numitem = $itemHandler->getCount();
@@ -68,10 +70,10 @@ if (!in_array('mod_rewrite', @apache_get_modules())) {
 }
 
 if (PHP_VERSION >= 5) {
-    require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/class/menu.php';
+    require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/class/SoundMenu.php';
 
     //showIndex();
-    $menu = new TDMSoundMenu();
+    $menu = new tdmspot\SoundMenu();
     $menu->addItem('item', 'item.php', '../assets/images/decos/index.png', _AM_TDMSPOT_MANAGE_ITEM);
     $menu->addItem('cat', 'cat.php', '../assets/images/decos/cat.png', _AM_TDMSPOT_MANAGE_CAT);
     $menu->addItem('page', 'page.php', '../assets/images/decos/page.png', _AM_TDMSPOT_MANAGE_PAGE);
@@ -127,7 +129,7 @@ printf(_AM_TDMSPOT_THEREARE_BLOCK, $numblock);
 echo '<br><br>
     </fieldset><br> <br>
 
-     <fieldset><legend class="CPmediumTitle">Appache</legend>
+     <fieldset><legend class="CPmediumTitle">Apache</legend>
         <br>';
 echo $veriffile;
 echo '<br><br>

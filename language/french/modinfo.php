@@ -1,7 +1,7 @@
 <?php
 
 // The name of this module
-define('_MI_TDMSPOT_NAME', ' TDMSpot');
+define('_MI_TDMSPOT_NAME', ' tdmspot');
 define('_MI_TDMSPOT_DESC', ' Spot gestion de vos blocks');
 define('_MI_TDMSPOT_INDEX', ' Index');
 define('_MI_TDMSPOT_PAGE', ' Pages index');

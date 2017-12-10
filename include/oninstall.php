@@ -10,16 +10,20 @@
  */
 
 /**
- * @copyright    {@link https://xoops.org/ XOOPS Project}
- * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @copyright     {@link https://xoops.org/ XOOPS Project}
+ * @license       {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package       tdmspot
  * @since
- * @author       TDM   - TEAM DEV MODULE FOR XOOPS
- * @author       XOOPS Development Team
+ * @author        TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author        XOOPS Development Team
+ * @param $module
+ * @return bool
  */
 
 function xoops_module_install_spot(&$module)
 {
+    include __DIR__ . '/../preloads/autoloader.php';
+
     ///////////////////////////
     ///Creation des fichiers///
     ///////////////////////////

@@ -22,7 +22,7 @@ require_once __DIR__ . '/../../../include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-require_once __DIR__ . '/../include/functions.php';
+require_once __DIR__ . '/../class/Utility.php';
 
 xoops_cp_header();
 //if ( !is_readable(XOOPS_ROOT_PATH . "/Frameworks/art/functions.admin.php")) {

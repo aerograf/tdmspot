@@ -18,12 +18,14 @@
  * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
 require_once __DIR__ . '/../../mainfile.php';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 global $xoopsDB, $xoopsConfig, $xoopsModuleConfig;
 
-$myts = &MyTextSanitizer:: getInstance(); // MyTextSanitizer object
+$myts = \MyTextSanitizer::getInstance(); // MyTextSanitizer object
 
 $option = !empty($_REQUEST['option']) ? $_REQUEST['option'] : 'default';
 
@@ -36,7 +38,7 @@ switch ($option) {
     case 'default':
     default:
         //load class
-        $itemHandler = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
+    $itemHandler = new tdmspot\ItemHandler(); //xoops_getModuleHandler('tdmspot_item', 'tdmspot');    
         //perm
         $gpermHandler = xoops_getHandler('groupperm');
 
@@ -59,7 +61,7 @@ switch ($option) {
             redirect_header('index.php', 2, _MD_TDMPICTURE_NOPERM);
         }
 
-        $file =& $itemHandler->get($_REQUEST['itemid']);
+        $file = $itemHandler->get($_REQUEST['itemid']);
         //prepare les reponse
         $newsletter_title = $file->getVar('title');
         //text
@@ -110,7 +112,7 @@ switch ($option) {
  */
 function Chars($text)
 {
-    $myts = &MyTextSanitizer:: getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     return preg_replace(['/&#039;/i', '/&#233;/i', '/&#232;/i', '/&#224;/i', '/&quot;/i', '/<br \>/i', '/&agrave;/i', '/&#8364;/i'], ["'", '�', '�', '�', '"', "\n", '�', '�'], $text);
 }

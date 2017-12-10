@@ -18,22 +18,26 @@
  * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
 require_once __DIR__ . '/admin_header.php';
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/common.php';
+require_once __DIR__ . '/../include/config.php';
 
-$pageHandler = xoops_getModuleHandler('tdmspot_page', 'tdmspot');
-$blockHandler = xoops_getModuleHandler('tdmspot_newblocks', 'tdmspot');
+$pageHandler = new tdmspot\PageHandler(); //xoops_getModuleHandler('tdmspot_page', 'tdmspot');
+$blockHandler = new tdmspot\NewblocksHandler(); //xoops_getModuleHandler('tdmspot_newblocks', 'tdmspot');
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'list';
 $order = isset($_REQUEST['order']) ? $_REQUEST['order'] : 'desc';
 $sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'weight';
 
-require_once TDMSPOT_ROOT_PATH . '/class/breadcrumb.php';
+
+require_once TDMSPOT_ROOT_PATH . '/class/SystemBreadcrumb.php';
 
 switch ($op) {
 
@@ -44,7 +48,7 @@ switch ($op) {
             redirect_header('pages.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($_REQUEST['id'])) {
-            $obj =& $pageHandler->get($_REQUEST['id']);
+            $obj = $pageHandler->get($_REQUEST['id']);
         } else {
             $obj = $pageHandler->create();
         }
@@ -78,7 +82,7 @@ switch ($op) {
         }
         //require_once('../include/forms.php');
         echo $obj->getHtmlErrors();
-        $form =& $obj->getForm();
+        $form = $obj->getForm();
         $form->display();
         break;
 
@@ -95,8 +99,8 @@ switch ($op) {
         //menu
         //        echo '<div class="CPbigTitle" style="background-image: url(../assets/images/decos/page.png); background-repeat: no-repeat; background-position: left; padding-left: 60px; padding-top:20px; padding-bottom:15px;"><h3><strong>' . _AM_TDMSPOT_MANAGE_PAGE . '</strong></h3>';
         $currentFile = basename(__FILE__);
-        $indexAdmin = new ModuleAdmin();
-        echo $indexAdmin->addNavigation($currentFile);
+      $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->displayNavigation($currentFile);
 
         echo '</div><br>';
         $obj = $pageHandler->get($_REQUEST['id']);
@@ -107,7 +111,7 @@ switch ($op) {
         break;
 
     case 'delete':
-        $obj =& $pageHandler->get($_REQUEST['id']);
+        $obj = $pageHandler->get($_REQUEST['id']);
 
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -136,7 +140,7 @@ switch ($op) {
             $size = count($_POST['id']);
             $obj = $_POST['id'];
             for ($i = 0; $i < $size; ++$i) {
-                $obj2 =& $pageHandler->get($obj[$i]);
+                $obj2 = $pageHandler->get($obj[$i]);
                 //supprime
                 if ($pageHandler->delete($obj2)) {
                     $erreur = true;
@@ -176,12 +180,12 @@ switch ($op) {
         //        echo '<div class="CPbigTitle" style="background-image: url(../assets/images/decos/page.png); background-repeat: no-repeat; background-position: left; padding-left: 60px; padding-top:20px; padding-bottom:15px;"><h3><strong>' . _AM_TDMSPOT_MANAGE_PAGE . '</strong></h3>';
 
         $currentFile = basename(__FILE__);
-        $indexAdmin = new ModuleAdmin();
-        echo $indexAdmin->addNavigation($currentFile);
+      $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->displayNavigation($currentFile);
 
         echo '</div><br>';
 
-        $xoBreadCrumb = new SystemBreadcrumb();
+        $xoBreadCrumb = new tdmspot\SystemBreadcrumb();
         $xoBreadCrumb->addTips(_AM_TDMSPOT_PAGEDESC);
         $xoBreadCrumb->render();
         //$numgenre = $pageHandler->getCount();
@@ -190,7 +194,7 @@ switch ($op) {
         //}
 
         //Parameters
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         $limit = 20;
         if (isset($_REQUEST['start'])) {
             $criteria->setStart($_REQUEST['start']);
@@ -208,7 +212,7 @@ switch ($op) {
 
         //nav
         if ($numrows > $limit) {
-            $pagenav = new XoopsPageNav($numrows, $limit, $start, 'start', 'op=list');
+            $pagenav = new \XoopsPageNav($numrows, $limit, $start, 'start', 'op=list');
             $pagenav = $pagenav->renderNav(2);
         } else {
             $pagenav = '';
@@ -218,10 +222,10 @@ switch ($op) {
             echo '<form name="form" id="form" action="item.php" method="post"><table width="100%" cellspacing="1" class="outer">';
             echo '<tr>';
             echo '<th align="center" width="5%"><input name="allbox" id="allbox" onclick="xoopsCheckAll(\'form\', \'allbox\');" type="checkbox" value="Check All"></th>';
-            echo '<th align="center" width="10%">' . tdm_switchselect(_AM_TDMSPOT_VISIBLE, 'visible', TDMSPOT_IMAGES_URL) . '</th>';
-            echo '<th align="center" width="10%">' . tdm_switchselect(_AM_TDMSPOT_WEIGHT, 'weight', TDMSPOT_IMAGES_URL) . '</th>';
-            echo '<th align="center" width="10%">' . tdm_switchselect('ID', 'id', TDMSPOT_IMAGES_URL) . '</th>';
-            echo '<th align="center" width="45%">' . tdm_switchselect(_AM_TDMSPOT_TITLE, 'title', TDMSPOT_IMAGES_URL) . '</th>';
+            echo '<th align="center" width="10%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_VISIBLE, 'visible', TDMSPOT_IMAGES_URL) . '</th>';
+            echo '<th align="center" width="10%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_WEIGHT, 'weight', TDMSPOT_IMAGES_URL) . '</th>';
+            echo '<th align="center" width="10%">' . tdmspot\Utility::switchSelect('ID', 'id', TDMSPOT_IMAGES_URL) . '</th>';
+            echo '<th align="center" width="45%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_TITLE, 'title', TDMSPOT_IMAGES_URL) . '</th>';
             echo '<th align="center" width="20%">' . _AM_TDMSPOT_ACTION . '</th>';
             echo '</tr>';
             $class = 'odd';

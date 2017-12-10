@@ -18,6 +18,8 @@
  * @author        XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
 /**
  * @param $options
  * @return array
@@ -44,8 +46,8 @@ function b_tdmspot($options)
     $type_block   = $options[0];
     $nb_document  = $options[1];
     $lenght_title = $options[2];
-    $myts         = MyTextSanitizer::getInstance();
-    $itemHandler  = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
+    $myts         = \MyTextSanitizer::getInstance();
+    $itemHandler  = new tdmspot\ItemHandler(); //xoops_getModuleHandler('tdmspot_item', 'tdmspot');
 
     $criteria = new CriteriaCompo();
     $criteria->setLimit($nb_document);
@@ -173,9 +175,9 @@ function b_tdmspot($options)
  */
 function b_tdmspot_edit($options)
 {
-    $catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
-    $criteria   = new CriteriaCompo();
-    $criteria->add(new Criteria('display', 1));
+    $catHandler = new tdmspot\CategoryHandler(); //xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
+    $criteria   = new \CriteriaCompo();
+    $criteria->add(new \Criteria('display', 1));
     $criteria->setSort('title');
     $criteria->setOrder('ASC');
     $assoc_arr = $catHandler->getall($criteria);

@@ -18,6 +18,8 @@
  * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
 require_once __DIR__ . '/admin_header.php';
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -25,8 +27,8 @@ require_once XOOPS_ROOT_PATH . '/class/tree.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/common.php';
 
-$itemHandler = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
-$catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
+$itemHandler = new tdmspot\ItemHandler(); //xoops_getModuleHandler('tdmspot_item', 'tdmspot');
+$catHandler = new tdmspot\CategoryHandler(); //xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
 
 //verifie la presence des categorie
 $numcat = $catHandler->getCount();
@@ -34,7 +36,7 @@ if (0 == $numcat) {
     redirect_header('cat.php', 2, _AM_TDMSPOT_CATERROR);
 }
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'list';
 $display = isset($_REQUEST['display']) ? $_REQUEST['display'] : 1;
 $indate = isset($_REQUEST['indate']) ? $_REQUEST['indate'] : 0;
@@ -65,7 +67,7 @@ switch ($op) {
             redirect_header('index.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($_REQUEST['id'])) {
-            $obj =& $itemHandler->get($_REQUEST['id']);
+            $obj = $itemHandler->get($_REQUEST['id']);
         } else {
             $obj = $itemHandler->create();
         }
@@ -76,7 +78,7 @@ switch ($op) {
 
         $uploaddir = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/';
         $mimetype = explode('|', $xoopsModuleConfig['tdmspot_mimetype']);
-        $uploader = new XoopsMediaUploader($uploaddir, $mimetype, $xoopsModuleConfig['tdmspot_mimemax'], null, null);
+        $uploader = new \XoopsMediaUploader($uploaddir, $mimetype, $xoopsModuleConfig['tdmspot_mimemax'], null, null);
 
         if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
@@ -101,7 +103,7 @@ switch ($op) {
         }
         //require_once('../include/forms.php');
         echo $obj->getHtmlErrors();
-        $form =& $obj->getForm();
+        $form = $obj->getForm();
         $form->display();
         break;
 
@@ -118,8 +120,8 @@ switch ($op) {
         //        echo '<div class="CPbigTitle" style="background-image: url(../assets/images/decos/item.png); background-repeat: no-repeat; background-position: left; padding-left: 60px; padding-top:20px; padding-bottom:15px;"><h3><strong>' . _AM_TDMSPOT_MANAGE_ITEM . '</strong></h3>';
 
         $currentFile = basename(__FILE__);
-        $indexAdmin = new ModuleAdmin();
-        echo $indexAdmin->addNavigation($currentFile);
+        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->displayNavigation($currentFile);
 
         echo '</div><br><div class="head" align="center">';
         echo (0 != $display) ? '<a href="item.php?op=list&display=0">' . sprintf(
@@ -139,7 +141,7 @@ switch ($op) {
         break;
 
     case 'delete':
-        $obj =& $itemHandler->get($_REQUEST['id']);
+        $obj = $itemHandler->get($_REQUEST['id']);
 
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -171,7 +173,7 @@ switch ($op) {
             $size = count($_POST['id']);
             $obj = $_POST['id'];
             for ($i = 0; $i < $size; ++$i) {
-                $obj2 =& $itemHandler->get($obj[$i]);
+                $obj2 = $itemHandler->get($obj[$i]);
                 //supprime
                 if ($itemHandler->delete($obj2)) {
                     $erreur = true;
@@ -217,8 +219,8 @@ switch ($op) {
         //menu
         //        echo '<div class="CPbigTitle" style="background-image: url(../assets/images/decos/item.png); background-repeat: no-repeat; background-position: left; padding-left: 60px; padding-top:20px; padding-bottom:15px;"><h3><strong>' . _AM_TDMSPOT_MANAGE_ITEM . '</strong></h3>';
         $currentFile = basename(__FILE__);
-        $indexAdmin = new ModuleAdmin();
-        echo $indexAdmin->addNavigation($currentFile);
+      $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->displayNavigation($currentFile);
         echo '</div><br><div class="head" align="center">';
         echo (0 != $display) ? '<a href="item.php?op=list&display=0">' . sprintf(
             _AM_TDMSPOT_THEREARE_ITEM_WAITING,
@@ -231,21 +233,21 @@ switch ($op) {
         echo '</div><br>';
 
         //creation du formulaire de tris
-        $form = new XoopsThemeForm(_AM_TDMSPOT_SEARCH, 'tris', 'item.php');
+        $form = new \XoopsThemeForm(_AM_TDMSPOT_SEARCH, 'tris', 'item.php');
 
-        $form->addElement(new XoopsFormHidden('op', 'list'));
-        $form->addElement(new XoopsFormHidden('display', $display));
-        $form->addElement(new XoopsFormHidden('indate', $indate));
+        $form->addElement(new \XoopsFormHidden('op', 'list'));
+        $form->addElement(new \XoopsFormHidden('display', $display));
+        $form->addElement(new \XoopsFormHidden('indate', $indate));
 
-        $cat_select = new XoopsFormSelect(_AM_TDMSPOT_CATEGORY, 'cat', $cat);
+        $cat_select = new \XoopsFormSelect(_AM_TDMSPOT_CATEGORY, 'cat', $cat);
         $cat_select->addOption(0, _AM_TDMSPOT_ALL);
         $cat_select->addOptionArray($catHandler->getList());
         $form->addElement($cat_select);
 
-        $form->addElement(new XoopsFormText(_AM_TDMSPOT_ID, 'itemid', 8, 8, $itemid));
+        $form->addElement(new \XoopsFormText(_AM_TDMSPOT_ID, 'itemid', 8, 8, $itemid));
 
-        $button_tray = new XoopsFormElementTray(_AM_TDMSPOT_ACTION, '');
-        $button_tray->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
+        $button_tray = new \XoopsFormElementTray(_AM_TDMSPOT_ACTION, '');
+        $button_tray->addElement(new \XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
         $form->addElement($button_tray);
 
         $form->display();
@@ -291,7 +293,7 @@ switch ($op) {
         //nav
 
         if ($numrows > $limit) {
-            $pagenav = new XoopsPageNav($numrows, $limit, $start, 'start', 'op=list&itemid=' . $itemid . '&cat=' . $cat . '&display=' . $display . '&indate=' . $indate);
+            $pagenav = new \XoopsPageNav($numrows, $limit, $start, 'start', 'op=list&itemid=' . $itemid . '&cat=' . $cat . '&display=' . $display . '&indate=' . $indate);
             $pagenav = $pagenav->renderNav(2);
         } else {
             $pagenav = '';
@@ -301,10 +303,10 @@ switch ($op) {
             echo '<form name="form" id="form" action="item.php" method="post"><table width="100%" cellspacing="1" class="outer">';
             echo '<tr>';
             echo '<th align="center" width="5%"><input name="allbox" id="allbox" onclick="xoopsCheckAll(\'form\', \'allbox\');" type="checkbox" value="Check All"></th>';
-            echo '<th align="center" width="10%">' . tdm_switchselect(_AM_TDMSPOT_VISIBLE, 'display', TDMSPOT_IMAGES_URL) . '</th>';
-            echo '<th align="center" width="20%">' . tdm_switchselect(_AM_TDMSPOT_INDATE, 'indate', TDMSPOT_IMAGES_URL) . '</th>';
-            echo '<th align="center" width="20%">' . tdm_switchselect(_AM_TDMSPOT_CATEGORY, 'cat', TDMSPOT_IMAGES_URL) . '</th>';
-            echo '<th align="center" width="35%">' . tdm_switchselect(_AM_TDMSPOT_TITLE, 'title', TDMSPOT_IMAGES_URL) . '</th>';
+            echo '<th align="center" width="10%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_VISIBLE, 'display', TDMSPOT_IMAGES_URL) . '</th>';
+            echo '<th align="center" width="20%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_INDATE, 'indate', TDMSPOT_IMAGES_URL) . '</th>';
+            echo '<th align="center" width="20%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_CATEGORY, 'cat', TDMSPOT_IMAGES_URL) . '</th>';
+            echo '<th align="center" width="35%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_TITLE, 'title', TDMSPOT_IMAGES_URL) . '</th>';
             echo '<th align="center" width="10%">' . _AM_TDMSPOT_ACTION . '</th>';
             echo '</tr>';
             $class = 'odd';
@@ -315,17 +317,20 @@ switch ($op) {
                 $indate = formatTimestamp($alb_arr[$i]->getVar('indate'), 'm');
 
                 //trouve la categorie
-                if ($cat =& $catHandler->get($alb_arr[$i]->getVar('cat'))) {
+                if ($cat = $catHandler->get($alb_arr[$i]->getVar('cat'))) {
                     $cat_title = $cat->getVar('title');
                 } else {
                     $cat_title = 'NONE';
                 }
                 //
                 if (1 == $alb_arr[$i]->getVar('display') && $alb_arr[$i]->getVar('indate') < time()) {
-                    $display = "<img src='./../assets/images/on.gif' border='0'>";
+                    $display =  $icons['1'];
                 } else {
-                    $display = "<a href='item.php?op=update&id=" . $id . "'><img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . "' src='./../assets/images/off.gif' border='0'></a>";
+                    $display = "<a href='item.php?op=update&id=" . $id . "'><img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . " border='0'>". $icons['0'] ."</a>";
                 }
+
+
+
                 //on test l'existance de l'image
                 $imgpath = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/' . $alb_arr[$i]->getVar('file');
                 if (file_exists($imgpath)) {
@@ -341,8 +346,15 @@ switch ($op) {
                 echo '<td align="center">' . $cat_title . '</td>';
                 echo '<td align="center">' . $title . '</td>';
                 echo '<td align="center">';
-                echo '<a href="item.php?op=edit&id=' . $id . '"><img src="./../assets/images/edit_mini.gif" border="0" alt="' . _AM_TDMSPOT_EDITER . '" title="' . _AM_TDMSPOT_EDITER . '"></a>';
-                echo '<a href="item.php?op=delete&id=' . $id . '"><img src="./../assets/images/delete_mini.gif" border="0" alt="' . _AM_TDMSPOT_DELETE . '" title="' . _AM_TDMSPOT_DELETE . '"></a>';
+
+//                echo '<a href="item.php?op=edit&id=' . $id . '"><img src="./../assets/images/edit_mini.gif" border="0" alt="' . _AM_TDMSPOT_EDITER . '" title="' . _AM_TDMSPOT_EDITER . '"></a>';
+//                echo '<a href="item.php?op=delete&id=' . $id . '"><img src="./../assets/images/delete_mini.gif" border="0" alt="' . _AM_TDMSPOT_DELETE . '" title="' . _AM_TDMSPOT_DELETE . '"></a>';
+                echo '<a href="item.php?op=edit&id=' . $id . '"><border="0" alt="' . _AM_TDMSPOT_EDITER . '" title="' . _AM_TDMSPOT_EDITER . '">'. $icons['edit'] .'</a>';
+                echo '<a href="item.php?op=delete&id=' . $id . '"><border="0" alt="' . _AM_TDMSPOT_DELETE . '" title="' . _AM_TDMSPOT_DELETE . '">'. $icons['delete'] .'</a>';
+
+
+
+
                 echo '</td>';
                 echo '</tr>';
             }

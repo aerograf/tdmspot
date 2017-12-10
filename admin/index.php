@@ -18,13 +18,17 @@
  * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
 require_once __DIR__ . '/admin_header.php';
 // Display Admin header
 xoops_cp_header();
 
-$indexAdmin = new ModuleAdmin();
+$adminObject = \Xmf\Module\Admin::getInstance();
 
-echo $indexAdmin->addNavigation('index.php');
-echo $indexAdmin->renderIndex();
+$adminObject->displayNavigation(basename(__FILE__));
+$adminObject->displayIndex();
+
+echo $utility::getServerStats();
 
 require_once __DIR__ . '/admin_footer.php';

@@ -1,7 +1,7 @@
 <div id="help-template" class="outer">
     <{include file=$smarty.const._MI_TDMSPOT_HELP_HEADER}>
 
-    <h4 class="odd">Description of <{include file=$smarty.const._MI_TDMSPOT_NAME}>TDMSpot</h4>
+    <h4 class="odd">Description of <{include file=$smarty.const._MI_TDMSPOT_NAME}>tdmspot</h4>
 
     <p class="even">This module is a new module for article page management.<br>
         Each page can contain: blocks replicable in infinite and your items displayed by category and limited in number, all with permission..<br> <br>

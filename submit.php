@@ -18,12 +18,15 @@
  * @author       XOOPS Development Team
  */
 
+
+use Xoopsmodules\tdmspot;
+
 require_once __DIR__ . '/../../mainfile.php';
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/common.php';
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 $gpermHandler = xoops_getHandler('groupperm');
 //permission
 if (is_object($xoopsUser)) {
@@ -33,8 +36,8 @@ if (is_object($xoopsUser)) {
 }
 
 //load class
-$itemHandler = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
-$catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
+$itemHandler = new \Xoopsmodules\tdmspot\ItemHandler(); //xoops_getModuleHandler('tdmspot_item', 'tdmspot');
+$catHandler = new \Xoopsmodules\tdmspot\CategoryHandler(); //xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
 
 $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'submit';
 
@@ -73,7 +76,7 @@ switch ($op) {
 
             $uploaddir = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/';
             $mimetype = explode('|', $xoopsModuleConfig['tdmspot_mimetype']);
-            $uploader = new XoopsMediaUploader($uploaddir, $mimetype, $xoopsModuleConfig['tdmspot_mimemax'], null, null);
+            $uploader = new \XoopsMediaUploader($uploaddir, $mimetype, $xoopsModuleConfig['tdmspot_mimemax'], null, null);
 
             if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
                 $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
@@ -98,7 +101,7 @@ switch ($op) {
             }
             //require_once('../include/forms.php');
             echo $obj->getHtmlErrors();
-            $form =& $obj->getForm();
+            $form = $obj->getForm();
             $form->display();
         }
         break;

@@ -18,6 +18,8 @@
  * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
 require_once __DIR__ . '/../../../mainfile.php';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
@@ -27,10 +29,10 @@ if (!defined('XOOPS_ROOT_PATH')) {
 
 $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'list';
 
-$itemHandler = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
-$voteHandler = xoops_getModuleHandler('tdmspot_vote', 'tdmspot');
+$itemHandler = new tdmspot\ItemHandler(); //xoops_getModuleHandler('tdmspot_item', 'tdmspot');
+$voteHandler = new tdmspot\VoteHandler(); //xoops_getModuleHandler('tdmspot_vote', 'tdmspot');
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 $moduleHandler = xoops_getHandler('module');
 $xoopsModule = $moduleHandler->getByDirname('tdmspot');

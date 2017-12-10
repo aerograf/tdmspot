@@ -18,12 +18,14 @@
  * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
 require_once __DIR__ . '/admin_header.php';
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-require_once __DIR__ . '/../include/functions.php';
+require_once __DIR__ . '/../class/Utility.php';
 
 xoops_cp_header();
 
@@ -34,10 +36,10 @@ xoops_cp_header();
 //loadModuleAdminMenu (3, _AM_TDMSPOT_MANAGE_PLUG);
 //}
 
-$pageHandler = xoops_getModuleHandler('tdmspot_page', 'tdmspot');
-$blockHandler = xoops_getModuleHandler('tdmspot_newblocks', 'tdmspot');
+$pageHandler = new tdmspot\PageHandler(); //xoops_getModuleHandler('tdmspot_page', 'tdmspot');
+$blockHandler = new tdmspot\NewblocksHandler(); //xoops_getModuleHandler('tdmspot_newblocks', 'tdmspot');
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'list';
 $tdmspot_style = isset($_REQUEST['tdmspot_style']) ? $_REQUEST['tdmspot_style'] : 'cupertino';
 
@@ -52,7 +54,7 @@ echo "<link rel='stylesheet' type='text/css' href='" . XOOPS_URL . '/modules/' .
 
 $currentFile = basename(__FILE__);
 $indexAdmin = new ModuleAdmin();
-echo $indexAdmin->addNavigation($currentFile);
+$adminObject->displayNavigation($currentFile);
 
 echo '</div><br>';
 

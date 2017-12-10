@@ -16,7 +16,7 @@ padding: 5px;">
 </form>
 
 <br>
-<span><{$nav}></span><span> &gt; <{$nav_bar}></span><span> <{$selectpage}></span><span> <{$selectcat}></span>
+<span><{$nav}></span><span> > <{$nav_bar}></span><span> <{$selectpage}></span><span> <{$selectcat}></span>
 <{if $perm_submit}>
 | <{$perm_submit}>
 <{/if}>

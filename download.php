@@ -18,12 +18,15 @@
  * @author       XOOPS Development Team
  */
 
+
+use Xoopsmodules\tdmspot;
+
 require_once __DIR__ . '/../../mainfile.php';
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/common.php';
 
-$myts = MyTextSanitizer::getInstance();
-$itemHandler = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
+$myts = \MyTextSanitizer::getInstance();
+$itemHandler = new tdmspot\ItemHandler(); //xoops_getModuleHandler('tdmspot_item', 'tdmspot');
 
 //perm
 $gpermHandler = xoops_getHandler('groupperm');

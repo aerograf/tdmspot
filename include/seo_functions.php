@@ -30,7 +30,7 @@ function tdmspot_seo_title($title = '', $withExt = true)
     /**
      * if XOOPS ML is present, let's sanitize the title with the current language
      */
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     if (method_exists($myts, 'formatForML')) {
         $title = $myts->formatForML($title);
     }
@@ -105,7 +105,7 @@ function tdmspot_generateSeoUrl($op, $id, $short_url = '', $start = null, $limit
 
     if (!isset($xoopsModuleConfig)) {
         $configHandler = xoops_getHandler('config');
-        $xoopsModuleConfig = &$configHandler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
+        $xoopsModuleConfig = $configHandler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
     }
 
     if (1 == $xoopsModuleConfig['tdmspot_seo']) {

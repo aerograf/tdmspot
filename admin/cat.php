@@ -18,16 +18,19 @@
  * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
 require_once __DIR__ . '/admin_header.php';
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/common.php';
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/tree.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+require_once __DIR__ . '/../include/config.php';
 
-$catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
+$catHandler = new \Xoopsmodules\tdmspot\CategoryHandler(); //xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'list';
 $order = isset($_REQUEST['order']) ? $_REQUEST['order'] : 'desc';
 $sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'weight';
@@ -41,7 +44,7 @@ switch ($op) {
             redirect_header('cat.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($_REQUEST['id'])) {
-            $obj =& $catHandler->get($_REQUEST['id']);
+            $obj = $catHandler->get($_REQUEST['id']);
         } else {
             $obj = $catHandler->create();
         }
@@ -50,7 +53,7 @@ switch ($op) {
         require_once XOOPS_ROOT_PATH . '/class/uploader.php';
         $uploaddir = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/cat/';
         $mimetype = explode('|', $xoopsModuleConfig['tdmspot_mimetype']);
-        $uploader = new XoopsMediaUploader($uploaddir, $mimetype, $xoopsModuleConfig['tdmspot_mimemax']);
+        $uploader = new \XoopsMediaUploader($uploaddir, $mimetype, $xoopsModuleConfig['tdmspot_mimemax']);
 
         if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
@@ -75,10 +78,10 @@ switch ($op) {
             //permission
             $perm_id = isset($_REQUEST['id']) ? $_REQUEST['id'] : $obj->getVar('id');
             $gpermHandler = xoops_getHandler('groupperm');
-            $criteria = new CriteriaCompo();
-            $criteria->add(new Criteria('gperm_itemid', $perm_id, '='));
-            $criteria->add(new Criteria('gperm_modid', $xoopsModule->getVar('mid'), '='));
-            $criteria->add(new Criteria('gperm_name', 'tdmspot_catview', '='));
+            $criteria = new \CriteriaCompo();
+            $criteria->add(new \Criteria('gperm_itemid', $perm_id, '='));
+            $criteria->add(new \Criteria('gperm_modid', $xoopsModule->getVar('mid'), '='));
+            $criteria->add(new \Criteria('gperm_name', 'tdmspot_catview', '='));
             $gpermHandler->deleteAll($criteria);
 
             if (isset($_POST['groups_view'])) {
@@ -91,14 +94,14 @@ switch ($op) {
         }
         //require_once('../include/forms.php');
         echo $obj->getHtmlErrors();
-        $form =& $obj->getForm();
+        $form = $obj->getForm();
         $form->display();
         break;
 
     case 'edit':
         xoops_cp_header();
         //if ( !is_readable(XOOPS_ROOT_PATH . "/Frameworks/art/functions.admin.php")) {
-        //TDMSpot_adminmenu(1, _AM_TDMSPOT_MANAGE_CAT);
+        //tdmspot_adminmenu(1, _AM_TDMSPOT_MANAGE_CAT);
         //} else {
         //require_once XOOPS_ROOT_PATH.'/Frameworks/art/functions.admin.php';
         //loadModuleAdminMenu (1, _AM_TDMSPOT_MANAGE_CAT);
@@ -109,8 +112,8 @@ switch ($op) {
         //        echo '</div><br>';
 
         $currentFile = basename(__FILE__);
-        $indexAdmin = new ModuleAdmin();
-        echo $indexAdmin->addNavigation($currentFile);
+      $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->displayNavigation($currentFile);
 
         $obj = $catHandler->get($_REQUEST['id']);
         $form = $obj->getForm();
@@ -120,7 +123,7 @@ switch ($op) {
         break;
 
     case 'del':
-        $obj =& $catHandler->get($_REQUEST['id']);
+        $obj = $catHandler->get($_REQUEST['id']);
 
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -128,11 +131,11 @@ switch ($op) {
             }
 
             //supprimer les enfant de la base et leur dossier
-            $arr = $catHandler->getall();
-            $mytree = new XoopsObjectTree($arr, 'id', 'pid');
+            $arr = $catHandler->getAll();
+            $mytree = new \XoopsObjectTree($arr, 'id', 'pid');
             $treechild = $mytree->getAllChild($obj->getVar('id'));
             foreach ($treechild as $child) {
-                $ret =& $catHandler->get($child->getVar('id'));
+                $ret = $catHandler->get($child->getVar('id'));
                 $catHandler->delete($ret);
             }
 
@@ -159,13 +162,13 @@ switch ($op) {
             $size = count($_POST['id']);
             $obj = $_POST['id'];
             for ($i = 0; $i < $size; ++$i) {
-                $obj2 =& $catHandler->get($obj[$i]);
+                $obj2 = $catHandler->get($obj[$i]);
                 //trouve les enfants
-                $arr = $catHandler->getall();
-                $mytree = new XoopsObjectTree($arr, 'id', 'pid');
+                $arr = $catHandler->getAll();
+                $mytree = new \XoopsObjectTree($arr, 'id', 'pid');
                 $treechild = $mytree->getAllChild($obj2->getVar('id'));
                 foreach ($treechild as $child) {
-                    $ret =& $catHandler->get($child->getVar('id'));
+                    $ret = $catHandler->get($child->getVar('id'));
                     //supprime les enfants
                     $catHandler->delete($ret);
                 }
@@ -206,31 +209,31 @@ switch ($op) {
     default:
         xoops_cp_header();
         //if ( !is_readable(XOOPS_ROOT_PATH . "/Frameworks/art/functions.admin.php")) {
-        //TDMSpot_adminmenu(1, _AM_TDMSPOT_MANAGE_CAT);
+        //tdmspot_adminmenu(1, _AM_TDMSPOT_MANAGE_CAT);
         //} else {
         //require_once XOOPS_ROOT_PATH.'/Frameworks/art/functions.admin.php';
         //loadModuleAdminMenu (1, _AM_TDMSPOT_MANAGE_CAT);
         //}
 
-        require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/tree.php';
+        require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/Tree.php';
         //compte les cats
         $numcat = $catHandler->getCount();
         //invisible //
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('display', 0));
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('display', 0));
         $waiting = $catHandler->getCount($criteria);
 
         //menu
         //        echo '<div class="CPbigTitle" style="background-image: url(../assets/images/decos/cat.png); background-repeat: no-repeat; background-position: left; padding-left: 60px; padding-top:20px; padding-bottom:15px;"><h3><strong>' . _AM_TDMSPOT_MANAGE_CAT . '</strong></h3>';
         $currentFile = basename(__FILE__);
-        $indexAdmin = new ModuleAdmin();
-        echo $indexAdmin->addNavigation($currentFile);
+      $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->displayNavigation($currentFile);
 
         echo '</div><br><div class="head" align="center">';
         echo sprintf(_AM_TDMSPOT_THEREARE_CAT, $numcat) . ' | ' . sprintf(_AM_TDMSPOT_THEREARE_CAT_WAITING, $waiting);
         echo '</div><br>';
         //Parameters
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         $limit = 20;
         $start = 0;
 
@@ -243,7 +246,7 @@ switch ($op) {
 
         //nav
         //if ($numrows > $limit) {
-        //$pagenav = new XoopsPageNav($numrows, $limit, $start, 'start', 'op=list');
+        //$pagenav = new \XoopsPageNav($numrows, $limit, $start, 'start', 'op=list');
         //$pagenav = $pagenav->renderNav(2);
         //} else {
         $pagenav = '';
@@ -253,16 +256,16 @@ switch ($op) {
             echo '<form name="form" id="form" action="cat.php" method="post"><table width="100%" cellspacing="1" class="outer">';
             echo '<tr>';
             echo '<th align="center" width="5%"><input name="allbox" id="allbox" onclick="xoopsCheckAll(\'form\', \'allbox\');" type="checkbox" value="Check All"></th>';
-            echo '<th align="center" width="55%">' . tdm_switchselect(_AM_TDMSPOT_TITLE, 'title', TDMSPOT_IMAGES_URL) . '</th>';
+            echo '<th align="center" width="55%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_TITLE, 'title', TDMSPOT_IMAGES_URL) . '</th>';
             echo '<th align="center" width="10%">' . _AM_TDMSPOT_IMG . '</th>';
-            echo '<th align="center" width="10%">' . tdm_switchselect(_AM_TDMSPOT_WEIGHT, 'weight', TDMSPOT_IMAGES_URL) . '</th>';
-            echo '<th align="center" width="10%">' . tdm_switchselect(_AM_TDMSPOT_VISIBLE, 'display', TDMSPOT_IMAGES_URL) . '</th>';
+            echo '<th align="center" width="10%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_WEIGHT, 'weight', TDMSPOT_IMAGES_URL) . '</th>';
+            echo '<th align="center" width="10%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_VISIBLE, 'display', TDMSPOT_IMAGES_URL) . '</th>';
             echo '<th align="center" width="10%">' . _AM_TDMSPOT_ACTION . '</th>';
             echo '</tr>';
             $class = 'odd';
-            $mytree = new TdmObjectTree($assoc_cat, 'id', 'pid');
+            $mytree = new tdmspot\Tree($assoc_cat, 'id', 'pid');
             $category_ArrayTree = $mytree->makeArrayTree('title', '<img src="' . TDMSPOT_IMAGES_URL . '/decos/arrow.gif">');
-
+            if(is_array($category_ArrayTree) && count($category_ArrayTree) > 1){
             foreach (array_keys($category_ArrayTree) as $i) {
                 //foreach ($arr as $c) {
                 $class = ('even' === $class) ? 'odd' : 'even';
@@ -270,7 +273,19 @@ switch ($op) {
                 $cat_pid = $assoc_cat[$i]->getVar('pid');
                 $cat_title = $assoc_cat[$i]->getVar('title');
 
-                $display = 1 == $assoc_cat[$i]->getVar('display') ? "<img src='" . TDMSPOT_IMAGES_URL . "/on.gif' border='0'>" : "<a href='cat.php?op=update&id=" . $cat_id . "'><img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . "' src='" . TDMSPOT_IMAGES_URL . "/off.gif' border='0'></a>";
+//                $display = 1 == $assoc_cat[$i]->getVar('display') ?
+//                    "<img src='" . TDMSPOT_IMAGES_URL . "/on.gif' border='0'>"
+//                    : "<a href='cat.php?op=update&id=" . $cat_id . "'>
+//                    <img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . "' src='" . TDMSPOT_IMAGES_URL . "/off.gif' border='0'></a>";
+
+
+
+                $display = 1 == $assoc_cat[$i]->getVar('display') ?
+                    $icons['1']
+                    : "<a href='cat.php?op=update&id=" . $cat_id . "'>
+                    <img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . " border='0'>". $icons['0'] ."</a>";
+
+
 
                 //on test l'existance de l'image
                 $img = $assoc_cat[$i]->getVar('img') ?: 'blank.gif';
@@ -288,11 +303,12 @@ switch ($op) {
                 echo '<td align="center">' . $assoc_cat[$i]->getVar('weight') . '</td>';
                 echo '<td align="center">' . $display . '</td>';
                 echo '<td align="center">';
-                echo '<a href="cat.php?op=edit&id=' . $cat_id . '"><img src="' . TDMSPOT_IMAGES_URL . '/edit_mini.gif" border="0" alt="' . _AM_TDMSPOT_EDITER . '" title="' . _AM_TDMSPOT_EDITER . '"></a>';
-                echo '<a href="cat.php?op=del&id=' . $cat_id . '"><img src="' . TDMSPOT_IMAGES_URL . '/delete_mini.gif" border="0" alt="' . _AM_TDMSPOT_DELETE . '" title="' . _AM_TDMSPOT_DELETE . '"></a>';
+                echo '<a href="cat.php?op=edit&id=' . $cat_id . '"><border="0" alt="' . _AM_TDMSPOT_EDITER . '" title="' . _AM_TDMSPOT_EDITER . '">'. $icons['edit'] .'</a>';
+                echo '<a href="cat.php?op=del&id=' . $cat_id . '"><border="0" alt="' . _AM_TDMSPOT_DELETE . '" title="' . _AM_TDMSPOT_DELETE . '">'. $icons['delete'] .'</a>';
                 echo '</td>';
                 echo '</tr>';
             }
+          }
             echo '</table><input type="submit" name="op" value="' . _DELETE . '"></form><br><br>';
             echo '<div align=right>' . $pagenav . '</div><br>';
         }

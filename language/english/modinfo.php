@@ -83,3 +83,4 @@ define('_MI_TDMSPOT_HELP_OVERVIEW', 'Overview');
 //define('_MI_TDMSPOT_HELP4','YYYYY');
 //define('_MI_TDMSPOT_HELP5','YYYYY');
 //define('_MI_TDMSPOT_HELP6','YYYYY');
+define('_MI_TDMSPOT_SEARCH', 'Search');

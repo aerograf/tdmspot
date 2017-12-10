@@ -18,12 +18,14 @@
  * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
 require_once __DIR__ . '/admin_header.php';
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-require_once __DIR__ . '/../include/functions.php';
+require_once __DIR__ . '/../class/Utility.php';
 
 require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
@@ -46,7 +48,7 @@ xoops_cp_header();
 
 $currentFile = basename(__FILE__);
 $indexAdmin = new ModuleAdmin();
-echo $indexAdmin->addNavigation($currentFile);
+$adminObject->displayNavigation($currentFile);
 
 echo '</div><br>';
 
@@ -66,7 +68,7 @@ $global_perms_array = [
     '256' => _AM_TDMSPOT_PERM_256
 ];
 
-$permform = new XoopsGroupPermForm('', $module_id, $perm_name, '');
+$permform = new \XoopsGroupPermForm('', $module_id, $perm_name, '');
 
 foreach ($global_perms_array as $perm_id => $perm_name) {
     $permform->addItem($perm_id, $perm_name);

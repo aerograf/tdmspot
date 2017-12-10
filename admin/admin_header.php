@@ -18,41 +18,51 @@
  * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
+require_once __DIR__ . '/../../../include/cp_header.php';
+require_once __DIR__ . '/../../../class/xoopsformloader.php';
+//require_once __DIR__ . '/../class/Utility.php';
+require_once __DIR__ . '/../include/common.php';
+
+
 $moduleDirName = basename(dirname(__DIR__));
-require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-require_once $GLOBALS['xoops']->path('www/include/cp_functions.php');
-require_once $GLOBALS['xoops']->path('www/include/cp_header.php');
-require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
+$helper = \Xoopsmodules\tdmspot\Helper::getInstance();
 
-xoops_load('XoopsRequest');
+/** @var Xmf\Module\Admin $adminObject */
+$adminObject = \Xmf\Module\Admin::getInstance();
 
-$moduleDirName = $GLOBALS['xoopsModule']->getVar('dirname');
+//$myts = \MyTextSanitizer::getInstance();
+//
+//if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
+//    require_once $GLOBALS['xoops']->path('class/template.php');
+//    $GLOBALS['xoopsTpl'] = new \XoopsTpl();
+//}
 
-$pathIcon16 = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons16'));
-$pathIcon32 = $GLOBALS['xoops']->url('www/' . $GLOBALS['xoopsModule']->getInfo('sysicons32'));
-$xoopsModuleAdminPath = $GLOBALS['xoops']->path('www/' . $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin'));
-require_once "{$xoopsModuleAdminPath}/moduleadmin.php";
+//$pathIcon16      = Xmf\Module\Admin::iconUrl('', 16);
+//$pathIcon32      = Xmf\Module\Admin::iconUrl('', 32);
+//$xoopsModuleAdminPath = $GLOBALS['xoops']->path('www/' . $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin'));
+//require_once "{$xoopsModuleAdminPath}/moduleadmin.php";
 
-$myts = MyTextSanitizer::getInstance();
-if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
-    require_once $GLOBALS['xoops']->path('class/template.php');
-    $xoopsTpl = new XoopsTpl();
-}
+//$myts = \MyTextSanitizer::getInstance();
+//if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
+//    require_once $GLOBALS['xoops']->path('class/template.php');
+//    $GLOBALS['xoopsTpl'] = new \XoopsTpl();
+//}
 
 //Module specific elements
-//require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/functions.php");
+//require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/Utility.php");
 //require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/config.php");
 
 //Handlers
 //$XXXHandler = xoops_getModuleHandler('XXX', $moduleDirName);
 
-$GLOBALS['xoopsTpl']->assign('pathIcon16', $pathIcon16);
-$GLOBALS['xoopsTpl']->assign('pathIcon32', $pathIcon32);
+//$GLOBALS['xoopsTpl']->assign('pathIcon16', $pathIcon16);
+//$GLOBALS['xoopsTpl']->assign('pathIcon32', $pathIcon32);
 
 // Load language files
-xoops_loadLanguage('admin', $moduleDirName);
-xoops_loadLanguage('modinfo', $moduleDirName);
-xoops_loadLanguage('main', $moduleDirName);
-
+$helper->loadLanguage('admin');
+$helper->loadLanguage('modinfo');
+$helper->loadLanguage('main');
 //xoops_cp_header();
-$adminObject = new ModuleAdmin();
+

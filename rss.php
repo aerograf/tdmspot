@@ -18,11 +18,13 @@
  * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
 require_once __DIR__ . '/../../mainfile.php';
 require_once $GLOBALS['xoops']->path('class/template.php');
-$pageHandler = xoops_getModuleHandler('tdmspot_page', 'tdmspot');
-$itemHandler = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
-$catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
+$pageHandler = new tdmspot\PageHandler(); //xoops_getModuleHandler('tdmspot_page', 'tdmspot');
+$itemHandler = new tdmspot\ItemHandler(); //xoops_getModuleHandler('tdmspot_item', 'tdmspot');
+$catHandler = new tdmspot\CategoryHandler(); //xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
 
 error_reporting(0);
 $GLOBALS['xoopsLogger']->activated = false;
@@ -33,15 +35,15 @@ if (function_exists('mb_http_output')) {
 
 header('Content-Type:text/xml; charset=utf-8');
 
-$tpl = new XoopsTpl();
+$tpl = new \XoopsTpl();
 $tpl->xoops_setCaching(2);
 $tpl->xoops_setCacheTime(3600);
 
 if (!$tpl->is_cached('db:spot_rss.tpl')) {
     xoops_load('XoopsLocal');
-    $tpl->assign('channel_title', XoopsLocal::convert_encoding(htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES)));
+    $tpl->assign('channel_title', \XoopsLocal::convert_encoding(htmlspecialchars($xoopsConfig['sitename'], ENT_QUOTES)));
     $tpl->assign('channel_link', XOOPS_URL . '/');
-    $tpl->assign('channel_desc', XoopsLocal::convert_encoding(htmlspecialchars($xoopsConfig['slogan'], ENT_QUOTES)));
+    $tpl->assign('channel_desc', \XoopsLocal::convert_encoding(htmlspecialchars($xoopsConfig['slogan'], ENT_QUOTES)));
     $tpl->assign('channel_lastbuild', formatTimestamp(time(), 'rss'));
     $tpl->assign('channel_webmaster', checkEmail($xoopsConfig['adminmail'], true));
     $tpl->assign('channel_editor', checkEmail($xoopsConfig['adminmail'], true));
@@ -75,7 +77,7 @@ if (!$tpl->is_cached('db:spot_rss.tpl')) {
         $tpitem['title'] = $item_arr[$i]->getVar('title');
         $tpitem['cat'] = $item_arr[$i]->getVar('cat');
         //trouve la categorie
-        if ($cat =& $catHandler->get($item_arr[$i]->getVar('cat'))) {
+        if ($cat = $catHandler->get($item_arr[$i]->getVar('cat'))) {
             $tpitem['cat_title'] = $cat->getVar('title');
             $tpitem['cat_id'] = $cat->getVar('id');
         }

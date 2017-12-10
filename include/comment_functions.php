@@ -18,6 +18,8 @@
  * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
 if (!defined('XOOPS_ROOT_PATH')) {
     die('XOOPS root path not defined');
 }
@@ -27,16 +29,17 @@ if (!defined('XOOPS_ROOT_PATH')) {
 /**
  * @param $id
  * @param $total_num
+ * @return
  */
 function tdmspot_comments_update($id, $total_num)
 {
     global $xoopsDB;
 
-    $itemHandler = xoops_getModuleHandler('tdmspot_item', 'TDMspot');
+    $itemHandler = new tdmspot\ItemHandler(); //xoops_getModuleHandler('tdmspot_item', 'TDMspot');
     $view = $itemHandler->get($id);
     $hits = $view->getVar('comments');
     ++$hits;
-    $obj =& $itemHandler->get($id);
+    $obj = $itemHandler->get($id);
     $obj->setVar('comments', $hits);
     $ret = $itemHandler->insert($obj);
 

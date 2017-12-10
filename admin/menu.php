@@ -18,15 +18,18 @@
  * @author       XOOPS Development Team
  */
 
-$moduleDirName = basename(dirname(__DIR__));
+use Xoopsmodules\tdmspot;
 
-$moduleHandler = xoops_getHandler('module');
-$module = $moduleHandler->getByDirname($moduleDirName);
-$pathIcon32 = '../../' . $module->getInfo('icons32');
-xoops_loadLanguage('modinfo', $module->dirname());
+require_once __DIR__ . '/../class/Helper.php';
+//require_once __DIR__ . '/../include/common.php';
+$helper = tdmspot\Helper::getInstance();
+
+$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
+$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+
 
 $adminmenu[] = [
-    'title' => _AM_MODULEADMIN_HOME,
+    'title' => _MI_TDMSPOT_INDEX,
     'link' => 'admin/index.php',
     'icon' => $pathIcon32 . '/home.png'
 ];
@@ -75,7 +78,7 @@ $adminmenu[] = [
 ];
 
 $adminmenu[] = [
-    'title' => _AM_MODULEADMIN_ABOUT,
+    'title' => _MI_TDMSPOT_ABOUT,
     'link' => 'admin/about.php',
     'icon' => $pathIcon32 . '/about.png'
 ];

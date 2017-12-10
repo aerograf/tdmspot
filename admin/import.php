@@ -18,16 +18,19 @@
  * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
 require_once __DIR__ . '/admin_header.php';
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/common.php';
-require_once TDMSPOT_ROOT_PATH . '/class/breadcrumb.php';
+require_once __DIR__ . '/../include/config.php';
+require_once TDMSPOT_ROOT_PATH . '/class/SystemBreadcrumb.php';
 
-$itemHandler = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
-$catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
+$itemHandler = new tdmspot\ItemHandler(); //xoops_getModuleHandler('tdmspot_item', 'tdmspot');
+$catHandler = new tdmspot\CategoryHandler(); //xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
 
 $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'list';
 
@@ -99,10 +102,10 @@ switch ($op) {
         //        echo '</div><br>';
 
         $currentFile = basename(__FILE__);
-        $indexAdmin = new ModuleAdmin();
-        echo $indexAdmin->addNavigation($currentFile);
+      $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->displayNavigation($currentFile);
 
-        $xoBreadCrumb = new SystemBreadcrumb();
+        $xoBreadCrumb = new tdmspot\SystemBreadcrumb();
         $xoBreadCrumb->addTips(_AM_TDMSPOT_IMPORTDESC);
         $xoBreadCrumb->render();
 
@@ -118,7 +121,7 @@ switch ($op) {
 
         <br>';
         if ($news > 0) {
-            echo '<b><span style="color: green; padding-left: 20px;"><img src="./../assets/images/on.gif" > ' . $news['Name'] . ' : ' . tdmspot_PrettySize($news['Data_length'] + $news['Index_length']) . ' | ' . $news_cat['Name'] . ' : ' . tdmspot_PrettySize($news_cat['Data_length'] + $news_cat['Index_length']) . '</span></b> | <b><a href="import.php?op=news&display=1">' . _AM_TDMSPOT_IMPORT_INDISPLAY . '</a></b> - <b><a href="import.php?op=news&display=0">' . _AM_TDMSPOT_IMPORT_OUTDISPLAY . '</a></b>';
+            echo '<b><span style="color: green; padding-left: 20px;"><img src="./../assets/images/on.gif" > ' . $news['Name'] . ' : ' . tdmspot\Utility::getPrettySize($news['Data_length'] + $news['Index_length']) . ' | ' . $news_cat['Name'] . ' : ' . tdmspot\Utility::getPrettySize($news_cat['Data_length'] + $news_cat['Index_length']) . '</span></b> | <b><a href="import.php?op=news&display=1">' . _AM_TDMSPOT_IMPORT_INDISPLAY . '</a></b> - <b><a href="import.php?op=news&display=0">' . _AM_TDMSPOT_IMPORT_OUTDISPLAY . '</a></b>';
         } else {
             echo '<b><span style="color: red; padding-left: 20px;"><img src="./../assets/images/off.gif"> ' . _AM_TDMSPOT_IMPORT_NONE . '</a></span></b>';
         }
@@ -136,7 +139,7 @@ switch ($op) {
         echo '<fieldset><legend class="CPmediumTitle">' . _AM_TDMSPOT_IMPORT_SMARTSECTION . '</legend>
         <br>';
         if ($smart > 0) {
-            echo '<b><span style="color: green; padding-left: 20px;"><img src="./../assets/images/on.gif" > ' . tdmspot_PrettySize($smart['Data_length'] + $smart['Index_length']) . ' | ' . $smart_cat['Name'] . ' : ' . tdmspot_PrettySize($smart_cat['Data_length'] + $smart_cat['Index_length']) . '</span></b> | <b><a href="import.php?op=smartsection&display=1">' . _AM_TDMSPOT_IMPORT_INDISPLAY . '</a></b> - <b><a href="import.php?op=smartsection&display=0">' . _AM_TDMSPOT_IMPORT_OUTDISPLAY . '</a></b>';
+            echo '<b><span style="color: green; padding-left: 20px;"><img src="./../assets/images/on.gif" > ' . tdmspot\Utility::getPrettySize($smart['Data_length'] + $smart['Index_length']) . ' | ' . $smart_cat['Name'] . ' : ' . tdmspot\Utility::getPrettySize($smart_cat['Data_length'] + $smart_cat['Index_length']) . '</span></b> | <b><a href="import.php?op=smartsection&display=1">' . _AM_TDMSPOT_IMPORT_INDISPLAY . '</a></b> - <b><a href="import.php?op=smartsection&display=0">' . _AM_TDMSPOT_IMPORT_OUTDISPLAY . '</a></b>';
         } else {
             echo '<b><span style="color: red; padding-left: 20px;"><img src="./../assets/images/off.gif"> ' . _AM_TDMSPOT_IMPORT_NONE . '</a></span></b>';
         }
@@ -150,7 +153,7 @@ switch ($op) {
         // echo '<fieldset><legend class="CPmediumTitle">'._AM_TDMSPOT_IMPORT_WFSECTION.'</legend>
         //      <br>';
         //      if ($wf > 0) {
-        //      echo '<b><span style="color: green; padding-left: 20px;"><img src="./../assets/images/on.gif" > ' .  tdmspot_PrettySize($wf['Data_length'] + $wf['Index_length']) . '</span></b> | <b><a href="index.php?op=wfsection">'._AM_TDMSPOT_IMPORT.'</a></b>';
+        //      echo '<b><span style="color: green; padding-left: 20px;"><img src="./../assets/images/on.gif" > ' .  tdmspot\Utility::getPrettySize($wf['Data_length'] + $wf['Index_length']) . '</span></b> | <b><a href="index.php?op=wfsection">'._AM_TDMSPOT_IMPORT.'</a></b>';
         //      } else {
         //      echo '<b><span style="color: red; padding-left: 20px;"><img src="./../assets/images/off.gif"> '. _AM_TDMSPOT_IMPORT_NONE .'</a></span></b>';
         //      }
@@ -164,7 +167,7 @@ switch ($op) {
         // echo '<fieldset><legend class="CPmediumTitle">'._AM_TDMSPOT_IMPORT_XFSECTION.'</legend>
         //      <br>';
         //      if ($xf > 0) {
-        //      echo '<b><span style="color: green; padding-left: 20px;"><img src="./../assets/images/on.gif" > ' .  tdmspot_PrettySize($xf['Data_length'] + $xf['Index_length']) . '</span></b> | <b><a href="index.php?op=xfsection">'._AM_TDMSPOT_IMPORT.'</a></b>';
+        //      echo '<b><span style="color: green; padding-left: 20px;"><img src="./../assets/images/on.gif" > ' .  tdmspot\Utility::getPrettySize($xf['Data_length'] + $xf['Index_length']) . '</span></b> | <b><a href="index.php?op=xfsection">'._AM_TDMSPOT_IMPORT.'</a></b>';
         //      } else {
         //      echo '<b><span style="color: red; padding-left: 20px;"><img src="./../assets/images/off.gif"> '. _AM_TDMSPOT_IMPORT_NONE .'</a></span></b>';
         //      }

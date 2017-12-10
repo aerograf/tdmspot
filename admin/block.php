@@ -18,6 +18,8 @@
  * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
 require_once __DIR__ . '/admin_header.php';
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -26,8 +28,8 @@ require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/common.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 
-$pageHandler = xoops_getModuleHandler('tdmspot_page', 'tdmspot');
-$blockHandler = xoops_getModuleHandler('tdmspot_newblocks', 'tdmspot');
+$pageHandler = new tdmspot\PageHandler(); //xoops_getModuleHandler('tdmspot_page', 'tdmspot');
+$blockHandler = new tdmspot\NewblocksHandler(); //xoops_getModuleHandler('tdmspot_newblocks', 'tdmspot');
 
 //verifie la presence des pages
 $numgenre = $pageHandler->getCount();
@@ -35,7 +37,7 @@ if (0 == $numgenre) {
     redirect_header('page.php', 2, _AM_TDMSPOT_PAGEERROR);
 }
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'list';
 $order = isset($_REQUEST['order']) ? $_REQUEST['order'] : 'desc';
 $sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'weight';
@@ -49,7 +51,7 @@ switch ($op) {
             redirect_header('block.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($_REQUEST['id'])) {
-            $obj =& $blockHandler->get($_REQUEST['id']);
+            $obj = $blockHandler->get($_REQUEST['id']);
         } else {
             $obj = $blockHandler->create();
         }
@@ -80,7 +82,7 @@ switch ($op) {
         }
         //require_once('../include/forms.php');
         echo $obj->getHtmlErrors();
-        $form =& $obj->getForm();
+        $form = $obj->getForm();
         $form->display();
         break;
 
@@ -104,7 +106,7 @@ switch ($op) {
         break;
 
     case 'delete':
-        $obj =& $blockHandler->get($_REQUEST['id']);
+        $obj = $blockHandler->get($_REQUEST['id']);
 
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -133,7 +135,7 @@ switch ($op) {
             $size = count($_POST['id']);
             $obj = $_POST['id'];
             for ($i = 0; $i < $size; ++$i) {
-                $obj2 =& $blockHandler->get($obj[$i]);
+                $obj2 = $blockHandler->get($obj[$i]);
                 //supprime
                 if ($blockHandler->delete($obj2)) {
                     $erreur = true;
@@ -164,8 +166,8 @@ switch ($op) {
         xoops_cp_header();
 
         $currentFile = basename(__FILE__);
-        $indexAdmin = new ModuleAdmin();
-        echo $indexAdmin->addNavigation($currentFile);
+      $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->displayNavigation($currentFile);
 
         //if ( !is_readable(XOOPS_ROOT_PATH . "/Frameworks/art/functions.admin.php")) {
         //Adminmenu(4, _AM_TDMSPOT_MANAGE_BLOCK);
@@ -196,7 +198,7 @@ switch ($op) {
 
         //nav
         if ($numrows > $limit) {
-            $pagenav = new XoopsPageNav($numrows, $limit, $start, 'start', 'op=list');
+            $pagenav = new \XoopsPageNav($numrows, $limit, $start, 'start', 'op=list');
             $pagenav = $pagenav->renderNav(2);
         } else {
             $pagenav = '';
@@ -206,10 +208,10 @@ switch ($op) {
             echo '<form name="form" id="form" action="item.php" method="post"><table width="100%" cellspacing="1" class="outer">';
             echo '<tr>';
             echo '<th align="center" width="5%"><input name="allbox" id="allbox" onclick="xoopsCheckAll(\'form\', \'allbox\');" type="checkbox" value="Check All"></th>';
-            echo '<th align="center" width="10%">' . tdm_switchselect(_AM_TDMSPOT_VISIBLE, 'visible', TDMSPOT_IMAGES_URL) . '</th>';
-            echo '<th align="center" width="10%">' . tdm_switchselect(_AM_TDMSPOT_WEIGHT, 'weight', TDMSPOT_IMAGES_URL) . '</th>';
-            echo '<th align="center" width="25%">' . tdm_switchselect(_AM_TDMSPOT_PAGE, 'pid', TDMSPOT_IMAGES_URL) . '</th>';
-            echo '<th align="center" width="30%">' . tdm_switchselect(_AM_TDMSPOT_TITLE, 'title', TDMSPOT_IMAGES_URL) . '</th>';
+            echo '<th align="center" width="10%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_VISIBLE, 'visible', TDMSPOT_IMAGES_URL) . '</th>';
+            echo '<th align="center" width="10%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_WEIGHT, 'weight', TDMSPOT_IMAGES_URL) . '</th>';
+            echo '<th align="center" width="25%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_PAGE, 'pid', TDMSPOT_IMAGES_URL) . '</th>';
+            echo '<th align="center" width="30%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_TITLE, 'title', TDMSPOT_IMAGES_URL) . '</th>';
             echo '<th align="center" width="20%">' . _AM_TDMSPOT_ACTION . '</th>';
             echo '</tr>';
             $class = 'odd';
@@ -222,7 +224,7 @@ switch ($op) {
                 }
 
                 //trouve le block
-                $block_arr = new XoopsBlock($alb_arr[$i]->getVar('bid'));
+                $block_arr = new \XoopsBlock($alb_arr[$i]->getVar('bid'));
                 $title_block = $block_arr->getVar('name');
 
                 $class = ('even' === $class) ? 'odd' : 'even';

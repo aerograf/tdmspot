@@ -18,6 +18,8 @@
  * @author       XOOPS Development Team
  */
 
+use Xoopsmodules\tdmspot;
+
 require_once __DIR__ . '/../../mainfile.php';
 $GLOBALS['xoopsOption']['template_main'] = 'spot_viewcat.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
@@ -26,11 +28,11 @@ require_once XOOPS_ROOT_PATH . '/class/tree.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/common.php';
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 //load class
-$itemHandler = xoops_getModuleHandler('tdmspot_item', 'tdmspot');
-$catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
+$itemHandler = new tdmspot\ItemHandler(); //xoops_getModuleHandler('tdmspot_item', 'tdmspot');
+$catHandler = new tdmspot\CategoryHandler(); //xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
 
 //perm
 $gpermHandler = xoops_getHandler('groupperm');
@@ -61,9 +63,9 @@ $tris = isset($_REQUEST['tris']) ? $_REQUEST['tris'] : 'indate';
 //
 
 //mode de visualisation
-$xoopsTpl->assign('tris', $tris);
-$xoopsTpl->assign('limit', $limit);
-$xoopsTpl->assign('baseurl', $_SERVER['PHP_SELF']);
+$GLOBALS['xoopsTpl']->assign('tris', $tris);
+$GLOBALS['xoopsTpl']->assign('limit', $limit);
+$GLOBALS['xoopsTpl']->assign('baseurl', $_SERVER['PHP_SELF']);
 
 switch ($op) {
 
@@ -83,31 +85,31 @@ switch ($op) {
         // ************************************************************
         // Liste des Categories
         // ************************************************************
-        $cat_arr = $catHandler->getall();
-        $mytree = new TdmObjectTree($cat_arr, 'id', 'pid');
+        $cat_arr = $catHandler->getAll();
+        $mytree = new tdmspot\Tree($cat_arr, 'id', 'pid');
         //asigne les URL
-        define('TDM_CAT_URL', TDMSPOT_CAT_URL);
-        define('TDM_CAT_PATH', TDMSPOT_CAT_PATH);
+        define('TDM_CAT_URL', TDMSPOT_URL);
+        define('TDM_CAT_PATH', TDMSPOT_PATH);
         $cat_display = $xoopsModuleConfig['tdmspot_cat_display'];
         $cat_cel = $xoopsModuleConfig['tdmspot_cat_cel'];
         $display_cat = $mytree->makeCatBox($itemHandler, 'title', '-', $LT);
-        $xoopsTpl->assign('display_cat', $display_cat);
+        $GLOBALS['xoopsTpl']->assign('display_cat', $display_cat);
 
         //navigation
         $navigation = '';
 
-        $xoopsTpl->assign('cat_view', true);
-        $xoopsTpl->assign('selectcat', tdmspot_catselect((int)$LT));
-        $xoopsTpl->assign('selectpage', tdmspot_pageselect(false));
-        $xoopsTpl->assign('selecttris', tdmspot_trisselect((int)$LT, $tris));
-        $xoopsTpl->assign('selectview', tdmspot_viewselect((int)$LT, $limit));
+        $GLOBALS['xoopsTpl']->assign('cat_view', true);
+        $GLOBALS['xoopsTpl']->assign('selectcat', tdmspot\Utility::getCategorySelect((int)$LT));
+        $GLOBALS['xoopsTpl']->assign('selectpage', tdmspot\Utility::getPageSelect(false));
+        $GLOBALS['xoopsTpl']->assign('selecttris', tdmspot\Utility::getTrisSelect((int)$LT, $tris));
+        $GLOBALS['xoopsTpl']->assign('selectview', tdmspot\Utility::getViewSelect((int)$LT, $limit));
         //sous cat
         $criteria = new CriteriaCompo();
         $criteria->setSort('weight');
         $criteria->setOrder('ASC');
         $criteria->add(new Criteria('display', 1));
         $souscat_arr = $catHandler->getObjects($criteria);
-        $mytree = new XoopsObjectTree($souscat_arr, 'id', 'pid');
+        $mytree = new \XoopsObjectTree($souscat_arr, 'id', 'pid');
         $nav_parent_id = $mytree->getAllParent((int)$LT);
         $nav_parent_id = array_reverse($nav_parent_id);
 
@@ -124,28 +126,28 @@ switch ($op) {
         //on test l'existance de l'image
         $imgpath = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/cat/' . $cat->getVar('img');
         if (file_exists($imgpath)) {
-            $redim = tdmspot_redimage($imgpath, $xoopsModuleConfig['tdmspot_cat_width'], $xoopsModuleConfig['tdmspot_cat_height']);
+            $redim = tdmspot\Utility::getRedImage($imgpath, $xoopsModuleConfig['tdmspot_cat_width'], $xoopsModuleConfig['tdmspot_cat_height']);
             $cat_img = '<img src=' . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/upload/cat/' . $cat->getVar('img') . " height='" . $redim['dst_h'] . "' width='" . $redim['dst_w'] . "'>";
             //$cat_img = XOOPS_URL. "/modules/".$xoopsModule->dirname()."/upload/cat/".$cat->getVar("img");
         } else {
             $cat_img = false;
         }
 
-        $xoopsTpl->assign('cat_title', $myts->displayTarea($cat->getVar('title')));
+        $GLOBALS['xoopsTpl']->assign('cat_title', $myts->displayTarea($cat->getVar('title')));
         $meta_title = $cat->getVar('title');
         $meta_keywords = $cat->getVar('title');
         $meta_description = $cat->getVar('title');
-        $xoopsTpl->assign('cat_text', $myts->displayTarea($cat->getVar('text')));
-        $xoopsTpl->assign('cat_id', $cat->getVar('id'));
-        $xoopsTpl->assign('cat_img', $cat_img);
+        $GLOBALS['xoopsTpl']->assign('cat_text', $myts->displayTarea($cat->getVar('text')));
+        $GLOBALS['xoopsTpl']->assign('cat_id', $cat->getVar('id'));
+        $GLOBALS['xoopsTpl']->assign('cat_img', $cat_img);
         //$navigation .= "<a href='viewcat.php?LT=".$cat->getVar('id')."&tris=".$tris."&limit=".$limit."'>".$myts->displayTarea($cat->getVar('title'))."</a>&nbsp;>&nbsp;";
 
-        $xoopsTpl->assign('nav_bar', $navigation);
+        $GLOBALS['xoopsTpl']->assign('nav_bar', $navigation);
 
         if (1 == $xoopsModuleConfig['tdmspot_seo']) {
-            $xoopsTpl->assign('nav', "<a href='" . XOOPS_URL . '/' . $xoopsModuleConfig['tdmspot_seo_title'] . "/'>" . $xoopsModuleConfig['tdmspot_seo_title'] . '</a>');
+            $GLOBALS['xoopsTpl']->assign('nav', "<a href='" . XOOPS_URL . '/' . $xoopsModuleConfig['tdmspot_seo_title'] . "/'>" . $xoopsModuleConfig['tdmspot_seo_title'] . '</a>');
         } else {
-            $xoopsTpl->assign('nav', "<a href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "'>" . $xoopsModule->name() . '</a>');
+            $GLOBALS['xoopsTpl']->assign('nav', "<a href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "'>" . $xoopsModule->name() . '</a>');
         }
         unset($criteria);
 
@@ -162,7 +164,7 @@ switch ($op) {
             $criteria->setSort('indate');
             $criteria->setOrder('DESC');
             $criteria->setLimit($xoopsModuleConfig['tdmspot_blindate']);
-            $item_arr = $itemHandler->getall($criteria);
+            $item_arr = $itemHandler->getAll($criteria);
             foreach (array_keys($item_arr) as $i) {
                 $title = $myts->htmlSpecialChars($item_arr[$i]->getVar('title'));
                 if (strlen($title) >= $xoopsModuleConfig['tdmspot_bltitle']) {
@@ -170,7 +172,7 @@ switch ($op) {
                 }
                 $indate = formatTimestamp($item_arr[$i]->getVar('indate'), 's');
                 $link = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $item_arr[$i]->getVar('id'), $item_arr[$i]->getVar('title'));
-                $xoopsTpl->append('tpitem_blindate', ['id' => $item_arr[$i]->getVar('id'), 'cat' => $item_arr[$i]->getVar('cat'), 'indate' => $indate, 'title' => $title, 'link' => $link]);
+                $GLOBALS['xoopsTpl']->append('tpitem_blindate', ['id' => $item_arr[$i]->getVar('id'), 'cat' => $item_arr[$i]->getVar('cat'), 'indate' => $indate, 'title' => $title, 'link' => $link]);
             }
             unset($criteria);
         }
@@ -184,14 +186,14 @@ switch ($op) {
             $criteria->setSort('counts');
             $criteria->setOrder('DESC');
             $criteria->setLimit($xoopsModuleConfig['tdmspot_blcounts']);
-            $item_arr = $itemHandler->getall($criteria);
+            $item_arr = $itemHandler->getAll($criteria);
             foreach (array_keys($item_arr) as $i) {
                 $title = $myts->htmlSpecialChars($item_arr[$i]->getVar('title'));
                 if (strlen($title) >= $xoopsModuleConfig['tdmspot_bltitle']) {
                     $title = substr($title, 0, $xoopsModuleConfig['tdmspot_bltitle']) . '...';
                 }
                 $link = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $item_arr[$i]->getVar('id'), $item_arr[$i]->getVar('title'));
-                $xoopsTpl->append(
+                $GLOBALS['xoopsTpl']->append(
                     'tpitem_blcounts',
                     ['id' => $item_arr[$i]->getVar('id'), 'cat' => $item_arr[$i]->getVar('cat'), 'counts' => $item_arr[$i]->getVar('counts'), 'title' => $title, 'link' => $link]
                 );
@@ -206,14 +208,14 @@ switch ($op) {
             $criteria->setSort('hits');
             $criteria->setOrder('DESC');
             $criteria->setLimit($xoopsModuleConfig['tdmspot_blhits']);
-            $item_arr = $itemHandler->getall($criteria);
+            $item_arr = $itemHandler->getAll($criteria);
             foreach (array_keys($item_arr) as $i) {
                 $title = $myts->htmlSpecialChars($item_arr[$i]->getVar('title'));
                 if (strlen($title) >= $xoopsModuleConfig['tdmspot_bltitle']) {
                     $title = substr($title, 0, $xoopsModuleConfig['tdmspot_bltitle']) . '...';
                 }
                 $link = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_item'], $item_arr[$i]->getVar('id'), $item_arr[$i]->getVar('title'));
-                $xoopsTpl->append(
+                $GLOBALS['xoopsTpl']->append(
                     'tpitem_blhits',
                     ['id' => $item_arr[$i]->getVar('id'), 'cat' => $item_arr[$i]->getVar('cat'), 'hits' => $item_arr[$i]->getVar('hits'), 'title' => $title, 'link' => $link]
                 );
@@ -232,20 +234,20 @@ switch ($op) {
         $criteria3->setOrder('DESC');
         $item_arr = $itemHandler->getObjects($criteria3);
         $numitem = $itemHandler->getCount($criteria3);
-        $xoopsTpl->assign('numitem', $numitem);
+        $GLOBALS['xoopsTpl']->assign('numitem', $numitem);
 
         if ($numitem > 0) {
             foreach (array_keys($item_arr) as $i) {
 
                 //trouve la categorie
-                if ($cat =& $catHandler->get($item_arr[$i]->getVar('cat'))) {
+                if ($cat = $catHandler->get($item_arr[$i]->getVar('cat'))) {
                     $tpitem['cat_title'] = $cat->getVar('title');
                     $tpitem['cat_link'] = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_cat'], $cat->getVar('id'), $cat->getVar('title'));
                     $tpitem['cat_id'] = $cat->getVar('id');
                     if (1 == $xoopsModuleConfig['tdmspot_img']) {
                         $imgpath = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/cat/' . $cat->getVar('img');
                         if (file_exists($imgpath)) {
-                            $redim = tdmspot_redimage($imgpath, $xoopsModuleConfig['tdmspot_cat_width'], $xoopsModuleConfig['tdmspot_cat_height']);
+                            $redim = tdmspot\Utility::getRedImage($imgpath, $xoopsModuleConfig['tdmspot_cat_width'], $xoopsModuleConfig['tdmspot_cat_height']);
                             $tpitem['img'] = '<img src=' . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/upload/cat/' . $cat->getVar('img') . " height='" . $redim['dst_h'] . "' width='" . $redim['dst_w'] . "'>";
                             //$tpitem['img'] = XOOPS_URL. "/modules/".$xoopsModule->dirname()."/upload/cat/".$cat->getVar("img");
                         } else {
@@ -299,13 +301,13 @@ switch ($op) {
                     $tpitem['moyen'] = "<img src='" . TDMSPOT_IMAGES_URL . '/rate' . $moyen . ".png'>";
                 }
 
-                $xoopsTpl->append('tpitem', $tpitem);
+                $GLOBALS['xoopsTpl']->append('tpitem', $tpitem);
             }
 
             //navigation
             if ($numitem > $limit) {
                 $pagenav = new tdmspotPageNav($numitem, $limit, $start, 'start');
-                $xoopsTpl->assign('nav_page', $pagenav->renderNav(2));
+                $GLOBALS['xoopsTpl']->assign('nav_page', $pagenav->renderNav(2));
             }
         }
 
@@ -315,25 +317,25 @@ switch ($op) {
 
 //perm
 if ($gpermHandler->checkRight('spot_view', 4, $groups, $xoopsModule->getVar('mid'))) {
-    $xoopsTpl->assign('perm_submit', "<a href='" . TDMSPOT_URL . "/submit.php'>" . _MD_TDMSPOT_PERM_4 . '</a>');
+    $GLOBALS['xoopsTpl']->assign('perm_submit', "<a href='" . TDMSPOT_URL . "/submit.php'>" . _MD_TDMSPOT_PERM_4 . '</a>');
 }
 if ($gpermHandler->checkRight('spot_view', 128, $groups, $xoopsModule->getVar('mid'))) {
-    $xoopsTpl->assign('perm_rss', "<a href='" . TDMSPOT_URL . "/rss.php'><img src=" . TDMSPOT_IMAGES_URL . '/rss.png alt=' . _MD_TDMSPOT_EXPRSS . ' title=' . _MD_TDMSPOT_EXPRSS . '></a>');
+    $GLOBALS['xoopsTpl']->assign('perm_rss', "<a href='" . TDMSPOT_URL . "/rss.php'><img src=" . TDMSPOT_IMAGES_URL . '/rss.png alt=' . _MD_TDMSPOT_EXPRSS . ' title=' . _MD_TDMSPOT_EXPRSS . '></a>');
 }
-$xoopsTpl->assign('perm_vote', $gpermHandler->checkRight('spot_view', 32, $groups, $xoopsModule->getVar('mid')) ? true : false);
-$xoopsTpl->assign('perm_export', $gpermHandler->checkRight('spot_view', 16, $groups, $xoopsModule->getVar('mid')) ? true : false);
-$xoopsTpl->assign('perm_social', $gpermHandler->checkRight('spot_view', 64, $groups, $xoopsModule->getVar('mid')) ? true : false);
+$GLOBALS['xoopsTpl']->assign('perm_vote', $gpermHandler->checkRight('spot_view', 32, $groups, $xoopsModule->getVar('mid')) ? true : false);
+$GLOBALS['xoopsTpl']->assign('perm_export', $gpermHandler->checkRight('spot_view', 16, $groups, $xoopsModule->getVar('mid')) ? true : false);
+$GLOBALS['xoopsTpl']->assign('perm_social', $gpermHandler->checkRight('spot_view', 64, $groups, $xoopsModule->getVar('mid')) ? true : false);
 //config
 
-tdmspot_header();
-$xoopsTpl->assign('xoops_pagetitle', $myts->htmlSpecialChars($xoopsModule->name() . ' : ' . $meta_title));
+tdmspot\Utility::getHeader();
+$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', $myts->htmlSpecialChars($xoopsModule->name() . ' : ' . $meta_title));
 
 if (isset($xoTheme) && is_object($xoTheme)) {
-    $xoTheme->addMeta('meta', 'keywords', tdmspot_keywords($meta_keywords));
-    $xoTheme->addMeta('meta', 'description', tdmspot_desc($meta_description));
+    $xoTheme->addMeta('meta', 'keywords', tdmspot\Utility::getKeywords($meta_keywords));
+    $xoTheme->addMeta('meta', 'description', tdmspot\Utility::tdmspot_desc($meta_description));
 } else {    // Compatibility for old Xoops versions
-    $xoopsTpl->assign('xoops_meta_keywords', tdmspot_keywords($meta_keywords));
-    $xoopsTpl->assign('xoops_meta_description', tdmspot_desc($meta_description));
+    $GLOBALS['xoopsTpl']->assign('xoops_meta_keywords', tdmspot\Utility::getKeywords($meta_keywords));
+    $GLOBALS['xoopsTpl']->assign('xoops_meta_description', tdmspot\Utility::tdmspot_desc($meta_description));
 }
 
 require_once XOOPS_ROOT_PATH . '/footer.php';
