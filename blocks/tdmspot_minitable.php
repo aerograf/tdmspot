@@ -65,7 +65,7 @@ function b_tdmspot($options)
             $criteria->add(new Criteria('indate', time(), '<'));
             $criteria->setSort('title');
             $criteria->setOrder('DESC');
-            $assoc_arr = $itemHandler->getall($criteria);
+            $assoc_arr = $itemHandler->getAll($criteria);
             foreach (array_keys($assoc_arr) as $i) {
                 $blocks[$i]['id']    = $assoc_arr[$i]->getVar('id');
                 $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, $lenght_title)
@@ -83,7 +83,7 @@ function b_tdmspot($options)
             $criteria->add(new Criteria('indate', time(), '<'));
             $criteria->setSort('indate');
             $criteria->setOrder('DESC');
-            $assoc_arr = $itemHandler->getall($criteria);
+            $assoc_arr = $itemHandler->getAll($criteria);
             foreach (array_keys($assoc_arr) as $i) {
                 $blocks[$i]['id']    = $assoc_arr[$i]->getVar('id');
                 $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, $lenght_title)
@@ -101,7 +101,7 @@ function b_tdmspot($options)
             $criteria->add(new Criteria('indate', time(), '<'));
             $criteria->setSort('hits');
             $criteria->setOrder('DESC');
-            $assoc_arr = $itemHandler->getall($criteria);
+            $assoc_arr = $itemHandler->getAll($criteria);
             foreach (array_keys($assoc_arr) as $i) {
                 $blocks[$i]['id']    = $assoc_arr[$i]->getVar('id');
                 $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, $lenght_title)
@@ -118,7 +118,7 @@ function b_tdmspot($options)
             $criteria->add(new Criteria('indate', time(), '<'));
             $criteria->setSort('counts');
             $criteria->setOrder('DESC');
-            $assoc_arr = $itemHandler->getall($criteria);
+            $assoc_arr = $itemHandler->getAll($criteria);
             foreach (array_keys($assoc_arr) as $i) {
                 $blocks[$i]['id']    = $assoc_arr[$i]->getVar('id');
                 $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, $lenght_title)
@@ -135,7 +135,7 @@ function b_tdmspot($options)
             $criteria->add(new Criteria('indate', time(), '<'));
             $criteria->setSort('comments');
             $criteria->setOrder('DESC');
-            $assoc_arr = $itemHandler->getall($criteria);
+            $assoc_arr = $itemHandler->getAll($criteria);
             foreach (array_keys($assoc_arr) as $i) {
                 $blocks[$i]['id']    = $assoc_arr[$i]->getVar('id');
                 $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, $lenght_title)
@@ -151,7 +151,7 @@ function b_tdmspot($options)
             $criteria->add(new Criteria('display', 1));
             $criteria->add(new Criteria('indate', time(), '<'));
             $criteria->setSort('RAND()');
-            $assoc_arr = $itemHandler->getall($criteria);
+            $assoc_arr = $itemHandler->getAll($criteria);
             foreach (array_keys($assoc_arr) as $i) {
                 $blocks[$i]['id']    = $assoc_arr[$i]->getVar('id');
                 $blocks[$i]['title'] = $myts->displayTarea((strlen($assoc_arr[$i]->getVar('title')) > $lenght_title ? substr($assoc_arr[$i]->getVar('title'), 0, $lenght_title)
@@ -180,7 +180,7 @@ function b_tdmspot_edit($options)
     $criteria->add(new \Criteria('display', 1));
     $criteria->setSort('title');
     $criteria->setOrder('ASC');
-    $assoc_arr = $catHandler->getall($criteria);
+    $assoc_arr = $catHandler->getAll($criteria);
     $form      = _MI_TDMSPOT_BLOCK_LIMIT . "&nbsp;\n";
     $form      .= '<input type="hidden" name="options[0]" value="' . $options[0] . '">';
     $form      .= '<input name="options[1]" size="5" maxlength="255" value="' . $options[1] . '" type="text">&nbsp;<br>';

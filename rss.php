@@ -70,7 +70,7 @@ if (!$tpl->is_cached('db:spot_rss.tpl')) {
     $criteria->add(new Criteria('indate', time(), '<'));
     $criteria->setSort('indate');
     $criteria->setOrder('ASC');
-    $item_arr = $itemHandler->getall($criteria);
+    $item_arr = $itemHandler->getAll($criteria);
     $tpitem = [];
     foreach (array_keys($item_arr) as $i) {
         $tpitem['id'] = $item_arr[$i]->getVar('id');

@@ -79,7 +79,7 @@ class Item extends \XoopsObject
         //genre
 
         $catHandler = new tdmspot\CategoryHandler(); //xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
-        $arr = $catHandler->getall();
+        $arr = $catHandler->getAll();
         $mytree = new \XoopsObjectTree($arr, 'id', 'pid');
         $form->addElement(new \XoopsFormLabel(_MD_TDMSPOT_CATEGORY, $mytree->makeSelBox('cat', 'title', '-', $this->getVar('cat'), true)), true);
 
