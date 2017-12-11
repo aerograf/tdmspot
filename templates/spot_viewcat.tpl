@@ -9,6 +9,7 @@ background-color: #e9e9e9;
 border: 1px solid #cccccc;
 padding: 5px;">
 <form name="xd_select_header" style="text-align: right;" method="post" action="genre.php">
+    <{securityToken}><{*//mb*}>
 <{$smarty.const._MD_TDMSPOT_TRIPARC}> <{$numitem}> <{$smarty.const._MD_TDMSPOT_TRIITEM}>
 
 | <{$smarty.const._MD_TDMSPOT_TRIBY}> <{$selecttris}>

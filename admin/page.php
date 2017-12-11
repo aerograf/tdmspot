@@ -10,12 +10,12 @@
  */
 
 /**
- * @copyright    {@link https://xoops.org/ XOOPS Project}
- * @license      {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @copyright     {@link https://xoops.org/ XOOPS Project}
+ * @license       {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package       tdmspot
  * @since
- * @author       TDM   - TEAM DEV MODULE FOR XOOPS
- * @author       XOOPS Development Team
+ * @author        TDM   - TEAM DEV MODULE FOR XOOPS
+ * @author        XOOPS Development Team
  */
 
 use Xoopsmodules\tdmspot;
@@ -28,14 +28,13 @@ require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/common.php';
 require_once __DIR__ . '/../include/config.php';
 
-$pageHandler = new tdmspot\PageHandler(); //xoops_getModuleHandler('tdmspot_page', 'tdmspot');
+$pageHandler  = new tdmspot\PageHandler(); //xoops_getModuleHandler('tdmspot_page', 'tdmspot');
 $blockHandler = new tdmspot\NewblocksHandler(); //xoops_getModuleHandler('tdmspot_newblocks', 'tdmspot');
 
-$myts = \MyTextSanitizer::getInstance();
-$op = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'list';
+$myts  = \MyTextSanitizer::getInstance();
+$op    = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'list';
 $order = isset($_REQUEST['order']) ? $_REQUEST['order'] : 'desc';
-$sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'weight';
-
+$sort  = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : 'weight';
 
 require_once TDMSPOT_ROOT_PATH . '/class/SystemBreadcrumb.php';
 
@@ -63,9 +62,9 @@ switch ($op) {
         if ($pageHandler->insert($obj)) {
 
             //perm
-            $id = $obj->getVar('id');
+            $id           = $obj->getVar('id');
             $gpermHandler = xoops_getHandler('groupperm');
-            $criteria = new CriteriaCompo();
+            $criteria     = new CriteriaCompo();
             $criteria->add(new Criteria('gperm_itemid', $id, '='));
             $criteria->add(new Criteria('gperm_modid', $xoopsModule->getVar('mid'), '='));
             $criteria->add(new Criteria('gperm_name', 'spot_pageview', '='));
@@ -99,11 +98,11 @@ switch ($op) {
         //menu
         //        echo '<div class="CPbigTitle" style="background-image: url(../assets/images/decos/page.png); background-repeat: no-repeat; background-position: left; padding-left: 60px; padding-top:20px; padding-bottom:15px;"><h3><strong>' . _AM_TDMSPOT_MANAGE_PAGE . '</strong></h3>';
         $currentFile = basename(__FILE__);
-      $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
         echo '</div><br>';
-        $obj = $pageHandler->get($_REQUEST['id']);
+        $obj  = $pageHandler->get($_REQUEST['id']);
         $form = $obj->getForm();
         $form->display();
         break;
@@ -137,8 +136,8 @@ switch ($op) {
             }
 
             $_POST['id'] = unserialize($_REQUEST['id']);
-            $size = count($_POST['id']);
-            $obj = $_POST['id'];
+            $size        = count($_POST['id']);
+            $obj         = $_POST['id'];
             for ($i = 0; $i < $size; ++$i) {
                 $obj2 = $pageHandler->get($obj[$i]);
                 //supprime
@@ -157,11 +156,7 @@ switch ($op) {
         } else {
             xoops_cp_header();
             $title = print_r($_REQUEST['id'], true);
-            xoops_confirm(
-                ['ok' => 1, 'deletes' => 1, 'op' => $_REQUEST['op'], 'id' => serialize(array_map('intval', $_REQUEST['id']))],
-                $_SERVER['REQUEST_URI'],
-                sprintf(_AM_TDMSPOT_BASESUREDEL, $title)
-            );
+            xoops_confirm(['ok' => 1, 'deletes' => 1, 'op' => $_REQUEST['op'], 'id' => serialize(array_map('intval', $_REQUEST['id']))], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMSPOT_BASESUREDEL, $title));
         }
         break;
 
@@ -180,7 +175,7 @@ switch ($op) {
         //        echo '<div class="CPbigTitle" style="background-image: url(../assets/images/decos/page.png); background-repeat: no-repeat; background-position: left; padding-left: 60px; padding-top:20px; padding-bottom:15px;"><h3><strong>' . _AM_TDMSPOT_MANAGE_PAGE . '</strong></h3>';
 
         $currentFile = basename(__FILE__);
-      $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
         echo '</div><br>';
@@ -195,7 +190,7 @@ switch ($op) {
 
         //Parameters
         $criteria = new \CriteriaCompo();
-        $limit = 20;
+        $limit    = 20;
         if (isset($_REQUEST['start'])) {
             $criteria->setStart($_REQUEST['start']);
             $start = $_REQUEST['start'];
@@ -220,6 +215,7 @@ switch ($op) {
         //Affichage du tableau des catégories
         if ($numrows > 0) {
             echo '<form name="form" id="form" action="item.php" method="post"><table width="100%" cellspacing="1" class="outer">';
+            echo $GLOBALS['xoopsSecurity']->getTokenHTML(); //mb
             echo '<tr>';
             echo '<th align="center" width="5%"><input name="allbox" id="allbox" onclick="xoopsCheckAll(\'form\', \'allbox\');" type="checkbox" value="Check All"></th>';
             echo '<th align="center" width="10%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_VISIBLE, 'visible', TDMSPOT_IMAGES_URL) . '</th>';
@@ -231,11 +227,11 @@ switch ($op) {
             $class = 'odd';
             foreach (array_keys($alb_arr) as $i) {
                 $class = ('even' === $class) ? 'odd' : 'even';
-                $id = $alb_arr[$i]->getVar('id');
+                $id    = $alb_arr[$i]->getVar('id');
 
                 $title = $myts->displayTarea($alb_arr[$i]->getVar('title'));
 
-                $display = 1 == $alb_arr[$i]->getVar('visible') ? "<img src='./../assets/images/on.gif' border='0'>" : "<img src='./../assets/images/off.gif' border='0'>";
+                $display = 1 == $alb_arr[$i]->getVar('visible') ?  $icons['1'] : "<border='0'>". $icons['0'];
 
                 echo '<tr class="' . $class . '">';
                 echo '<td align="center"><input type="checkbox" name="id[]" id="id[]" value="' . $id . '"></td>';
@@ -244,8 +240,8 @@ switch ($op) {
                 echo '<td align="center">' . $id . '</td>';
                 echo '<td align="center">' . $title . '</td>';
                 echo '<td align="center">';
-                echo '<a href="page.php?op=edit&id=' . $id . '"><img src="./../assets/images/edit_mini.gif" border="0" alt="' . _AM_TDMSPOT_EDITER . '" title="' . _AM_TDMSPOT_EDITER . '"></a>';
-                echo '<a href="page.php?op=delete&id=' . $id . '"><img src="./../assets/images/delete_mini.gif" border="0" alt="' . _AM_TDMSPOT_DELETE . '" title="' . _AM_TDMSPOT_DELETE . '"></a>';
+                echo '<a href="page.php?op=edit&id=' . $id . '"><border="0" alt="' . _AM_TDMSPOT_EDITER . '" title="' . _AM_TDMSPOT_EDITER . '">' . $icons['edit'] . '</a>';
+                echo '<a href="page.php?op=delete&id=' . $id . '"><border="0" alt="' . _AM_TDMSPOT_DELETE . '" title="' . _AM_TDMSPOT_DELETE . '">' . $icons['delete'] . '</a>';
                 echo '</td>';
                 echo '</tr>';
             }
@@ -253,7 +249,7 @@ switch ($op) {
             echo '<div align=right>' . $pagenav . '</div><br>';
         }
         // Affichage du formulaire de cr?ation de cat?gories
-        $obj = $pageHandler->create();
+        $obj  = $pageHandler->create();
         $form = $obj->getForm();
         $form->display();
         break;

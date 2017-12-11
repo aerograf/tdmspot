@@ -19,6 +19,8 @@
  */
 
 use Xoopsmodules\tdmspot;
+include __DIR__ . '/../preloads/autoloader.php';
+
 
 $moduleDirName = basename(dirname(__DIR__));
 
@@ -28,7 +30,7 @@ require_once __DIR__ . '/../class/Utility.php';
 $db     = \XoopsDatabaseFactory::getDatabase();
 $helper = tdmspot\Helper::getInstance();
 
-/** @var \Xoopsmodules\tdmspot\Utility $utility */
+/** @var tdmspot\Utility $utility */
 $utility = new tdmspot\Utility();
 
 //defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
@@ -36,11 +38,11 @@ $utility = new tdmspot\Utility();
 //$helper       = tdmspot\Helper::getInstance();
 //$utility      = new tdmspot\Utility();
 
-$catHandler   = new tdmspot\CategoryHandler($db);
-$itemHandler  = new tdmspot\ItemHandler($db);
-$blockHandler = new tdmspot\NewblocksHandler($db);
-$pageHandler  = new tdmspot\Page($db);
-$voteHandler  = new tdmspot\VoteHandler($db);
+$catHandler   = new \Xoopsmodules\tdmspot\CategoryHandler($db);
+$itemHandler  = new \Xoopsmodules\tdmspot\ItemHandler($db);
+$blockHandler = new \Xoopsmodules\tdmspot\NewblocksHandler($db);
+$pageHandler  = new \Xoopsmodules\tdmspot\PageHandler($db);
+$voteHandler  = new \Xoopsmodules\tdmspot\VoteHandler($db);
 
 if (!defined('TDMSPOT_DIRNAME')) {
     define('TDMSPOT_DIRNAME', basename(dirname(__DIR__)));
@@ -53,7 +55,8 @@ if (!defined('TDMSPOT_DIRNAME')) {
     define('TDMSPOT_AUTHOR_LOGOIMG', TDMSPOT_URL . '/assets/images/logo.png');
     define('TDMSPOT_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . TDMSPOT_DIRNAME); // WITHOUT Trailing slash
     define('TDMSPOT_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . TDMSPOT_DIRNAME); // WITHOUT Trailing slash
-    define('TDMSPOT_CAT_PATH', XOOPS_UPLOAD_PATH . TDMSPOT_DIRNAME . '/upload/cat');
+    define('TDMSPOT_CAT_IMAGE_URL', XOOPS_UPLOAD_URL . '/' .  TDMSPOT_DIRNAME . '/images/category');
+    define('TDMSPOT_CAT_IMAGE_PATH', XOOPS_UPLOAD_PATH . '/' .  TDMSPOT_DIRNAME . '/images/category');
 }
 
 //define option du module

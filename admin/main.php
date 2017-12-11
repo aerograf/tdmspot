@@ -52,12 +52,14 @@ $item_waiting = $itemHandler->getCount($criteria);
 $criteria = new CriteriaCompo();
 $criteria->add(new Criteria('indate', time()), '>');
 $item_time = $itemHandler->getCount($criteria);
+
 //compte les categorie
 $numcat = $catHandler->getCount();
 //compte les categorie en attente
 $criteria = new CriteriaCompo();
 $criteria->add(new Criteria('display', 0));
 $cat_waiting = $catHandler->getCount($criteria);
+
 //compte les pages
 $numpage = $pageHandler->getCount();
 //compte les blocks

@@ -51,7 +51,7 @@ switch ($op) {
 
         //upload
         require_once XOOPS_ROOT_PATH . '/class/uploader.php';
-        $uploaddir = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/cat/';
+        $uploaddir = TDMSPOT_CAT_IMAGE_PATH . '/';
         $mimetype = explode('|', $xoopsModuleConfig['tdmspot_mimetype']);
         $uploader = new \XoopsMediaUploader($uploaddir, $mimetype, $xoopsModuleConfig['tdmspot_mimemax']);
 
@@ -254,6 +254,7 @@ switch ($op) {
         //Affichage du tableau des catégories
         if ($numrows > 0) {
             echo '<form name="form" id="form" action="cat.php" method="post"><table width="100%" cellspacing="1" class="outer">';
+            echo $GLOBALS['xoopsSecurity']->getTokenHTML(); //mb
             echo '<tr>';
             echo '<th align="center" width="5%"><input name="allbox" id="allbox" onclick="xoopsCheckAll(\'form\', \'allbox\');" type="checkbox" value="Check All"></th>';
             echo '<th align="center" width="55%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_TITLE, 'title', TDMSPOT_IMAGES_URL) . '</th>';
@@ -273,27 +274,15 @@ switch ($op) {
                 $cat_pid = $assoc_cat[$i]->getVar('pid');
                 $cat_title = $assoc_cat[$i]->getVar('title');
 
-//                $display = 1 == $assoc_cat[$i]->getVar('display') ?
-//                    "<img src='" . TDMSPOT_IMAGES_URL . "/on.gif' border='0'>"
-//                    : "<a href='cat.php?op=update&id=" . $cat_id . "'>
-//                    <img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . "' src='" . TDMSPOT_IMAGES_URL . "/off.gif' border='0'></a>";
-
-
-
-                $display = 1 == $assoc_cat[$i]->getVar('display') ?
-                    $icons['1']
-                    : "<a href='cat.php?op=update&id=" . $cat_id . "'>
-                    <img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . " border='0'>". $icons['0'] . '</a>';
-
-
+                $display = 1 == $assoc_cat[$i]->getVar('display') ? $icons['1'] : "<a href='cat.php?op=update&id=" . $cat_id . "'> <img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . " border='0'>". $icons['0'] . '</a>';
 
                 //on test l'existance de l'image
-                $img = $assoc_cat[$i]->getVar('img') ?: 'blank.gif';
-                $imgpath = TDMSPOT_UPLOAD_PATH . '/cat/' . $img;
+                $img = $assoc_cat[$i]->getVar('img') ?: 'blank.png';
+                $imgpath = TDMSPOT_CAT_IMAGE_PATH . '/' . $img;
                 if (file_exists($imgpath)) {
-                    $cat_img = TDMSPOT_UPLOAD_URL . '/cat/' . $assoc_cat[$i]->getVar('img');
+                    $cat_img =TDMSPOT_CAT_IMAGE_URL . '/' . $assoc_cat[$i]->getVar('img');
                 } else {
-                    $cat_img = TDMSPOT_UPLOAD_URL . '/cat/blank.gif';
+                    $cat_img = TDMSPOT_CAT_IMAGE_URL . '/blank.png';
                 }
 
                 echo '<tr class="' . $class . '">';

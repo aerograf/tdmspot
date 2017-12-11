@@ -141,7 +141,7 @@ function tdmspot_generateSeoUrl($op, $id, $short_url = '', $start = null, $limit
             $xoopsModuleConfig['tdmspot_seo_cat'] => 'viewcat.php',
             $xoopsModuleConfig['tdmspot_seo_item'] => 'item.php',
             'print' => 'print.php',
-            'pdf' => 'pdf.php',
+            'pdf' => 'makepdf.php',
             'submit' => 'submit.php',
             'rss' => 'rss.php',
             'download' => 'download.php',

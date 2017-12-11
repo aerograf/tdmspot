@@ -81,7 +81,7 @@ switch ($option) {
 //        $pdf = new FPDF();
 
     $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
-
+/*
 
         $pdf->AddPage();
         //titre
@@ -128,6 +128,32 @@ switch ($option) {
         $pdf->Output();
 
         break;
+*/
+
+$content = $newsletter_text;
+
+    //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+
+    //set margins
+    $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+    $pdf->setFooterMargin(PDF_MARGIN_FOOTER);
+    //set auto page breaks
+    $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
+
+    $pdf->setHeaderMargin(PDF_MARGIN_HEADER);
+    $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor
+
+    //2.5.8
+    $pdf->setHeaderFont([PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN]);
+    $pdf->setFooterFont([PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA]);
+
+    $pdf->setFooterData($tc = [0, 64, 0], $lc = [0, 64, 128]);
+
+    //initialize document
+    $pdf->Open();
+    $pdf->AddPage();
+    $pdf->writeHTML($content, true, 0, true, 0);
+    $pdf->Output();
 }
 //
 

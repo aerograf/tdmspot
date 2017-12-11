@@ -43,7 +43,7 @@ class Configurator
         $this->name           = 'Module Configurator';
         $this->uploadFolders  = [
             constant($capsDirName . '_UPLOAD_PATH'),
-            constant($capsDirName . '_UPLOAD_PATH') . '/content',
+//            constant($capsDirName . '_UPLOAD_PATH') . '/content',
             constant($capsDirName . '_UPLOAD_PATH') . '/images',
             constant($capsDirName . '_UPLOAD_PATH') . '/images/category',
             constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails',
@@ -73,7 +73,7 @@ class Configurator
             '/images',
             '/css',
             '/js',
-            '/tcpdf',
+            '/ffpdf',
         ];
     }
 }

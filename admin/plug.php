@@ -43,10 +43,10 @@ $myts = \MyTextSanitizer::getInstance();
 $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'list';
 $tdmspot_style = isset($_REQUEST['tdmspot_style']) ? $_REQUEST['tdmspot_style'] : 'cupertino';
 
-echo "<link rel='stylesheet' type='text/css' href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/css/' . $tdmspot_style . "/jquery-ui-1.7.2.custom.css'>
-<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/js/jquery-1.3.2.min.js'></script>
-<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/js/jquery-ui-1.7.2.custom.min.js'></script>
-<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/js/jquery.wslide.js'></script>
+echo "<link rel='stylesheet' type='text/css' href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/assets/css/' . $tdmspot_style . "/jquery-ui-1.7.2.custom.css'>
+<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/js/jquery-1.3.2.min.js'></script>
+<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/js/jquery-ui-1.7.2.custom.min.js'></script>
+<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/js/jquery.wslide.js'></script>
 ";
 
 //menu

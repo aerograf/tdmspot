@@ -429,24 +429,24 @@ class Utility
         $myts = \MyTextSanitizer::getInstance();
 
         if (isset($xoTheme) && is_object($xoTheme)) {
-            $xoTheme->addScript(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/js/jquery-1.3.2.min.js');
-            $xoTheme->addScript(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/js/AudioPlayer.js');
-            $xoTheme->addScript(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/js/jquery-ui-1.7.2.custom.min.js');
-            $xoTheme->addScript(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/js/jquery.wslide.js');
-            $xoTheme->addScript(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/js/jquery.expander.js');
-            $xoTheme->addScript(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/js/jquery.pager.js');
+            $xoTheme->addScript(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/assets/js/jquery-1.3.2.min.js');
+            $xoTheme->addScript(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/assets/js/AudioPlayer.js');
+            $xoTheme->addScript(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/assets/js/jquery-ui-1.7.2.custom.min.js');
+            $xoTheme->addScript(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/assets/js/jquery.wslide.js');
+            $xoTheme->addScript(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/assets/js/jquery.expander.js');
+            $xoTheme->addScript(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/assets/js/jquery.pager.js');
 
-            $xoTheme->addStylesheet(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/css/smoothness/jquery-ui-1.7.2.custom.css');
-            $xoTheme->addStylesheet(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/css/tdmspot.css');
+            $xoTheme->addStylesheet(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/assets/css/smoothness/jquery-ui-1.7.2.custom.css');
+            $xoTheme->addStylesheet(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/assets/css/tdmspot.css');
         } else {
             $mp_module_header = "
-<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/js/jquery-1.3.2.min.js'></script>
-<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/js/AudioPlayer.js'></script>
-<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/js/jquery.wslide.js'></script>
-<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/js/jquery-ui-1.7.2.custom.min.js'></script>
-<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/js/jquery.expander.js'></script>
-<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/js/jquery.pager.js'></script>
-<link rel='stylesheet' type='text/css' href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/smoothness/jquery-ui-1.7.2.custom.css'>
+<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/js/jquery-1.3.2.min.js'></script>
+<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/js/AudioPlayer.js'></script>
+<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/js/jquery.wslide.js'></script>
+<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/js/jquery-ui-1.7.2.custom.min.js'></script>
+<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/js/jquery.expander.js'></script>
+<script type='text/javascript' src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/js/jquery.pager.js'></script>
+<link rel='stylesheet' type='text/css' href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/css/smoothness/jquery-ui-1.7.2.custom.css'>
 ";
             $GLOBALS['xoopsTpl']->assign('xoops_module_header', $mp_module_header);
         }

@@ -34,11 +34,11 @@ $adminmenu[] = [
     'icon' => $pathIcon32 . '/home.png'
 ];
 
-$adminmenu[] = [
-    'title' => _MI_TDMSPOT_INDEX,
-    'link' => 'admin/main.php',
-    'icon' => $pathIcon32 . '/manage.png'
-];
+//$adminmenu[] = [
+//    'title' => _MI_TDMSPOT_INDEX,
+//    'link' => 'admin/main.php',
+//    'icon' => $pathIcon32 . '/manage.png'
+//];
 
 $adminmenu[] = [
     'title' => _MI_TDMSPOT_CAT,

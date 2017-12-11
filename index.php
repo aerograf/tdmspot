@@ -62,8 +62,8 @@ $myts = \MyTextSanitizer::getInstance();
 $cat_arr = $catHandler->getAll();
 $mytree = new tdmspot\Tree($cat_arr, 'id', 'pid');
 //asigne les URL
-define('TDM_CAT_URL', TDMSPOT_URL);
-define('TDM_CAT_PATH', TDMSPOT_PATH);
+//define('TDM_CAT_URL', TDMSPOT_CAT_IMAGE_URL);
+//define('TDM_CAT_PATH', TDMSPOT_CAT_IMAGE_PATH);
 $cat_display = $xoopsModuleConfig['tdmspot_cat_display'];
 $cat_cel = $xoopsModuleConfig['tdmspot_cat_cel'];
 $display_cat = $mytree->makeCatBox($itemHandler, 'title', '-', $cat = false);
@@ -151,11 +151,11 @@ foreach (array_keys($page_arr) as $p) {
                     $tpitem['cat_link'] = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_cat'], $cat->getVar('id'), $cat->getVar('title'));
                     $tpitem['cat_id'] = $cat->getVar('id');
                     if (1 == $xoopsModuleConfig['tdmspot_img']) {
-                        $imgpath = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/cat/' . $cat->getVar('img');
+                        $imgpath = TDMSPOT_CAT_IMAGE_PATH . '/' . $cat->getVar('img');
                         if (file_exists($imgpath)) {
                             $redim = tdmspot\Utility::getRedImage($imgpath, $xoopsModuleConfig['tdmspot_cat_width'], $xoopsModuleConfig['tdmspot_cat_height']);
-                            $tpitem['img'] = '<img src=' . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/upload/cat/' . $cat->getVar('img') . " height='" . $redim['dst_h'] . "' width='" . $redim['dst_w'] . "'>";
-                            //$tpitem['img'] = XOOPS_URL. "/modules/".$xoopsModule->dirname()."/upload/cat/".$cat->getVar("img");
+                            $tpitem['img'] = '<img src=' . TDMSPOT_CAT_IMAGE_URL . '/' . $cat->getVar('img') . " height='" . $redim['dst_h'] . "' width='" . $redim['dst_w'] . "'>";
+                            //$tpitem['img'] = TDMSPOT_UPLOAD_URL . "/images/cat/".$cat->getVar("img");
                         } else {
                             $tpitem['img'] = false;
                         }

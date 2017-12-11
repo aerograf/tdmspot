@@ -83,10 +83,9 @@ class Item extends \XoopsObject
         $mytree = new \XoopsObjectTree($arr, 'id', 'pid');
 
        if (tdmspot\Utility::checkVerXoops($xoopsModule, '2.5.9')) {
-            $catSelect = new \XoopsFormLabel(_MD_TDMSPOT_CATEGORY, $mytree->makeSelectElement('cat', 'title', '-', $this->getVar('cat'), true, 0, '', ''));
+           $catSelect = $mytree->makeSelectElement('cat', 'title', '--', $this->getVar('cat'), true, 0, '', _MD_TDMSPOT_CATEGORY);
             $form->addElement($catSelect);
         } else {
-
             $form->addElement(new \XoopsFormLabel(_MD_TDMSPOT_CATEGORY, $mytree->makeSelBox('cat', 'title', '-', $this->getVar('cat'), true)), true);
         }
 
@@ -107,10 +106,10 @@ class Item extends \XoopsObject
         //upload
 
         //on test l'existance de l'image
-        $imgpath = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/' . $this->getVar('file');
+        $imgpath = TDMSPOT_UPLOAD_PATH . '/images/' . $this->getVar('file');
         if ($this->getVar('file')) {
             $filetray = new \XoopsFormElementTray(_MD_TDMSPOT_FILE, '<br>');
-            $file = XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/upload/' . $this->getVar('file');
+            $file = TDMSPOT_UPLOAD_URL . '/images/' . $this->getVar('file');
             $filetray->addElement(new \XoopsFormLabel('', "<a href='" . $file . "'>" . $file . '</a>'));
             $form->addElement($filetray);
             $form->addElement(new \XoopsFormHidden('file', $this->getVar('file')));

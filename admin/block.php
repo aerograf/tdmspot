@@ -206,6 +206,7 @@ switch ($op) {
         //Affichage du tableau des catégories
         if ($numrows > 0) {
             echo '<form name="form" id="form" action="item.php" method="post"><table width="100%" cellspacing="1" class="outer">';
+            echo $GLOBALS['xoopsSecurity']->getTokenHTML(); //mb
             echo '<tr>';
             echo '<th align="center" width="5%"><input name="allbox" id="allbox" onclick="xoopsCheckAll(\'form\', \'allbox\');" type="checkbox" value="Check All"></th>';
             echo '<th align="center" width="10%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_VISIBLE, 'visible', TDMSPOT_IMAGES_URL) . '</th>';
@@ -230,7 +231,7 @@ switch ($op) {
                 $id = $alb_arr[$i]->getVar('id');
                 $title = $myts->displayTarea($alb_arr[$i]->getVar('title'));
 
-                $display = 1 == $alb_arr[$i]->getVar('visible') ? "<img src='./../assets/images/on.gif' border='0'>" : "<img src='./../assets/images/off.gif' border='0'>";
+                $display = 1 == $alb_arr[$i]->getVar('visible') ? $icons['1'] : "<border='0'>". $icons['0'];
 
                 echo '<tr class="' . $class . '">';
                 echo '<td align="center"><input type="checkbox" name="id[]" id="id[]" value="' . $id . '"></td>';
@@ -239,8 +240,8 @@ switch ($op) {
                 echo '<td align="center" width="30%">' . $alb_arr[$i]->getVar('pid') . ' - ' . $page_title . '</td>';
                 echo '<td align="center" width="30%">' . $title_block . ' - ' . $title . '</td>';
                 echo '<td align="center" width="20%">';
-                echo '<a href="block.php?op=edit&id=' . $id . '"><img src="./../assets/images/edit_mini.gif" border="0" alt="' . _AM_TDMSPOT_EDITER . '" title="' . _AM_TDMSPOT_EDITER . '"></a>';
-                echo '<a href="block.php?op=delete&id=' . $id . '"><img src="./../assets/images/delete_mini.gif" border="0" alt="' . _AM_TDMSPOT_DELETE . '" title="' . _AM_TDMSPOT_DELETE . '"></a>';
+                echo '<a href="block.php?op=edit&id=' . $id . '"><border="0" alt="' . _AM_TDMSPOT_EDITER . '" title="' . _AM_TDMSPOT_EDITER . '">'. $icons['edit'] .'</a>';
+                echo '<a href="block.php?op=delete&id=' . $id . '"><border="0" alt="' . _AM_TDMSPOT_DELETE . '" title="' . _AM_TDMSPOT_DELETE . '">'. $icons['delete'] .'</a>';
                 echo '</td>';
                 echo '</tr>';
             }

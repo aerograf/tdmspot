@@ -47,14 +47,15 @@ return (object)[
     ],
     'uploadFolders' => [
         constant($capsDirName . '_UPLOAD_PATH'),
-        constant($capsDirName . '_UPLOAD_PATH') . '/category',
-        constant($capsDirName . '_UPLOAD_PATH') . '/screenshots',
+        constant($capsDirName . '_UPLOAD_PATH') . '/images',
+        constant($capsDirName . '_UPLOAD_PATH') . '/images/category',
+        constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails',
         XOOPS_UPLOAD_PATH . '/flags'
     ],
     'blankFiles'    => [
         constant($capsDirName . '_UPLOAD_PATH'),
-        constant($capsDirName . '_UPLOAD_PATH') . '/category',
-        constant($capsDirName . '_UPLOAD_PATH') . '/screenshots',
+        constant($capsDirName . '_UPLOAD_PATH') . '/images/category',
+        constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails',
         XOOPS_UPLOAD_PATH . '/flags'
     ],
 
@@ -74,7 +75,7 @@ return (object)[
         '/images',
         '/css',
         '/js',
-        '/tcpdf',
+        '/fpdf',
         '/images',
     ],
     'modCopyright'    => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>

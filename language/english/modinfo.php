@@ -4,11 +4,11 @@
 define('_MI_TDMSPOT_NAME', 'TdmSpot');
 define('_MI_TDMSPOT_DESC', 'Spot managing your blocks');
 define('_MI_TDMSPOT_INDEX', 'Index');
-define('_MI_TDMSPOT_PAGE', 'Pages index');
+define('_MI_TDMSPOT_PAGE', 'Index Page');
 define('_MI_TDMSPOT_BLOCK', 'Blocks');
 define('_MI_TDMSPOT_PLUGINS', 'Plugins');
 define('_MI_TDMSPOT_CAT', 'Category');
-define('_MI_TDMSPOT_ITEM', 'Article');
+define('_MI_TDMSPOT_ITEM', 'Articles');
 define('_MI_TDMSPOT_PERMISSIONS', 'Permissions');
 define('_MI_TDMSPOT_ABOUT', 'About');
 define('_MI_TDMSPOT_PREF', 'Preferences');

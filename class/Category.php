@@ -90,7 +90,7 @@ class Category extends \XoopsObject
 
 
         if (tdmspot\Utility::checkVerXoops($xoopsModule, '2.5.9')) {
-            $catSelect = new \XoopsFormLabel(_AM_TDMSPOT_PARENT, $mytree->makeSelectElement('pid', 'title', '-', $this->getVar('pid'), true, 0, '', ''));
+            $catSelect = $mytree->makeSelectElement('pid', 'title', '--', $this->getVar('pid'), true, 0, '', _AM_TDMSPOT_PARENT);
             $form->addElement($catSelect);
         } else {
             $form->addElement(new \XoopsFormLabel(_AM_TDMSPOT_PARENT, $mytree->makeSelBox('pid', 'title', '-', $this->getVar('pid'), true)));
@@ -110,12 +110,12 @@ class Category extends \XoopsObject
         //  $form->addElement( new \XoopsFormEditor(_AM_TDMSPOT_TEXT, "cat_text", $editor_configs), false );
 
         //upload
-        $img = $this->getVar('img') ?: 'blank.gif';
-        $uploadirectory = 'modules/' . $xoopsModule->dirname() . '/upload/cat/';
+        $img = $this->getVar('img') ?: 'blank.png';
+        $uploadirectory = TDMSPOT_CAT_IMAGE_PATH . '/';
         $imgtray = new \XoopsFormElementTray(_AM_TDMSPOT_IMG, '<br>');
         $imgpath = sprintf(_AM_TDMSPOT_PATH, $uploadirectory);
         $imageselect = new \XoopsFormSelect($imgpath, 'img', $img);
-        $topics_array = XoopsLists:: getImgListAsArray(XOOPS_ROOT_PATH . '/' . $uploadirectory);
+        $topics_array = XoopsLists:: getImgListAsArray($uploadirectory);
         foreach ($topics_array as $image) {
             $imageselect->addOption("$image", $image);
         }

@@ -33,7 +33,7 @@ define('_AM_TDMSPOT_MANAGE_BLOCK', 'Block management');
 define('_AM_TDMSPOT_MANAGE_CAT', 'Category management');
 define('_AM_TDMSPOT_THEREARE_BLOCK', "There are <span style='color: #ff0000; font-weight: bold'>%s</span> Blocks in the Database");
 define('_AM_TDMSPOT_THEREARE_CAT', "There are <span style='color: #ff0000; font-weight: bold'>%s</span> Categories in the Database");
-define('_AM_TDMSPOT_THEREARE_ITEM', "There are <span style='color: #ff0000; font-weight: bold'>%s</span> article(s) Items in the Database");
+define('_AM_TDMSPOT_THEREARE_ITEM', "There are <span style='color: #ff0000; font-weight: bold'>%s</span> Article(s) in the Database");
 define('_AM_TDMSPOT_THEREARE_ITEM_WAITING', "There are <span style='color: #ff0000; font-weight: bold'>%s</span> Articles waiting  in the Database");
 define('_AM_TDMSPOT_THEREARE_ITEM_TIME', "There are <span style='color: #ff0000; font-weight: bold'>%s</span> articles  in the Database");
 define('_AM_TDMSPOT_THEREARE_CAT_WAITING', "There are <span style='color: #ff0000; font-weight: bold'>%s</span>  Categories waiting in the Database");

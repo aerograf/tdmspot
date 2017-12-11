@@ -161,10 +161,10 @@ switch ($op) {
                 $meta_description = $cat->getVar('title');
 
                 if (1 == $xoopsModuleConfig['tdmspot_img']) {
-                    $imgpath = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/cat/' . $cat->getVar('img');
+                    $imgpath = TDMSPOT_CAT_IMAGE_PATH . '/' . $cat->getVar('img');
                     if (file_exists($imgpath)) {
                         $redim         = tdmspot\Utility::getRedImage($imgpath, $xoopsModuleConfig['tdmspot_cat_width'], $xoopsModuleConfig['tdmspot_cat_height']);
-                        $tpitem['img'] = '<img src=' . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/upload/cat/' . $cat->getVar('img') . " height='" . $redim['dst_h'] . "' width='" . $redim['dst_w'] . "'>";
+                        $tpitem['img'] = '<img src=' . TDMSPOT_CAT_IMAGE_URL . '/' . $cat->getVar('img') . " height='" . $redim['dst_h'] . "' width='" . $redim['dst_w'] . "'>";
                     } else {
                         $tpitem['img'] = false;
                     }
@@ -193,7 +193,7 @@ switch ($op) {
             $memberHandler = xoops_getHandler('member');
             $thisUser      = $memberHandler->getUser($bl_poster);
             //teste l'avatard
-            if ('blank.gif' !== $thisUser->getVar('user_avatar')) {
+            if ('blank.png' !== $thisUser->getVar('user_avatar')) {
                 $tpitem['user_avatarurl'] = XOOPS_URL . '/uploads/' . $thisUser->getVar('user_avatar');
             } else {
                 $tpitem['user_avatarurl'] = TDMSPOT_IMAGES_URL . '/user.png';

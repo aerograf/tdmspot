@@ -76,7 +76,7 @@ switch ($op) {
         require_once XOOPS_ROOT_PATH . '/class/uploader.php';
         //cree le chemin
 
-        $uploaddir = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/';
+        $uploaddir = TDMSPOT_UPLOAD_PATH . '/images/';
         $mimetype = explode('|', $xoopsModuleConfig['tdmspot_mimetype']);
         $uploader = new \XoopsMediaUploader($uploaddir, $mimetype, $xoopsModuleConfig['tdmspot_mimemax'], null, null);
 
@@ -147,7 +147,7 @@ switch ($op) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('item.php', 2, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
-            $uploaddir = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/';
+            $uploaddir = TDMSPOT_UPLOAD_PATH . '/images/';
 
             //supprime l'album
             if ($itemHandler->delete($obj)) {
@@ -254,7 +254,7 @@ switch ($op) {
 
         echo '<br>';
 
-        $uploaddir = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/';
+        $uploaddir = TDMSPOT_UPLOAD_PATH . '/images/';
 
         //Parameters
         $criteria = new CriteriaCompo();
@@ -301,6 +301,7 @@ switch ($op) {
         //Affichage du tableau des catégories
         if ($numrows > 0) {
             echo '<form name="form" id="form" action="item.php" method="post"><table width="100%" cellspacing="1" class="outer">';
+            echo $GLOBALS['xoopsSecurity']->getTokenHTML(); //mb
             echo '<tr>';
             echo '<th align="center" width="5%"><input name="allbox" id="allbox" onclick="xoopsCheckAll(\'form\', \'allbox\');" type="checkbox" value="Check All"></th>';
             echo '<th align="center" width="10%">' . tdmspot\Utility::switchSelect(_AM_TDMSPOT_VISIBLE, 'display', TDMSPOT_IMAGES_URL) . '</th>';
@@ -331,9 +332,9 @@ switch ($op) {
 
 
                 //on test l'existance de l'image
-                $imgpath = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/' . $alb_arr[$i]->getVar('file');
+                $imgpath = TDMSPOT_UPLOAD_PATH . '/images/' . $alb_arr[$i]->getVar('file');
                 if (file_exists($imgpath)) {
-                    $file = XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/upload/' . $alb_arr[$i]->getVar('file');
+                    $file =TDMSPOT_UPLOAD_URL . '/images/' . $alb_arr[$i]->getVar('file');
                 } else {
                     $file = XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/assets/images/blank.png';
                 }
@@ -345,15 +346,8 @@ switch ($op) {
                 echo '<td align="center">' . $cat_title . '</td>';
                 echo '<td align="center">' . $title . '</td>';
                 echo '<td align="center">';
-
-//                echo '<a href="item.php?op=edit&id=' . $id . '"><img src="./../assets/images/edit_mini.gif" border="0" alt="' . _AM_TDMSPOT_EDITER . '" title="' . _AM_TDMSPOT_EDITER . '"></a>';
-//                echo '<a href="item.php?op=delete&id=' . $id . '"><img src="./../assets/images/delete_mini.gif" border="0" alt="' . _AM_TDMSPOT_DELETE . '" title="' . _AM_TDMSPOT_DELETE . '"></a>';
                 echo '<a href="item.php?op=edit&id=' . $id . '"><border="0" alt="' . _AM_TDMSPOT_EDITER . '" title="' . _AM_TDMSPOT_EDITER . '">'. $icons['edit'] .'</a>';
                 echo '<a href="item.php?op=delete&id=' . $id . '"><border="0" alt="' . _AM_TDMSPOT_DELETE . '" title="' . _AM_TDMSPOT_DELETE . '">'. $icons['delete'] .'</a>';
-
-
-
-
                 echo '</td>';
                 echo '</tr>';
             }

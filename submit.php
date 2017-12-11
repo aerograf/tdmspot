@@ -73,7 +73,7 @@ switch ($op) {
             require_once XOOPS_ROOT_PATH . '/class/uploader.php';
             //cree le chemin
 
-            $uploaddir = XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/upload/';
+            $uploaddir = TDMSPOT_UPLOAD_PATH . '/images/';
             $mimetype = explode('|', $xoopsModuleConfig['tdmspot_mimetype']);
             $uploader = new \XoopsMediaUploader($uploaddir, $mimetype, $xoopsModuleConfig['tdmspot_mimemax'], null, null);
 

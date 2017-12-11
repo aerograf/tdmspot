@@ -97,11 +97,11 @@ class Tree extends \XoopsObjectTree
             $cat_link = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_cat'], $this->tree[$key]['obj']->getVar('id'), $this->tree[$key]['obj']->getVar('title'), $start, $limit, $tris);
 
             //recherche image
-            $imgpath = TDM_CAT_PATH . '/' . $this->tree[$key]['obj']->getVar('img');
-            if (file_exists($imgpath) && 'blank.gif' !== $this->tree[$key]['obj']->getVar('img')) {
-                $picture = '<a href ="' . $cat_link . '" title="' . $this->tree[$key]['obj']->getVar('title') . '"><img src="' . TDM_CAT_URL . '/' . $this->tree[$key]['obj']->getVar('img') . '" class="img" width="' . $xoopsModuleConfig['tdmspot_cat_width'] . '"  height="' . $xoopsModuleConfig['tdmspot_cat_height'] . '"></a>';
+            $imgpath = TDMSPOT_CAT_IMAGE_PATH . '/' . $this->tree[$key]['obj']->getVar('img');
+            if (file_exists($imgpath) && 'blank.png' !== $this->tree[$key]['obj']->getVar('img')) {
+                $picture = '<a href ="' . $cat_link . '" title="' . $this->tree[$key]['obj']->getVar('title') . '"><img src="' . TDMSPOT_CAT_IMAGE_URL . '/' . $this->tree[$key]['obj']->getVar('img') . '" class="img" width="' . $xoopsModuleConfig['tdmspot_cat_width'] . '"  height="' . $xoopsModuleConfig['tdmspot_cat_height'] . '"></a>';
             } else {
-                $picture = '<a href ="' . $cat_link . '" title="' . $this->tree[$key]['obj']->getVar('title') . '"><img src="' . TDM_CAT_URL . '/no_picture.png" class="img" width="' . $xoopsModuleConfig['tdmspot_cat_width'] . '"  height="' . $xoopsModuleConfig['tdmspot_cat_height'] . '"></a>';
+                $picture = '<a href ="' . $cat_link . '" title="' . $this->tree[$key]['obj']->getVar('title') . '"><img src="' . TDMSPOT_CAT_IMAGE_URL . '/blank.png" class="img" width="' . $xoopsModuleConfig['tdmspot_cat_width'] . '"  height="' . $xoopsModuleConfig['tdmspot_cat_height'] . '"></a>';
             }
 
             //echo $selected;
