@@ -231,7 +231,7 @@ switch ($op) {
 
                 $title = $myts->displayTarea($alb_arr[$i]->getVar('title'));
 
-                $display = 1 == $alb_arr[$i]->getVar('visible') ?  $icons['1'] : "<border='0'>". $icons['0'];
+                $display = 1 == $alb_arr[$i]->getVar('visible') ?  $icons['1'] : "<border='0'>" . $icons['0'];
 
                 echo '<tr class="' . $class . '">';
                 echo '<td align="center"><input type="checkbox" name="id[]" id="id[]" value="' . $id . '"></td>';

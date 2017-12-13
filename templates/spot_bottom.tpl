@@ -1,52 +1,39 @@
+<br style="clear:both;">
 <{foreach item=tpblock from=$page.tpblock}>
         <!-- Start center bottom blocks loop -->
-
-        <table cellspacing="0">
         <!-- Start center bottom -->
         <{if $tpblock.side == "spot_bottomcenter"}>
-        <tr colspan="2">
-        <td colspan="2">
-        <div class="xo-blockszone">
-        <div class="xo-block">
-        <{if $tpblock.title}>
-         <div class="xo-blocktitle"><{$tpblock.title}></div>
+          <div class="xo-blockszone" style="width:99%;vertical-align:top;display:block;float:center;clear:both;">
+              <div class="xo-block">
+                  <{if $tpblock.title}>
+                     <div class="xo-blocktitle"><{$tpblock.title}></div>
+                  <{/if}>
+                     <div class="xo-blockcontent"><{$tpblock.content}></div>
+              </div>
+           </div>
         <{/if}>
-        <div class="xo-blockcontent"><{$tpblock.content}></div>
-        </div></div>
-        </td>
-        </tr>
-        <{/if}>
-        <tr>
         <!-- Start bottom left -->
         <{if $tpblock.side == "spot_bottomleft"}>
-        <td width="50%">
-        <div class="xo-blockszone">
-        <div class="xo-block">
-        <{if $tpblock.title}>
-        <div class="xo-blocktitle"><{$tpblock.title}></div>
-        <{/if}>
-        <div class="xo-blockcontent"><{$tpblock.content}></div>
-        </div></div>
-        </td>
-        <{else}>
-        <td width="50%"></td>
+          <div class="xo-blockszone" style="width:49%;vertical-align:top;display:inline-block;float:left;">
+              <div class="xo-block">
+                  <{if $tpblock.title}>
+                     <div class="xo-blocktitle"><{$tpblock.title}></div>
+                  <{/if}>
+                     <div class="xo-blockcontent"><{$tpblock.content}></div>
+               </div>
+           </div>
         <{/if}>
         <!-- Start bottom right -->
         <{if $tpblock.side == "spot_bottomright"}>
-        <td width="50%">
-        <div class="xo-blockszone">
-        <div class="xo-block">
-        <{if $tpblock.title}>
-        <div class="xo-blocktitle"><{$tpblock.title}></div>
+           <div class="xo-blockszone" style="width:49%;vertical-align:top;display:inline-block;float:right;">
+               <div class="xo-block">
+                   <{if $tpblock.title}>
+                       <div class="xo-blocktitle"><{$tpblock.title}></div>
+                    <{/if}>
+                        <div class="xo-blockcontent"><{$tpblock.content}></div>
+                </div>
+            </div>
         <{/if}>
-        <div class="xo-blockcontent"><{$tpblock.content}></div>
-        </div></div>
-        </td>
-        <{else}>
-        <td width="50%"></td>
-        <{/if}>
-        </tr>
-        </table>
         <!-- End center bottom blocks loop -->
 <{/foreach}>
-
+<br style="clear:both;">
