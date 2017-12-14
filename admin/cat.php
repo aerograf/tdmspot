@@ -24,7 +24,7 @@ require_once __DIR__ . '/admin_header.php';
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/common.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/tree.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/Tree.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once __DIR__ . '/../include/config.php';
 
@@ -226,7 +226,7 @@ switch ($op) {
         //menu
         //        echo '<div class="CPbigTitle" style="background-image: url(../assets/images/decos/cat.png); background-repeat: no-repeat; background-position: left; padding-left: 60px; padding-top:20px; padding-bottom:15px;"><h3><strong>' . _AM_TDMSPOT_MANAGE_CAT . '</strong></h3>';
         $currentFile = basename(__FILE__);
-      $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
         echo '</div><br><div class="head" align="center">';
@@ -266,7 +266,7 @@ switch ($op) {
             $class = 'odd';
             $mytree = new tdmspot\Tree($assoc_cat, 'id', 'pid');
             $category_ArrayTree = $mytree->makeArrayTree('title', '<img src="' . TDMSPOT_IMAGES_URL . '/decos/arrow.gif">');
-            if(is_array($category_ArrayTree) && count($category_ArrayTree) > 1){
+            if(is_array($category_ArrayTree) && count($category_ArrayTree) > 0){
             foreach (array_keys($category_ArrayTree) as $i) {
                 //foreach ($arr as $c) {
                 $class = ('even' === $class) ? 'odd' : 'even';
@@ -274,7 +274,12 @@ switch ($op) {
                 $cat_pid = $assoc_cat[$i]->getVar('pid');
                 $cat_title = $assoc_cat[$i]->getVar('title');
 
-                $display = 1 == $assoc_cat[$i]->getVar('display') ? $icons['1'] : "<a href='cat.php?op=update&id=" . $cat_id . "'> <img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . " border='0'>". $icons['0'] . '</a>';
+                if (1 == $assoc_cat[$i]->getVar('display') && $assoc_cat[$i]->getVar('indate') < time()) {
+                    $display =  $icons['1'];
+                } else {
+                    $display = "<a href='cat.php?op=update&id=" . $cat_id . "' alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . "'>". $icons['0'] . '</a>';
+                }
+                //$display = 1 == $assoc_cat[$i]->getVar('display') ? $icons['1'] : "<a href='cat.php?op=update&id=" . $cat_id . "'> <img alt='" . _AM_TDMSPOT_UPDATE . "' title='" . _AM_TDMSPOT_UPDATE . " border='0'>" . $icons['0'] . '</a>';
 
                 //on test l'existance de l'image
                 $img = $assoc_cat[$i]->getVar('img') ?: 'blank.png';

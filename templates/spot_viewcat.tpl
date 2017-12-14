@@ -36,7 +36,7 @@ padding: 5px;">
     <tr>
     <{if $tpitem_blindate != ""}>
     <td width="33%" align="left" valign="top">
-        <div align="center"><span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/date.png) no-repeat left; padding-left: 15px;">&nbsp;<b><{$smarty.const._MI_TDMSPOT_BLINDATE}></b></span></div>
+        <div align="center"><span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/date.png) no-repeat left; padding-left: 15px;">&nbsp;<b><{$smarty.const._MD_TDMSPOT_BLINDATE}></b></span></div>
         <ul>
             <{foreach item=tpitem_blindate from=$tpitem_blindate}>
             <li><a href="<{$tpitem_blindate.link}>"><{$tpitem_blindate.title}></a> (<{$tpitem_blindate.indate}>)</li>
@@ -46,7 +46,7 @@ padding: 5px;">
     <{/if}>
     <{if $tpitem_blcounts != ""}>
     <td width="33%" align="left" valign="top">
-        <div align="center"><span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/counts.png) no-repeat left; padding-left: 15px;">&nbsp;<b><{$smarty.const._MI_TDMSPOT_BLCOUNTS}></b></span></div>
+        <div align="center"><span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/counts.png) no-repeat left; padding-left: 15px;">&nbsp;<b><{$smarty.const._MD_TDMSPOT_BLCOUNTS}></b></span></div>
         <ul>
             <{foreach item=tpitem_blcounts from=$tpitem_blcounts}>
             <li><a href="<{$tpitem_blcounts.link}>"><{$tpitem_blcounts.title}></a> (<{$tpitem_blcounts.counts}>)</li>
@@ -56,7 +56,7 @@ padding: 5px;">
     <{/if}>
     <{if $tpitem_blhits != ""}>
     <td width="33%" align="left" valign="top">
-        <div align="center"><span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/hits.png) no-repeat left; padding-left: 15px;">&nbsp;<b><{$smarty.const._MI_TDMSPOT_BLHITS}></b></span></div>
+        <div align="center"><span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/hits.png) no-repeat left; padding-left: 15px;">&nbsp;<b><{$smarty.const._MD_TDMSPOT_BLHITS}></b></span></div>
         <ul>
             <{foreach item=tpitem_blhits from=$tpitem_blhits}>
             <li><a href="<{$tpitem_blhits.link}>"><{$tpitem_blhits.title}></a> (<{$tpitem_blhits.hits}>)</li>
@@ -84,7 +84,7 @@ padding: 5px;">
 
 <{if $perm_social}>
 <!-- AddThis Button BEGIN -->
-<div style="float:left;"><a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;pub=xa-4ac5feea790b0936"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"></a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=xa-4ac5feea790b0936"></script></div>
+<div style="float:left;"><a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;pub=xa-4ac5feea790b0936"><img src="//s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"></a><script type="text/javascript" src="//s7.addthis.com/js/250/addthis_widget.js#pub=xa-4ac5feea790b0936"></script></div>
 <!-- AddThis Button END -->
 <{/if}>
 <{if $perm_rss}>

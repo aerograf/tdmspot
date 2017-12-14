@@ -104,18 +104,18 @@ padding: 5px;">
             <div class="itemFoot">
             <{if $perm_vote}>
             <a href="javascript:"><img height="16px" src="<{$smarty.const.TDMSPOT_IMAGES_URL}>/good-mark.png" onclick="AddVote(<{$tpitem.id}>, '<{$smarty.const.TDMSPOT_URL}>');return false;" title="<{$smarty.const._MD_TDMSPOT_VOTEADD}>"></a> <a href="javascript:"><img height="16px" src="<{$smarty.const.TDMSPOT_IMAGES_URL}>/bad-mark.png" onclick="RemoveVote(<{$tpitem.id}>, '<{$smarty.const.TDMSPOT_URL}>');return false;" title="<{$smarty.const._MD_TDMSPOT_VOTEREMOVE}>"></a>
-            -
+            &bull;
             <{/if}>
             <span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/chart.png) no-repeat left; padding-left: 15px;">&nbsp;<{$smarty.const._MD_TDMSPOT_NOTES}> <{$tpitem.counts}>/<{$tpitem.votes}> <{$smarty.const._MD_TDMSPOT_VOTES}> </span>
-            -
+            &bull;
             <span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/comment.png) no-repeat left; padding-left: 15px;">&nbsp;<{$smarty.const._MD_TDMSPOT_COMMENTS}> <{$tpitem.comments}></span>
 
             <{if $perm_admin}>
-            -<{$perm_admin}>
+            &bull;<{$perm_admin}>
             <{/if}>
 
             <{if $perm_export}>
-            - <a href="<{$tpitem.pdf}>"><img height="16px" src="<{$smarty.const.TDMSPOT_IMAGES_URL}>/pdf.png" alt="<{$smarty.const._MD_TDMSPOT_EXPPDF}>" title="<{$smarty.const._MD_TDMSPOT_EXPPDF}>"></a> <a href="<{$tpitem.print}>"><img height="16px" src="<{$smarty.const.TDMSPOT_IMAGES_URL}>/print.png" alt="<{$smarty.const._MD_TDMSPOT_EXPPRINT}>" title="<{$smarty.const._MD_TDMSPOT_EXPPRINT}>"></a>
+            &bull; <a href="<{$tpitem.pdf}>" target="_blank"><img height="16px" src="<{$smarty.const.TDMSPOT_IMAGES_URL}>/pdf.png" alt="<{$smarty.const._MD_TDMSPOT_EXPPDF}>" title="<{$smarty.const._MD_TDMSPOT_EXPPDF}>"></a> <a href="<{$tpitem.print}>" target="_blank"><img height="16px" src="<{$smarty.const.TDMSPOT_IMAGES_URL}>/print.png" alt="<{$smarty.const._MD_TDMSPOT_EXPPRINT}>" title="<{$smarty.const._MD_TDMSPOT_EXPPRINT}>"></a>
             <{/if}>
 
             </div>
@@ -128,10 +128,10 @@ padding: 5px;">
         <{if $tdmspot_nextprev}>
         <table><tr><td align="left">
         <{$prev_page}>
-    </td><td align="right">
-    <{$next_page}>
-    </td></tr></table>
-    <{/if}>
+        </td><td align="right">
+        <{$next_page}>
+        </td></tr></table>
+        <{/if}>
 
     <br><br>
 
@@ -142,7 +142,7 @@ padding: 5px;">
     <tr>
     <{if $tpitem_blsimil != ""}>
     <td width="50%" align="left" valign="top">
-        <div align="center"><span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/simil.png) no-repeat left; padding-left: 15px;">&nbsp;<b><{$smarty.const._MI_TDMSPOT_BLSIMIL}></b></span></div>
+        <div align="center"><span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/simil.png) no-repeat left; padding-left: 15px;">&nbsp;<b><{$smarty.const._MD_TDMSPOT_BLSIMIL}></b></span></div>
         <ul>
             <{foreach item=tpitem_blsimil from=$tpitem_blsimil}>
             <li><a href="<{$tpitem_blsimil.link}>"><{$tpitem_blsimil.title}></a> (<{$tpitem_blsimil.indate}>)</li>
@@ -152,7 +152,7 @@ padding: 5px;">
     <{/if}>
     <{if $tpitem_blposter != ""}>
     <td width="50%" align="left" valign="top">
-        <div align="center"><span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/poster.png) no-repeat left; padding-left: 15px;">&nbsp;<b><{$smarty.const._MI_TDMSPOT_BLPOSTER}></b></span></div>
+        <div align="center"><span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/poster.png) no-repeat left; padding-left: 15px;">&nbsp;<b><{$smarty.const._MD_TDMSPOT_BLPOSTER}></b></span></div>
         <ul>
             <{foreach item=tpitem_blposter from=$tpitem_blposter}>
             <li><a href="<{$tpitem_blposter.link}>"><{$tpitem_blposter.title}></a> (<{$tpitem_blposter.indate}>)</li>
@@ -168,7 +168,7 @@ padding: 5px;">
 <br><br>
 <{if $perm_social}>
 <!-- AddThis Button BEGIN -->
-<div style="float:left;"><a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;pub=xa-4ac5feea790b0936"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"></a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pub=xa-4ac5feea790b0936"></script></div>
+<div style="float:left;"><a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;pub=xa-4ac5feea790b0936"><img src="//s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"></a><script type="text/javascript" src="//s7.addthis.com/js/250/addthis_widget.js#pub=xa-4ac5feea790b0936"></script></div>
 <!-- AddThis Button END -->
 <{/if}>
 <{if $perm_rss}>

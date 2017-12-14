@@ -197,7 +197,6 @@ foreach (array_keys($page_arr) as $p) {
                 } else {
                     $tpitem['moyen'] = "<img src='" . TDMSPOT_IMAGES_URL . '/rate' . $moyen . ".png'>";
                 }
-
                 $page['tpitem'][] = $tpitem;
             }
         }

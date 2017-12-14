@@ -75,7 +75,7 @@ switch ($option) {
         $body = str_replace('{X_SITENAME}', $xoopsConfig['sitename'], $body);
         $body = str_replace('{X_SITEURL}', XOOPS_URL, $body);
 
-        $newsletter_text = utf8_decode(Chars($body));
+        //$newsletter_text = utf8_decode(Chars($body));
         $newsletter_indate = formatTimestamp($file->getVar('indate'), 'm');
         $color = '#CCCCCC';
 //        $pdf = new FPDF();
@@ -130,29 +130,40 @@ switch ($option) {
         break;
 */
 
-$content = $newsletter_text;
+$content = $body;
 
+    $lg                    = [];
+    $lg['a_meta_charset']  = _CHARSET;
+    $lg['a_meta_language'] = _LANGCODE;
+    $lg['w_page']          = 'page';
+    // set some language-dependent strings (optional)
+    $pdf->setLanguageArray($lg);
+    
+    if (!defined('_RTL')) {
+        define('_RTL', false);
+    }
+    
+    $pdf->setRTL(_RTL);
     //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
-
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor(PDF_AUTHOR);
     //set margins
     $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-    $pdf->setFooterMargin(PDF_MARGIN_FOOTER);
-    //set auto page breaks
-    $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
-
     $pdf->setHeaderMargin(PDF_MARGIN_HEADER);
+    $pdf->setFooterMargin(PDF_MARGIN_FOOTER);
     $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor
 
     //2.5.8
+    //set auto page breaks
+    $pdf->SetAutoPageBreak(true, 25);
     $pdf->setHeaderFont([PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN]);
     $pdf->setFooterFont([PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA]);
-
     $pdf->setFooterData($tc = [0, 64, 0], $lc = [0, 64, 128]);
-
     //initialize document
     $pdf->Open();
     $pdf->AddPage();
-    $pdf->writeHTML($content, true, 0, true, 0);
+    $pdf->SetFont('dejavusans', '', 10);
+    $pdf->writeHTML($content, true, 0);
     $pdf->Output();
 }
 //

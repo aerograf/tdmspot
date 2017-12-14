@@ -10,7 +10,7 @@
         </div>
 
             <div class="itemTitle">
-            <a href="<{$tpitem.cat_link}>"><{$tpitem.cat_title}></a> : <{$tpitem.title}>
+            <a href="<{$tpitem.cat_link}>"><{$tpitem.cat_title}></a> &bull; <{$tpitem.title}>
             </div>
 
              <div class="itemInfo">
@@ -40,15 +40,15 @@
             <div class="itemFoot">
             <{if $perm_vote}>
             <a href="javascript:"><img height="16px" src="<{$smarty.const.TDMSPOT_IMAGES_URL}>/good-mark.png" onclick="AddVote(<{$tpitem.id}>, '<{$smarty.const.TDMSPOT_URL}>');return false;" title="<{$smarty.const._MD_TDMSPOT_VOTEADD}>"></a> <a href="javascript:"><img height="16px" src="<{$smarty.const.TDMSPOT_IMAGES_URL}>/bad-mark.png" onclick="RemoveVote(<{$tpitem.id}>, '<{$smarty.const.TDMSPOT_URL}>');return false;" title="<{$smarty.const._MD_TDMSPOT_VOTEREMOVE}>"></a>
-            -
+            &bull;
             <{/if}>
             <span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/chart.png) no-repeat left; padding-left: 15px;">&nbsp;<a href="<{$tpitem.link}>" rel="nofollow"><{$smarty.const._MD_TDMSPOT_NOTES}> <{$tpitem.counts}>/<{$tpitem.votes}> <{$smarty.const._MD_TDMSPOT_VOTES}></a></span>
-            -
+            &bull;
             <span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/comment.png) no-repeat left; padding-left: 15px;">&nbsp;<a href="<{$tpitem.link}>" rel="nofollow"><{$smarty.const._MD_TDMSPOT_COMMENTS}> <{$tpitem.comments}></a></span>
-            -
+            &bull;
             <{if $tpitem.more}>
             <span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/text.png) no-repeat left; padding-left: 15px;">&nbsp;<a href="<{$tpitem.link}>" rel="nofollow"><{$smarty.const._MD_TDMSPOT_MORETEXT}> <{$tpitem.more}></a></span>
-            -
+            &bull;
             <{/if}>
             <span class="itemPermaLink"><span style="background: url(<{$smarty.const.TDMSPOT_IMAGES_URL}>/about.png) no-repeat left; padding-left: 15px;">&nbsp;<a href="<{$tpitem.link}>" rel="nofollow"><{$smarty.const._MD_TDMSPOT_MORE}></a></span></span>
             </div>
