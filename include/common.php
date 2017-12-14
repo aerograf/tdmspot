@@ -60,7 +60,7 @@ if (!defined('TDMSPOT_DIRNAME')) {
 }
 
 //define option du module
-define('TDMSPOT_DISPLAY_CAT', $xoopsModuleConfig['tdmspot_cat_display']);
+define('TDMSPOT_DISPLAY_CAT', $helper->getConfig('tdmspot_cat_display', 'none'));
 
 require_once __DIR__ . '/../class/Utility.php';
 require_once __DIR__ . '/../include/seo_functions.php';
