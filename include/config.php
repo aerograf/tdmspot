@@ -14,7 +14,7 @@
  * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  * @package
  * @since
- * @author     XOOPS Development Team
+ * @author       XOOPS Development Team
  */
 
 //require_once  __DIR__ . '/../../../mainfile.php';
@@ -36,12 +36,12 @@ if (!defined($capsDirName . '_DIRNAME')) {
 
 //Configurator
 return (object)[
-    'name'          => strtoupper($moduleDirName) .' Module Configurator',
+    'name'          => strtoupper($moduleDirName) . ' Module Configurator',
     'paths'         => [
         'dirname'    => $moduleDirName,
         'admin'      => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',
-        //        'path'       => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName,
-        //        'url'        => XOOPS_URL . '/modules/' . $moduleDirName,
+        'modPath'       => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName,
+        'modUrl'        => XOOPS_URL . '/modules/' . $moduleDirName,
         'uploadPath' => XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
         'uploadUrl'  => XOOPS_UPLOAD_URL . '/' . $moduleDirName,
     ],
@@ -50,13 +50,13 @@ return (object)[
         constant($capsDirName . '_UPLOAD_PATH') . '/images',
         constant($capsDirName . '_UPLOAD_PATH') . '/images/category',
         constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails',
-        XOOPS_UPLOAD_PATH . '/flags'
+        //        XOOPS_UPLOAD_PATH . '/flags'
     ],
     'blankFiles'    => [
         constant($capsDirName . '_UPLOAD_PATH'),
         constant($capsDirName . '_UPLOAD_PATH') . '/images/category',
         constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails',
-        XOOPS_UPLOAD_PATH . '/flags'
+        //        XOOPS_UPLOAD_PATH . '/flags'
     ],
 
     'templateFolders' => [
@@ -66,17 +66,19 @@ return (object)[
 
     ],
     'oldFiles'        => [
-        '/sql/wflinks.sql',
-        '/class/wfl_lists.php',
-        '/class/class_thumbnail.php',
-        '/vcard.php',
+        '/class/request.php',
+        '/class/registry.php',
+        '/class/utilities.php',
+        '/class/util.php',
+        '/include/constants.php',
+        '/include/functions.php',
+        '/ajaxrating.txt',
     ],
     'oldFolders'      => [
         '/images',
         '/css',
         '/js',
         '/fpdf',
-        '/images',
     ],
     'modCopyright'    => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
                      <img src='" . constant($capsDirName . '_AUTHOR_LOGOIMG') . '\' alt=\'XOOPS Project\' /></a>',

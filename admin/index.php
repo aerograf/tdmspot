@@ -19,6 +19,7 @@
  */
 
 use Xoopsmodules\tdmspot;
+use Xoopsmodules\tdmspot\common;
 
 require_once __DIR__ . '/admin_header.php';
 // Display Admin header
@@ -27,7 +28,7 @@ xoops_cp_header();
 $adminObject = \Xmf\Module\Admin::getInstance();
 
 //check or upload folders
-$configurator = include __DIR__ . '/../include/config.php';
+$configurator = new common\Configurator();
 foreach (array_keys($configurator->uploadFolders) as $i) {
 //    $utility::createFolder($configurator->uploadFolders[$i]);
     $adminObject->addConfigBoxLine($configurator->uploadFolders[$i], 'folder');

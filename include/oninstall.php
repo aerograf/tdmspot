@@ -81,7 +81,7 @@ function xoops_module_install_tdmspot(\XoopsModule $module)
 //    copy($indexFile, XOOPS_ROOT_PATH . '/class/smarty/xoops_plugins/function.xoSpot.php');
 
 
-    $configurator = new tdmspot\Configurator();
+    $configurator = new tdmspot\common\Configurator();
     /** @var tdmspot\Utility $utility */
     $utility = new tdmspot\Utility();
 
@@ -117,14 +117,6 @@ function xoops_module_install_tdmspot(\XoopsModule $module)
     $sql = 'DELETE FROM ' . $xoopsDB->prefix('tplfile') . " WHERE `tpl_module` = '" . $xoopsModule->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
     $xoopsDB->queryF($sql);    
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     return true;
 }
