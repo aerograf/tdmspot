@@ -108,7 +108,9 @@ foreach (array_keys($page_arr) as $p) {
         $block_arr = $blockHandler->getObjects($criteria);
         //$tpblock = array();
         foreach (array_keys($block_arr) as $b) {
+        if (1 == $xoopsModuleConfig['tdmspot_name_block']) {
             $tpblock['title'] = $block_arr[$b]->getVar('title');
+        }
             $tpblock['side'] = $block_arr[$b]->getVar('side');
             $tpblock['pid'] = $block_arr[$b]->getVar('pid');
 
