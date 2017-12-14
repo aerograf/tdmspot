@@ -134,7 +134,7 @@ class Item extends \XoopsObject
                 $groups = $xoopsUser->getGroups();
             }
 
-            if ($gpermHandler->checkRight('tdmspot_view', 8, $groups, $xoopsModule->getVar('mid'))) {
+            if($permHelper->checkPermission('tdmspot_view', 8)) {
                 $form->addElement(new \XoopsFormHidden('display', 1));
             } else {
                 $form->addElement(new \XoopsFormHidden('display', 0));

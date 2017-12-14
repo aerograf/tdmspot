@@ -27,6 +27,8 @@ if (!defined('XOOPS_ROOT_PATH')) {
     die('XOOPS root path not defined');
 }
 
+$permHelper = new \Xmf\Module\Helper\Permission();
+
 $op = isset($_REQUEST['op']) ? $_REQUEST['op'] : 'list';
 
 $itemHandler = new tdmspot\ItemHandler(); //xoops_getModuleHandler('tdmspot_item', 'tdmspot');
@@ -60,13 +62,14 @@ switch ($op) {
     case 'addvote':
 
         //interdit au non membre
-        if (empty($xoopsUser)) {
+//        if (empty($xoopsUser)) {
+        if(!$permHelper->checkPermission('spot_view', _AM_TDMSPOT_PERM_32)) {
             echo _MD_TDMSPOT_QUERYNOREGISTER;
             exit();
         }
 
         //permission d'afficher
-        if (!$gpermHandler->checkRight('spot_view', 32, $groups, $xoopsModule->getVar('mid'))) {
+        if(!$permHelper->checkPermission('spot_view', 32)) {
             echo _MD_TDMSPOT_NOPERM;
             exit();
         }
@@ -115,7 +118,7 @@ switch ($op) {
         }
 
         //permission d'afficher
-        if (!$gpermHandler->checkRight('spot_view', 32, $groups, $xoopsModule->getVar('mid'))) {
+        if(!$permHelper->checkPermission('spot_view', 32)) {
             echo _MD_TDMSPOT_NOPERM;
             exit();
         }

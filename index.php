@@ -32,7 +32,7 @@ $pageHandler = new tdmspot\PageHandler(); //xoops_getModuleHandler('tdmspot_page
 $itemHandler = new tdmspot\ItemHandler(); //xoops_getModuleHandler('tdmspot_item', 'tdmspot');
 $catHandler = new tdmspot\CategoryHandler(); //$catHandler = xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
 $blockHandler = new tdmspot\NewblocksHandler(); //xoops_getModuleHandler('tdmspot_newblocks', 'tdmspot');
-$gpermHandler = xoops_getHandler('groupperm');
+$permHelper = new \Xmf\Module\Helper\Permission();
 
 if (1 == $xoopsModuleConfig['tdmspot_seo']) {
     require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/seo.inc.php';
@@ -45,7 +45,7 @@ if (is_object($xoopsUser)) {
 }
 
 //permission d'afficher
-if (!$gpermHandler->checkRight('spot_view', 2, $groups, $xoopsModule->getVar('mid'))) {
+if(!$permHelper->checkPermission('spot_view', 2)) {
     redirect_header(XOOPS_URL, 2, _MD_TDMSPOT_NOPERM);
 }
 
@@ -90,7 +90,7 @@ $page = [];
 $tptabs = [];
 
 foreach (array_keys($page_arr) as $p) {
-    if ($gpermHandler->checkRight('spot_pageview', $page_arr[$p]->getVar('id'), $groups, $xoopsModule->getVar('mid'))) {
+    if($permHelper->checkPermission('spot_pageview', $page_arr[$p]->getVar('id'))) {
         if (1 == $xoopsModuleConfig['tdmspot_name']) {
             $page['title'] = $page_arr[$p]->getVar('title');
         }
@@ -143,7 +143,7 @@ foreach (array_keys($page_arr) as $p) {
         $criteria->add(new Criteria('cat', '(' . $page_arr[$p]->getVar('cat') . ')', 'IN'));
         $item_arr = $itemHandler->getAll($criteria);
         foreach (array_keys($item_arr) as $i) {
-            if ($gpermHandler->checkRight('tdmpicture_catview', $item_arr[$i]->getVar('cat'), $groups, $xoopsModule->getVar('mid'))) {
+            if($permHelper->checkPermission('tdmspot_catview', $item_arr[$i]->getVar('cat'))) {
                 $tpitem['id'] = $item_arr[$i]->getVar('id');
                 $tpitem['title'] = $item_arr[$i]->getVar('title');
                 $tpitem['cat'] = $item_arr[$i]->getVar('cat');
@@ -183,7 +183,7 @@ foreach (array_keys($page_arr) as $p) {
                 $tpitem['comments'] = $item_arr[$i]->getVar('comments');
 
                 //on test l'existance de fichier
-                if ($gpermHandler->checkRight('spot_view', 256, $groups, $xoopsModule->getVar('mid'))) {
+                if($permHelper->checkPermission('spot_view', 256)) {
                     $imgpath = TDMSPOT_UPLOAD_PATH . '/' . $item_arr[$i]->getVar('file');
                     if (file_exists($imgpath)) {
                         $tpitem['file'] = $item_arr[$i]->getVar('file');
@@ -218,15 +218,15 @@ if (1 == $xoopsModuleConfig['tdmspot_seo']) {
     $GLOBALS['xoopsTpl']->assign('nav', "<a href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "'>" . $xoopsModule->name() . '</a>');
 }
 //perm
-if ($gpermHandler->checkRight('spot_view', 4, $groups, $xoopsModule->getVar('mid'))) {
+if($permHelper->checkPermission('spot_view', 4)) {
     $GLOBALS['xoopsTpl']->assign('perm_submit', "<a href='" . TDMSPOT_URL . "/submit.php'>" . _MD_TDMSPOT_PERM_4 . '</a>');
 }
-if ($gpermHandler->checkRight('spot_view', 128, $groups, $xoopsModule->getVar('mid'))) {
+if($permHelper->checkPermission('spot_view', 128)) {
     $GLOBALS['xoopsTpl']->assign('perm_rss', "<a href='" . TDMSPOT_URL . "/rss.php'><img src=" . TDMSPOT_IMAGES_URL . '/rss.png alt=' . _MD_TDMSPOT_EXPRSS . ' title=' . _MD_TDMSPOT_EXPRSS . '></a>');
 }
-$GLOBALS['xoopsTpl']->assign('perm_vote', $gpermHandler->checkRight('spot_view', 32, $groups, $xoopsModule->getVar('mid')) ? true : false);
-$GLOBALS['xoopsTpl']->assign('perm_export', $gpermHandler->checkRight('spot_view', 16, $groups, $xoopsModule->getVar('mid')) ? true : false);
-$GLOBALS['xoopsTpl']->assign('perm_social', $gpermHandler->checkRight('spot_view', 64, $groups, $xoopsModule->getVar('mid')) ? true : false);
+$GLOBALS['xoopsTpl']->assign('perm_vote', $permHelper->checkPermission('spot_view', 32) ? true : false);
+$GLOBALS['xoopsTpl']->assign('perm_export', $permHelper->checkPermission('spot_view', 16) ? true : false);
+$GLOBALS['xoopsTpl']->assign('perm_social', $permHelper->checkPermission('spot_view', 64) ? true : false);
 
 tdmspot\Utility::getHeader();
 $GLOBALS['xoopsTpl']->assign('xoops_pagetitle', $myts->htmlSpecialChars($xoopsModule->name()));

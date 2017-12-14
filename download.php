@@ -42,7 +42,7 @@ if (!isset($_REQUEST['itemid'])) {
     redirect_header(XOOPS_URL, 2, _MD_TDMSPOT_NOPERM);
 }
 
-if (!$gpermHandler->checkRight('spot_view', 256, $groups, $xoopsModule->getVar('mid'))) {
+if(!$permHelper->checkPermission('spot_view', 256)) {
     redirect_header(XOOPS_URL, 2, _MD_TDMSPOT_NOPERM);
 }
 

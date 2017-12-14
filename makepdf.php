@@ -27,6 +27,7 @@ require_once XOOPS_ROOT_PATH . '/class/libraries/vendor/tecnickcom/tcpdf/tcpdf.p
 
 global $xoopsDB, $xoopsConfig, $xoopsModuleConfig;
 
+$permHelper = new \Xmf\Module\Helper\Permission();
 $myts = MyTextSanitizer:: getInstance(); // MyTextSanitizer object
 
 $option = !empty($_REQUEST['option']) ? $_REQUEST['option'] : 'default';
@@ -59,7 +60,7 @@ switch ($option) {
         }
 
         //si pas le droit d'exporter
-        if (!$gpermHandler->checkRight('spot_view', 16, $groups, $xoopsModule->getVar('mid'))) {
+        if (!$permHelper->checkPermission('spot_view', 16)) {
             redirect_header('index.php', 2, _MD_TDMPICTURE_NOPERM);
         }
 

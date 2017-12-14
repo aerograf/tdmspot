@@ -83,10 +83,11 @@ class Tree extends \XoopsObjectTree
     {
         global $xoopsModule, $xoopsModuleConfig, $cat_display, $cat_cel, $groups, $start, $limit, $tris;
 
-        $gpermHandler = xoops_getHandler('groupperm');
+        $permHelper = new \Xmf\Module\Helper\Permission();
         $parent = '';
 
-        if ($key > 0 && $gpermHandler->checkRight('tdmspot_catview', $this->tree[$key]['obj']->getVar('id'), $groups, $xoopsModule->getVar('mid'))) {
+
+        if ($key > 0 && $permHelper->checkPermission('tdmspot_catview', $this->tree[$key]['obj']->getVar('id'))) {
             $value = $this->tree[$key]['obj']->getVar($this->myId);
 
             $criteria = new \CriteriaCompo();
@@ -195,12 +196,13 @@ class Tree extends \XoopsObjectTree
     {
         global $start, $tris, $limit, $groups, $xoopsUser, $xoopsModule, $xoopsModuleConfig;
 
-        $gpermHandler = xoops_getHandler('groupperm');
+        $permHelper = new \Xmf\Module\Helper\Permission();
         if ($key > 0) {
             //$value = $this->tree[$key]['obj']->getVar( $this->myId );
             $value = tdmspot_generateSeoUrl($xoopsModuleConfig['tdmspot_seo_cat'], $this->tree[$key]['obj']->getVar('id'), $this->tree[$key]['obj']->getVar('title'), $start, $limit, $tris);
 
-            if (!empty($perm) && $gpermHandler->checkRight($perm, $this->tree[$key]['obj']->getVar('id'), $groups, $xoopsModule->getVar('mid'))) {
+            if (!empty($perm) && $permHelper->checkPermission($perm, $this->tree[$key]['obj']->getVar('id'))) {
+
                 $ret .= '<option value="' . $value . '"';
 
                 if ($value == $selected) {

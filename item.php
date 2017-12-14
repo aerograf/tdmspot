@@ -34,7 +34,7 @@ $itemHandler = new tdmspot\ItemHandler(); //xoops_getModuleHandler('tdmspot_item
 $catHandler  = new tdmspot\CategoryHandler(); //xoops_getModuleHandler('tdmspot_cat', 'tdmspot');
 
 //perm
-$gpermHandler = xoops_getHandler('groupperm');
+$permHelper = new \Xmf\Module\Helper\Permission();
 //permission
 if (is_object($xoopsUser)) {
     $groups     = $xoopsUser->getGroups();
@@ -51,7 +51,7 @@ if (is_object($xoopsUser)) {
 }
 
 //permission d'afficher
-if (!$gpermHandler->checkRight('spot_view', 2, $groups, $xoopsModule->getVar('mid'))) {
+if(!$permHelper->checkPermission('spot_view', 2)) {
     redirect_header(XOOPS_URL, 2, _MD_TDMSPOT_NOPERM);
 }
 
@@ -94,7 +94,7 @@ switch ($op) {
         foreach (array_keys($item_arr) as $i) {
 
             //si pas le droit d'afficher la cat
-            if (!$gpermHandler->checkRight('tdmpicture_catview', $item_arr[$i]->getVar('cat'), $groups, $xoopsModule->getVar('mid'))) {
+            if(!$permHelper->checkPermission('tdmspot_catview',  $item_arr[$i]->getVar('cat'))) {
                 redirect_header('index.php', 2, _MD_TDMSPOT_NOPERM);
             }
 
@@ -108,7 +108,7 @@ switch ($op) {
             $nav_ids   = [];
             $nav_title = [];
             foreach (array_keys($arr) as $f) {
-                if ($gpermHandler->checkRight('tdmspot_catview', $item_arr[$i]->getVar('cat'), $groups, $xoopsModule->getVar('mid'))) {
+                if($permHelper->checkPermission('tdmspot_catview', $item_arr[$i]->getVar('cat'))) {
                     $nav_ids[]   = $arr[$f]->getVar('id');
                     $nav_title[] = $arr[$f]->getVar('title');
                     $nav_date[]  = formatTimestamp($arr[$f]->getVar('indate'), 's');
@@ -250,7 +250,7 @@ switch ($op) {
             $tpitem['comments'] = $item_arr[$i]->getVar('comments');
 
             //on test l'existance de fichier
-            if ($gpermHandler->checkRight('spot_view', 256, $groups, $xoopsModule->getVar('mid'))) {
+            if($permHelper->checkPermission('spot_view', 256)) {
                 $imgpath = TDMSPOT_UPLOAD_PATH . '/' . $item_arr[$i]->getVar('file');
                 if (file_exists($imgpath)) {
                     $tpitem['file']     = $item_arr[$i]->getVar('file');
@@ -326,7 +326,7 @@ switch ($op) {
 }
 
 //lien admin
-if ($xoopsUser->isAdmin()) {
+    if($helper->isUserAdmin()){
     $GLOBALS['xoopsTpl']->assign('perm_admin', '&nbsp; <a href="'
                                     . TDMSPOT_URL
                                     . '/admin/item.php?op=edit&id='
@@ -350,15 +350,15 @@ if ($xoopsUser->isAdmin()) {
                                     . '"></a>');
 }
 //perm
-if ($gpermHandler->checkRight('spot_view', 4, $groups, $xoopsModule->getVar('mid'))) {
+if($permHelper->checkPermission('spot_view', 4)) {
     $GLOBALS['xoopsTpl']->assign('perm_submit', "<a href='" . TDMSPOT_URL . "/submit.php'>" . _MD_TDMSPOT_PERM_4 . '</a>');
 }
-if ($gpermHandler->checkRight('spot_view', 128, $groups, $xoopsModule->getVar('mid'))) {
+if($permHelper->checkPermission('spot_view', 128)) {
     $GLOBALS['xoopsTpl']->assign('perm_rss', "<a href='" . TDMSPOT_URL . "/rss.php'><img src=" . TDMSPOT_IMAGES_URL . '/rss.png alt=' . _MD_TDMSPOT_EXPRSS . ' title=' . _MD_TDMSPOT_EXPRSS . '></a>');
 }
-$GLOBALS['xoopsTpl']->assign('perm_vote', $gpermHandler->checkRight('spot_view', 32, $groups, $xoopsModule->getVar('mid')) ? true : false);
-$GLOBALS['xoopsTpl']->assign('perm_export', $gpermHandler->checkRight('spot_view', 16, $groups, $xoopsModule->getVar('mid')) ? true : false);
-$GLOBALS['xoopsTpl']->assign('perm_social', $gpermHandler->checkRight('spot_view', 64, $groups, $xoopsModule->getVar('mid')) ? true : false);
+$GLOBALS['xoopsTpl']->assign('perm_vote', $permHelper->checkPermission('spot_view', 32) ? true : false);
+$GLOBALS['xoopsTpl']->assign('perm_export', $permHelper->checkPermission('spot_view', 16) ? true : false);
+$GLOBALS['xoopsTpl']->assign('perm_social', $permHelper->checkPermission('spot_view', 64) ? true : false);
 //config
 $GLOBALS['xoopsTpl']->assign('tdmspot_present', $xoopsModuleConfig['tdmspot_present']);
 $GLOBALS['xoopsTpl']->assign('tdmspot_nextprev', $xoopsModuleConfig['tdmspot_nextprev']);

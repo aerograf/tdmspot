@@ -27,7 +27,7 @@ require_once XOOPS_ROOT_PATH . '/class/tree.php';
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/common.php';
 
 $myts = \MyTextSanitizer::getInstance();
-$gpermHandler = xoops_getHandler('groupperm');
+$permHelper = new \Xmf\Module\Helper\Permission();
 //permission
 $groups = XOOPS_GROUP_ANONYMOUS;
 if (is_object($xoopsUser)) {
@@ -47,7 +47,7 @@ switch ($op) {
     case 'submit':
 
         //perm
-        if (!$gpermHandler->checkRight('tdmspot_view', 4, $groups, $xoopsModule->getVar('mid')) && !$gpermHandler->checkRight('tdmspot_view', 8, $groups, $xoopsModule->getVar('mid'))) {
+        if (!$permHelper->checkPermission('tdmspot_view', 4) && !$permHelper->checkPermission('tdmspot_view', 8)) {
             redirect_header(TDMSPOT_URL, 2, _MD_TDMSPOT_NOPERM);
         } else {
             // Affichage du formulaire de cr?ation de cat?gories
@@ -60,7 +60,7 @@ switch ($op) {
     case 'save':
 
         //perm
-        if (!$gpermHandler->checkRight('tdmspot_view', 4, $groups, $xoopsModule->getVar('mid')) && !$gpermHandler->checkRight('tdmspot_view', 8, $groups, $xoopsModule->getVar('mid'))) {
+        if (!$permHelper->checkPermission('tdmspot_view', 4) && !$permHelper->checkPermission('tdmspot_view', 8)) {
             redirect_header(TDMSPOT_URL, 2, _MD_TDMSPOT_NOPERM);
         } else {
             if (!$GLOBALS['xoopsSecurity']->check()) {

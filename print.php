@@ -57,7 +57,7 @@ switch ($option) {
         }
 
         //si pas le droit d'exporter
-        if (!$gpermHandler->checkRight('spot_view', 16, $groups, $xoopsModule->getVar('mid'))) {
+    if(!$permHelper->checkPermission('spot_view', 16)) {
             redirect_header('index.php', 2, _MD_TDMPICTURE_NOPERM);
         }
 
