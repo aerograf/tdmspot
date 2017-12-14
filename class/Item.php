@@ -67,6 +67,8 @@ class Item extends \XoopsObject
 
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
+        $permHelper = new \Xmf\Module\Helper\Permission();
+
         $form = new \XoopsThemeForm($title, 'form', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
         $form->addElement(new \XoopsFormText(_MD_TDMSPOT_TITLE, 'title', 80, 255, $this->getVar('title')), true);
@@ -128,7 +130,6 @@ class Item extends \XoopsObject
         if (is_object($xoopsUser) && $xoopsUser->isAdmin()) {
             $form->addElement(new \XoopsFormRadioYN(_MD_TDMSPOT_VISIBLE, 'display', $this->getVar('display'), _YES, _NO));
         } else {
-            $gpermHandler = xoops_getHandler('groupperm');
             $groups = XOOPS_GROUP_ANONYMOUS;
             if (is_object($xoopsUser)) {
                 $groups = $xoopsUser->getGroups();

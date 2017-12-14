@@ -28,7 +28,7 @@ class PageHandler extends \XoopsPersistableObjectHandler
 {
     /**
      * PageHandler constructor.
-     * @param null|object|\XoopsDatabase $db
+     * @param null|\XoopsDatabase $db
      * @param string                     $table
      * @param string                     $className
      * @param string                     $keyName

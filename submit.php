@@ -51,7 +51,8 @@ switch ($op) {
             redirect_header(TDMSPOT_URL, 2, _MD_TDMSPOT_NOPERM);
         } else {
             // Affichage du formulaire de cr?ation de cat?gories
-            $obj = $itemHandler->create();
+            /** @var \Xoopsmodules\tdmspot\ItemHandler $obj */
+            $obj  = $itemHandler->create();
             $form = $obj->getForm();
             $form->display();
         }
