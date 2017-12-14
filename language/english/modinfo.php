@@ -15,6 +15,7 @@ define('_MI_TDMSPOT_PREF', 'Preferences');
 
 // pref
 define('_MI_TDMSPOT_NAMES', 'Index: Display the page names?');
+define('_MI_TDMSPOT_NAMES_BLOCK', 'Index: Display the block names?');
 define('_MI_TDMSPOT_DISPLAY', 'Index: Style of Effects');
 define('_MI_TDMSPOT_MIMEMAX', 'Maximum file size for upload');
 define('_MI_TDMSPOT_MIMETYPE', 'Permitted File Extensions separated by |');

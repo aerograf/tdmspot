@@ -210,6 +210,15 @@ $modversion['config'][] = [
 ];
 
 $modversion['config'][] = [
+    'name'        => 'tdmspot_name_block',
+    'title'       => '_MI_TDMSPOT_NAMES_BLOCK',
+    'description' => '',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => '1',
+];
+
+$modversion['config'][] = [
     'name'        => 'tdmspot_present',
     'title'       => '_MI_TDMSPOT_PRESENT',
     'description' => '',
