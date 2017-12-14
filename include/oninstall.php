@@ -48,6 +48,10 @@ function xoops_module_pre_install_tdmspot(\XoopsModule $module)
     return $xoopsSuccess && $phpSuccess;
 }
 
+/**
+ * @param \XoopsModule $module
+ * @return bool
+ */
 function xoops_module_install_tdmspot(\XoopsModule $module)
 {
     include __DIR__ . '/../preloads/autoloader.php';
