@@ -293,7 +293,7 @@ switch ($op) {
                 echo '<tr class="' . $class . '">';
                 echo '<td align="center"><input type="checkbox" name="id[]" id="id[]" value="' . $assoc_cat[$i]->getVar('id') . '"></td>';
                 echo '<td align="left">' . $category_ArrayTree[$i] . '</td>';
-                echo '<td align="center"><img src="' . $cat_img . '" alt="" title="" height="60"></td>';
+                echo '<td align="center"><img src="' . $cat_img . '" alt="" title="" style="max-height:60px"></td>';
                 echo '<td align="center">' . $assoc_cat[$i]->getVar('weight') . '</td>';
                 echo '<td align="center">' . $display . '</td>';
                 echo '<td align="center">';
